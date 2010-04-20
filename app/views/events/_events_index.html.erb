@@ -1,0 +1,41 @@
+<script type ="text/javascript">
+function toggleStatus() {
+  $('status').toggle();
+}
+</script>
+
+<div id ="events_list">
+  <table class ="tbl_index_table" id ="tbl_id_event_index">
+    <tr>
+      <th>Event</th>
+      <th colspan="3">Actions</th>
+    </tr>
+    <% col_count = 1 %>
+    <% @events.each do |event| %>
+      <tr class = <%= cycle("tr_odd_index_table", "tr_even_index_table") %>>
+        <td><%= link_to "#{event.title}", "#", :onclick => "event_marker_group.showMarker(#{event.id});return false;" %></td>
+        <% if permitted_to? :show, :events %>
+          <td><%= link_to_remote "Show", :url => event_path(event), :method => "get", :loading => "toggleStatus();",
+              :failure => "toggleStatus();", :success => "toggleStatus();"%></td>
+          <% col_count += 1 %>
+        <% end  %>
+        <%  if permitted_to? :edit, :events%>
+          <td><%= link_to 'Edit', edit_event_path(event) %></td>
+          <% col_count += 1 %>
+        <% end  %>
+        <% if permitted_to? :destroy, :events %>
+          <td><%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %></td>
+          <% col_count += 1 %>
+        <% end  %>
+      </tr>
+      <tr>
+        <td colspan=<%= "#{col_count}" %> id = <%= "#{dom_id(event)}"%> style="display:none;"></td>
+      </tr>
+    <% end %>
+  </table>
+  <br/>
+  <%= will_paginate @events %>
+
+</div>
+
+

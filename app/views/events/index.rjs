@@ -1,0 +1,7 @@
+page.replace "events_list", :partial => "events_index"
+page << @map.clear_overlays
+page << @group.clear
+page << @group.activate
+@markers.each {|key, value| page << @group.addMarker(value, key)}
+page << @map.add_overlay(@group)
+page << @group.centerAndZoomOnMarkers()

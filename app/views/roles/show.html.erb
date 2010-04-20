@@ -1,0 +1,18 @@
+<p>
+  <b>Role:</b>
+  <%=h @role.name %>
+</p>
+
+
+<p>
+  <b>Users</b>
+  <br/>
+  <%for user in @users %>
+    <i> <%=  h user.username %> </i>
+    <br/>
+  <%end%>
+</p>
+
+<%= link_to 'Edit', edit_role_path(@role) %> |
+
+<%= link_to "Delete", @role, :controller =>"roles", :method => "delete", :confirm => "Sure?" %>

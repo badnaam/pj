@@ -1,0 +1,18 @@
+# Version 0.3
+
+* Included controllers.
+
+  AuthHelpers::Controller::Confirmable
+  AuthHelpers::Controller::Recoverable
+
+# Version 0.2
+
+* First version with the following modules:
+
+  AuthHelpers::Model::Confirmable
+  AuthHelpers::Model::Recoverable
+  AuthHelpers::Model::Updatable
+
+Plus:
+
+  AuthHelpers::Notifier

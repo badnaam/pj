@@ -1,0 +1,33 @@
+<div id="user_basic">
+<% semantic_form_for @user, :html => {:multipart => true} do |form| %>
+  <%#= form.error_messages %>
+  <% form.inputs do %>
+    <%= form.input :username, :label => 'Username', :input_html => {:style => "width:50%"}%>
+    <%= form.input :password, :label => 'Password' %>
+    <%= form.input :password_confirmation, :label => 'Confirm Password' %>
+    <%= form.input :email, :label => 'Email' , :input_html => {:style => "width:50%"}%>
+  <% end %>
+</div>
+
+<div id ="user_images">
+    <% @user.images.build if @user.images.empty? %>
+    <% form.inputs :for=> :images do |img|%>
+      <% if @user.images.count < User::Max_Profile_Images %>
+        <%= render :partial => "image", :locals => {:f => img}%>
+      <% else %>
+        <%= img.object.image_description %>
+        <%= image_tag f.object.image.url(:small)  %>
+        <%= img.input "_delete", :label => "Remove?", :as => :boolean %>
+      <% end  %>
+    <% end %>
+    <%= link_to_new_nested_form "Add an image", form, :images , :id => "lnk_add_image", :max => User::Max_Profile_Images, :input_type => "file"%>
+  </div>
+  <div id="user_interests">
+    <% @user.interests.build if @user.interests.empty? %>
+    <% form.inputs :for=> :interests do |inter| %>
+      <%= render :partial => "interest", :locals => {:f => inter}%>
+    <% end  %>
+    <%= link_to_new_nested_form "Add an interest", form, :interests , :id => "lnk_add_interest", :max => 3, :input_type => "text" %>
+  </div>
+  <%= form.buttons %>
+<% end  %>

@@ -1,0 +1,77 @@
+<h1><%= @user.username %></h1>
+
+<p>
+  <b>Username:</b>
+  <%=h @user.username %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%=h @user.email %>
+</p>
+
+<p>
+  <b>Account Active?: </b>
+  <%=h (@user.active == true) ? "Yes" : "No" %>
+</p>
+
+<p>
+  <b>Roles</b>
+  <br/>
+  <%for role in @roles %>
+    <i> <%=  h role.name%> </i>
+    <br/>
+  <%end%>
+</p>
+
+<p>
+  <b>Friends</b>
+  <br/>
+<ul>
+  <%for friendship in @user.friendships %>
+    <li>
+      <%=  friendship.friend.username %>
+      <%= link_to "Remove", friendship, :method => :delete%>
+    </li>
+  <%end unless @user.friendships.nil?%>
+</ul>
+</p>
+
+<p>
+  <b>People who have friended me</b>
+  <br/>
+  <%if @user.inverse_friendships.size > 0 %>
+  <ul>
+    <%for ifriendship in @user.inverse_friendships %>
+      <li>
+        <%=  ifriendship.user.username %>
+      </li>
+    <%end %>
+  <%else  %>
+    <p>
+      <em>"No one!!!!!!!!!!!"</em>
+    </p>
+  <%end%>
+</ul>
+</p>
+
+<div>
+  <p>
+    <% for img in @user.images %>
+      <%= image_tag img.image.url(:very_small) %>
+    <% end  %>
+  </p>
+  <p>
+    <% for i in @user.interests %>
+      <%= i.interest_name %><br/>
+    <% end  %>
+  </p>
+</div>
+
+<% if permitted_to? :edit, :users %>
+  <%= link_to 'Edit', edit_user_path(@user) %>
+<% end  %>
+<% if permitted_to? :destroy, :users %>
+  <%= link_to "Delete", @user, :controller => "users", :method =>"delete", :confirm =>"Sure?" %>
+<% end  %>
+<%= link_to "Add Images", polymorphic_path([@user, :images])%>

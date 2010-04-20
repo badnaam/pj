@@ -1,0 +1,31 @@
+<h1>Write an article</h1>
+
+<div>
+  <% form_for @article do |f| %>
+    <%= f.error_messages   %>
+    <%= @article.errors unless @article.errors.size <= 0   %>
+    <p>
+      <%= f.label  :subject   %>
+      <%= f.text_field  :subject %>
+    </p>
+    <p>
+       
+        <%= f.label :article_type  %>
+        <%= f.select( :article_type, options_for_select([["Fiction", "fiction"], ["Non-Fiction", "nonfiction"]]))  %>
+
+    </p>
+    <p>
+      <%= f.label :content %>
+      <br/>
+      <%= f.text_area( :content, :size => "50x10")  %>
+    </p>
+    <p>
+      <%= f.label(:user_id, "Choose User")   %>
+      <%= f.collection_select(:user_id, User.all, :id, :getusername)  %>
+    </p>
+    <p>
+      <%= f.submit "Save Article"   %>
+    </p>
+  <% end %>
+
+</div>

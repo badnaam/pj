@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  level: 1
+  description: MyString
+  type: 1
+  point_bonus: 1
+  point_bonus_multiplier: 1
+  perk_bonus: MyString
+  active: false
+  bonus_window_start: 2010-04-10 12:41:24
+  bonus_window_end: 2010-04-10 12:41:24
+  point_conversion_ratio: 1
+
+two:
+  level: 1
+  description: MyString
+  type: 1
+  point_bonus: 1
+  point_bonus_multiplier: 1
+  perk_bonus: MyString
+  active: false
+  bonus_window_start: 2010-04-10 12:41:24
+  bonus_window_end: 2010-04-10 12:41:24
+  point_conversion_ratio: 1

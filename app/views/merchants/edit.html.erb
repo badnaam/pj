@@ -1,0 +1,26 @@
+<% page_title ("Edit Marchant") %>
+
+<h1>Editing Merchant Profile</h1>
+
+<% form_for(@merchant) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :merchant_type %><br />
+    <%= f.text_field :merchant_type %>
+
+    <%= f.submit 'Update', :class => "btn" %>
+    <input type="button" onclick="history.back();" value ="Cancel"/>
+  </p>
+<% end  %>
+
+<%= link_to 'Show', @merchant %> |
+<%= link_to 'Back', merchants_path %> |
+<% if permitted_to? :edit, @merchant %>
+  <%= link_to "Add Images", polymorphic_path([@merchant, :images])%> |
+  <%= link_to "Manage Loyalty Benefits", merchant_loyalty_benefits_path(@merchant) %>
+<% end  %>

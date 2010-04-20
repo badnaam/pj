@@ -1,0 +1,80 @@
+
+html, body {
+height:100%;
+position:relative;
+}
+.page {
+margin:0 auto;
+position:relative;
+width:985px;
+}
+.pageB {
+min-height:100%;
+}
+.header {
+height:135px;
+overflow:hidden;
+position:relative;
+}
+.body {
+overflow:hidden;
+position:relative;
+}
+.pageB .body {
+padding-bottom:40px;
+}
+#footer {
+height:50px;
+line-height:50px;
+overflow:hidden;
+position:relative;
+}
+.pageB #footer {
+bottom:0;
+position:absolute;
+width:100%;
+}
+#primarySidebar {
+margin-bottom:150px;
+position:relative;
+width:193px;
+}
+#secondarySidebar {
+position:relative;
+width:150px;
+}
+#content {
+overflow:hidden;
+position:relative;
+}
+.leftCol {
+float:left;
+}
+.rightCol {
+float:right;
+}
+.alignLeft {
+float:left;
+}
+.alignRight {
+float:right;
+}
+.alignCenter {
+clear:both;
+display:block;
+margin:0 auto;
+}
+.separator {
+border-top:1px solid #D7D7D4;
+}
+#products .separator, #locations .separator, #library .separator {
+margin:7px 20px 20px;
+}
+#library .separator {
+margin-bottom:19px;
+margin-top:23px;
+}
+#myfolder .separator {
+border-color:#EFEFEC;
+margin:0 20px;
+}

@@ -1,0 +1,30 @@
+<%= javascript_include_tag "jquery"  %>
+<%= javascript_include_tag "jquery.colorbox-min.js" %>
+<%= javascript_include_tag "jquery.colobox.js" %>
+<script type="text/javascript">
+  $j(document).ready(function() {
+    $j("a[rel='cimg']").colorbox({transition:"fade", slideshow:true});
+  });
+</script>
+
+<p>
+  <b>Name:</b>
+  <%=h @merchant.name %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%=h @merchant.merchant_type %>
+</p>
+
+<div id="list_images">
+  <%= render :partial => "images/image", :collection => @merchant.images, :locals => {:edit => false} %>
+</div>
+
+
+
+<%= link_to 'Back', merchants_path %> |
+<% if permitted_to? :edit, @merchant %>
+  <%= link_to 'Edit', edit_merchant_path(@merchant) %> |
+  <%= link_to "Manage Loyalty Benefits", merchant_loyalty_benefits_path(@merchant) %>
+<% end  %>

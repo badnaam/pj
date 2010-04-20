@@ -1,0 +1,28 @@
+<% page_title("Merchants") %>
+<h1>Listing merchants</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+  </tr>
+
+  <% @merchants.each do |merchant| %>
+    <tr>
+      <td><%= link_to merchant.name, merchant %></td>
+      <td><%=h merchant.merchant_type %></td>
+
+      <% if permitted_to? :update, merchant %>
+        <td><%= link_to 'Edit', edit_merchant_path(merchant) %></td>
+      <% end  %>
+      <% if permitted_to? :destroy, merchant %>
+        <td><%= link_to 'Destroy', merchant, :confirm => 'Are you sure?', :method => :delete %></td>
+      <% end  %>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+<% if permitted_to? :create, :merchants %>
+  <%= link_to 'New merchant', new_merchant_path %>
+<% end  %>

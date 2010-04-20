@@ -1,0 +1,20 @@
+<h1>Articles</h1>
+
+<% if permitted_to? :create, Article.new %>
+  <%= link_to "Write an Article", new_article_path %>
+<% end %>
+
+<% for article in @articles %>
+  <ul>
+    <li>
+      <% if permitted_to? :show, :articles %>
+        <%= link_to article.subject,  article  %>
+      <% end %>
+      <% if permitted_to? :destroy, :articles %>
+      <%= link_to "Delete", article, :controller => "articles", :method => "delete", :confirm => "Sure?"%>
+      <% end %>
+    </li>
+  </ul>
+<% end %>
+
+

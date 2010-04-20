@@ -1,0 +1,273 @@
+/* 
+    Document   : custom
+    Created on : Feb 2, 2010, 9:53:49 AM
+    Author     : amishra
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+body {
+    background-color:#3F3F3F;
+}
+/* Header */
+
+
+.header a {
+    text-decoration: none;
+    color:#8F8F8F;
+}
+
+.header > a:active {
+    color:yellow;
+}
+
+.header a:hover {
+    color:white;
+}
+
+.header_links li {
+    display: inline;
+}
+
+.header_links_div {
+    background-color: #27292A;
+    text-align: right;
+}
+
+.header_txt {
+    padding-top: 50px;
+    padding-left : 10px;
+    font-size: 350%;
+    color:white;
+}
+
+.header_logo_div {
+    background-color: #27292A;
+}
+
+.header_links {
+    display: inline;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.login_links_div {
+    background-color:#27292A;
+    text-align: right;
+}
+
+.login_links {
+    display: inline;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.login_links li {
+    display: inline;
+    padding-left: 5px;
+}
+
+.main_links {
+    display: inline;
+    white-space: nowrap;
+    padding-left: 5px;
+    line-height:3.5;
+}
+.main_links li {
+    display: inline;
+    padding-right:15px;
+
+}
+.main_links_div {
+    background-color: #1F2122;
+}
+
+.content_container {
+    background-color: white;
+}
+
+.content {
+    background-color: white;
+    margin-right: 0;
+    border-right: 1px solid;
+}
+.innertube{
+    margin: 10px; /*Margins for inner DIV inside each column (to provide padding)*/
+    margin-top: 5px;
+}
+
+
+
+.right_nav {
+    background-color: white;
+    padding-right:10px;
+}
+.right_nav_links li {
+    display: inline;
+}
+.right_nav_links {
+    display: inline;
+    white-space: nowrap;
+}
+.left_nav {
+    background-color: purple;
+}
+.left_nav_links li {
+    display: inline;
+}
+.let_nav_links {
+    display: inline;
+    white-space: nowrap;
+}
+.left_links li {
+    display: inline;
+}
+
+
+.footer_div {
+    background-color: orange;
+}
+
+
+.fieldWithErrors {
+    padding: 2px;
+    background-color: red;
+    display: inline;
+}
+
+.notice {
+    float: left;
+    background-color: #aa2626;
+    font-weight: bold;
+    color: #ffffff;
+    border-style: solid;
+    border-width: 1px;
+    padding: 5px;
+}
+
+/* form elements */
+.btn {
+    background-color:#1F2122;
+    border:medium none;
+    color:white;
+    font:12px Arial,sans-serif;
+    padding:4px 17px;
+    display:block;
+}
+table {
+    vertical-align: middle;
+    text-align: center;
+}
+table.tbl_index_table th, td {
+    text-align: center;
+    vertical-align: middle;
+    border:solid 1px black;
+}
+table.tbl_index_table tr.tr_even_index_table {
+    background-color: #e08f59;
+}
+
+table.tbl_index_table tr.tr_odd_index_table {
+    background-color: white;
+}
+
+table.tbl_index_table th {
+    background-color: #63583C;
+    color:white;
+}
+
+table.tbl_index_table {
+    border: solid 1px;
+    width:90%;
+    border-collapse:collapse;
+}
+
+div.frm_user_search {
+    margin-bottom: 2%;
+    width:50%;
+}
+
+.searchTable{
+    border:solid 1px;
+    margin-bottom:2%;
+    width:90%;
+    font-weight: bold;
+}
+
+.searchTable tr td {
+    border: none;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.inputArea:focus {
+    background-image: none;
+    background-color: #ffffff;
+    border: solid 1px #33677F;
+}
+
+.inputArea 
+{
+    background-image: url("/images/input_b.png");
+    background-position:top;
+    background-repeat: repeat-x;
+    background-color: #ffffff;
+    border: solid 1px #33677F;
+}
+
+.btnSearch {
+    background-image: url("/images/header_b.png");
+    background-repeat: repeat-x;
+    color:white;
+    font-weight: bold;
+    background-color: #ff3366;
+}
+
+.td_btn_search {
+    text-align: right;
+    ;
+}
+
+#attachment_list #pending_files{ 
+    list-style:none;padding:0;
+}
+#attachment_list li { 
+    padding:0 0 0.5em 21px;background:url('/images/attachment.png') no-repeat 0 2px;
+}
+#attachment_list li #remove { 
+    margin-left:1em;
+}
+
+.presentation_section {
+    border:1px solid black;
+    margin:5px;
+}
+.presentation_label {
+    font-weight:bold;
+    display:block;
+    margin : 2px;
+}
+.presentation_label_header {
+    font-weight:bold;
+    display:block;
+    background-color: #C2C9CF;
+    padding: 3px;
+}
+
+.presentation_section_body {
+    background-color: red;
+}
+.presentation_list {
+    list-style-type: none;
+    background-color: #EFEFEF;
+}
+
+.presentation_list  > li {
+    margin:2px;
+}

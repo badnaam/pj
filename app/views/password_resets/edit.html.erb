@@ -1,0 +1,18 @@
+<h1>
+  Change your Password
+</h1>
+
+<% form_for @user, :url => password_reset_path, :html => {:method => :put} do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label "Password" %>
+    <%= f.password_field "password" %>
+  </p>
+  <p>
+    <%= f.label "Confirm Password" %>
+    <%= f.password_field "password_confirmation" %>
+  </p>
+  <p>
+    <%= f.submit "Update password and log in" %>
+  </p>
+<% end  %>

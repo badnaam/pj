@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  type: MyString
+  street1: MyString
+  street2: MyString
+  city: MyString
+  state: MyString
+  country: MyString
+  zip: 1
+  lat: 9.99
+  long: 9.99
+
+two:
+  type: MyString
+  street1: MyString
+  street2: MyString
+  city: MyString
+  state: MyString
+  country: MyString
+  zip: 1
+  lat: 9.99
+  long: 9.99

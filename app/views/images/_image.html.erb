@@ -1,0 +1,23 @@
+<div id = <%= "img_#{image.id}" %> class="image">
+  <a href = <%=  image.image.url(:large)%> rel = "cimg"> <%= image_tag image.image.url(:very_small)%></a>
+  <% if edit %>
+  <span class ="image_desc" id ="<%= image.id%>"><%= image.image_description || "Click here to edit description" %></span>
+  <script type ="text/javascript">
+    $j("#<%= image.id %>").editable('<%= url_for(:controller => "images", :action => "update", :id => image.id) %>',
+    {
+      method:'PUT',
+      cancel : 'Cancel',
+      submit : 'OK',
+      tooltip : 'Double Click to edit',
+      indicator : "<img src='/images/spinner.gif'/>",
+      style : "display:inline",
+      submitdata : {
+        authenticity_token : <%= form_authenticity_token.to_json %>
+      }
+    }
+  );
+  </script>
+  <%= link_to_remote 'Destroy', :url => image_path(image), :method => :delete%>
+<% end  %>
+  <%#*<img alt="Processing..." id ="spinner" src ="/images/spinner.gif" style="display:none"/>%>
+</div>

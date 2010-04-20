@@ -1,0 +1,63 @@
+<p>
+  <b>Level:</b>
+  <%=h @loyalty_benefit.loyalty_level %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%=h @loyalty_benefit.active %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%=h @loyalty_benefit.benefit_type %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @loyalty_benefit.description %>
+</p>
+
+
+<p>
+  <b>Point conversion ratio:</b>
+  <%=h @loyalty_benefit.point_conversion_ratio %>
+</p>
+
+<p>
+  <b>Bonus Type:</b>
+  <%=h @loyalty_benefit.bonus_type %>
+</p>
+
+
+<p>
+  <b>Point bonus:</b>
+  <%=h @loyalty_benefit.point_bonus %>
+</p>
+
+<p>
+  <b>Point bonus multiplier:</b>
+  <%=h @loyalty_benefit.point_bonus_multiplier %>
+</p>
+
+<p>
+  <b>Perk bonus:</b>
+  <%=h @loyalty_benefit.perk_bonus %>
+</p>
+
+
+
+<p>
+  <b>Bonus window start:</b>
+  <%=h @loyalty_benefit.bonus_window_start %>
+</p>
+
+<p>
+  <b>Bonus window end:</b>
+  <%=h @loyalty_benefit.bonus_window_end %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_merchant_loyalty_benefit_path(@merchant, @loyalty_benefit) %> |
+<%= link_to 'Back', merchant_loyalty_benefits_path(@merchant) %>

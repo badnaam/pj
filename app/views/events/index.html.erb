@@ -1,0 +1,59 @@
+<%= javascript_include_tag "markerGroup.js" %>
+<h1>Events</h1>
+
+<div id ="status" style="display: none">
+  <span>
+    <img src ="/images/spinner.gif" alt="loading..."></img>
+  </span>
+</div>
+<% form_remote_tag :url=> events_path, :method => "GET" do%>
+  <p>
+  <table class ="searchTable">
+    <tr>
+      <td>
+        <%= label_tag :txtSearch, "Search events (e.g. Wine, 4th of July etc.)"%>
+      </td>
+      <td>
+        <%= label_tag :txtOrigin, "Near Address/Zip"%>
+      </td>
+      <td>
+        <%= label_tag :txtWithin, "Distance(Miles)"%>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= text_field_tag :txtSearch, "", :size => 40, :class => "inputArea" %>
+      </td>
+      <td>
+        <%= text_field_tag :txtOrigin, "", :size => 40, :class => "inputArea" %>
+      </td>
+      <td>
+        <%= select_tag "sltDistance", "<option>1</option><option>5</option><option>10</option><option>25</option><option>50</option><option>100</option><option>200</option><option>500</option><option>1000</option>"  %>
+      </td>
+
+    </tr>
+    <tr>
+      <td class ="td_btn_search" colspan="3">
+        <%= submit_tag "Search", :class => "btnSearch", :id => "btnEvent"%>
+      </td>
+    </tr>
+    <tr>
+
+    </tr>
+  </table>
+
+  </p>
+<% end  %>
+<%= render "events_index" %>
+
+<br />
+<p>
+  <% if permitted_to? :create, :events %>
+    <%= link_to 'Add an event', new_event_path %>
+  <% end  %>
+</p>
+<br/>
+
+<%= @map.to_html unless @map.blank?%>
+<%= @map.div(:width => 600, :height => 400)  unless @map.blank?%>
+

@@ -1,0 +1,68 @@
+<% page_title("Point Joint Home")  %>
+<h1>Welcome <%= current_user.username if current_user%>!</h1>
+
+<script type="text/javascript">
+  function hello() {
+    alert($("chk1").checked);
+  }
+
+  function hidetr(i) {
+    $('tr' + i).toggle();
+  }
+
+  function pr(link) {
+    alert(link.innerHTML);
+    alert($('myl').innerHTML);
+  }
+
+  function addToList() {
+    l = new Element("input", {"type" : "text", "value" : "New"});
+    l.activate(l);
+    nodes = $$("#the_list_div ol")
+    // l.innerHTML = "New"
+     // nodes[0].insert(l)
+     nodes[0].writeAttribute("id", "the_list")
+     $("the_list").insert(l)
+    
+  }
+</script>
+
+<table style="width:70%; border-collapse: collapse">
+  <% for i in (1..10) %>
+    <tr >
+      <td>
+        <%= check_box_tag "user#{i}",0,false, :id => "chk#{i}", :onchange => "hidetr(#{i});"%>
+      </td>
+      <td >
+        <%= "val" + i.to_s %>
+      </td>
+      <td>
+        <select name="slt" id = <%= "slt#{i}" %>>
+          <% for  t in 1..10%>
+            <option value=<%= t %> <%= "selected = 'selected'"if t == 1 %>><%= t %></option>
+          <% end  %>
+        </select>
+      </td>
+      <td>
+        <%= text_field_tag "txt" + i.to_s %>
+      </td>
+    </tr>
+    <tr id = <%= "tr#{i}" %> style ="display: none">
+        <td colspan="4">
+            <%= i  %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<input type ="button" value="go" onclick="hello();"/>
+<a id ="myl" href="#" onclick ="pr(this);">aaaa</a>
+
+<div id ="the_list_div">
+  <ol>
+    <li> one </li>
+  </ol>
+</div>
+
+
+<a href ="#" onclick="addToList();">Add</a>

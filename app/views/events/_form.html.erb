@@ -1,0 +1,19 @@
+<% semantic_form_for @event do |form| %>
+  <%#= form.error_messages %>
+  <% form.inputs do %>
+    <%= form.input :title, :label => 'Title', :input_html => {:style => "width:50%"}%>
+    <%= form.input :description, :label => 'Description' %>
+    <%= form.input :event_date, :label => 'Event date' %>
+    <%= form.input :main_contact_name, :label => 'Main contact name' , :input_html => {:style => "width:50%"}%>
+    <%= form.input :main_contact_number, :label => 'Main contact number' , :input_html => {:style => "width:30%"}, :hint => "Main contact's phone"%>
+    <%= form.input :details, :label => 'Details' %>
+  <% end %>
+  <% form.inputs :for => :address, :name => "Address"  do |af|  %>
+    <%= af.input :street1, :input_html => {:style => "width:50%"}%>
+    <%= af.input :street2 , :input_html => {:style => "width:50%"}%>
+    <%= af.input :city , :input_html => {:style => "width:30%"}%>
+    <%= af.input :state, :as => :select, :collection => [["California", "CA"], ["New York", "NY"], ["Oregon", "OR"], ["Colorado", "CO"]]%>
+    <%= af.input :zip , :input_html => {:style => "width:10%"}%>
+  <% end  %>
+  <%= form.buttons %>
+<% end  %>

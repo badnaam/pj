@@ -1,0 +1,50 @@
+<% page_title("Users") %>
+<h1>Listing users</h1>
+
+<div class ="frm_user_search" id ="frm_id_user_search">
+  <% form_tag(users_path, :method => "get") do %>
+    <%= label_tag(:search, "Search User:")  %>
+    <%= text_field_tag(:search, params[:search]) %>
+    <%= submit_tag("Search", :name => nil) %>
+  <% end  %>
+</div>
+
+
+<table class ="tbl_index_table" id ="tbl_id_user_index">
+  <tr>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Active </th>
+    <th>Role</th>
+    <th colspan="4">Actions</th>
+    <th>Assign Role</th>
+  </tr>
+
+  <% @users.each do |user| %>
+    <tr class = <%= cycle("tr_odd_index_table", "tr_even_index_table") %>>
+      <td><%=h user.username %></td>
+      <td><%=h user.email %></td>
+      <td><%=h user.active == true ? "Yes" : "No" %></td>
+      <td><%=h user.roles.first.name unless user.roles.blank? %></td>
+      <% if permitted_to? :show, user %>
+        <td><%= link_to 'Show', user %></td>
+      <% end %>
+
+      <% if has_role? :admin %>
+        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <% if user.active == true %>
+          <td><%= link_to 'Deactivate', deactivate_user_path(:id => user),:confirm => 'Are you sure?', :method =>:put %></td>
+        <% else %>
+          <td><%= link_to 'Activate', activate_user_path(:id => user), :method => :put %></td>
+        <% end  %>
+        <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+        <td>
+          <%= link_to 'Business', :controller =>"users", :action =>"assignbusinessrole", :id => user %>
+          <%= link_to 'Contributor', :controller =>"users", :action =>"assigncontribrole", :id => user %>
+          <%= link_to 'SiteUser', :controller =>"users", :action =>"assignsiterole", :id => user %>
+        </td>
+      <% end  %>
+    </tr>
+  <% end %>
+</table>
+

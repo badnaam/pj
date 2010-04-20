@@ -1,0 +1,43 @@
+<h1><%= @article.subject %></h1>
+<p>
+  <% if permitted_to? :edit, @article %>
+    <%= link_to "Edit", edit_article_path(@article) %> |<% end %>
+  <% if permitted_to? :destroy, @article %>
+  <%= link_to "Delete", @article, :controller => "articles", :method => "delete", :confirm =>"Sure?" %>
+  <% end %>
+</p>
+<div>
+  <% if permitted_to? :show, :users %>
+  <p>
+    By: <%=link_to @article.user.username, @article.user   %>
+  </p>
+  <% end %>
+  <%= @article.content %>
+</div>
+<br/>
+
+<!--Show all comments -->
+<h3>Comments</h3>
+<% for comment in @article.comments %>
+  <div>
+    <% if permitted_to? :show, :users %>
+    <span>By <%= link_to comment.user.username,  comment.user %></span>
+    <% end %>
+    <p>
+      <%= h comment.content %>
+    </p>
+      <br/>
+  </div>
+<% end %>
+
+<p>
+  Comment on this article
+</p>
+<div id ="comment_form">
+  <% form_for ([@article, Comment.new]) do |f| %>
+    <%= f.text_area :content, :size => "50x5" %>
+    <br/>
+    <%= f.collection_select(:user_id, User.all, :id, :getusername)  %>
+    <%= f.submit "Comment" %>
+  <% end %>
+</div>
