@@ -18,10 +18,10 @@ development:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: testrails
+  database: pj
   pool: 5
   username: root
-  password:
+  password: test
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -31,19 +31,19 @@ test:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: testrails_test
+  database: pj_test
   pool: 5
   username: root
-  password:
+  password: test
   host: localhost
 
 production:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: testrails_production
+  database: pj_production
   pool: 5
   username: root
-  password:
+  password: test
   host: localhost
 
