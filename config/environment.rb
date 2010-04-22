@@ -42,13 +42,13 @@ Rails::Initializer.run do |config|
 
 
     config.action_mailer.default_url_options({:host => "localhost:3000"})
+    #    config.gem "openrain-action_mailer_tls", :lib => "smtp_tls.rb", :source => "http://gems.github.com"
     %w(middleware).each do |dir|
         config.load_paths << "#{RAILS_ROOT}/app/#{dir}"
     end
 
     config.gem "geokit"
     config.gem 'mime-types', :lib => "mime/types",     :version => '1.16'
-#    config.gem "jrails"
     config.gem("authlogic")
     config.gem("searchlogic")
     config.gem "declarative_authorization", :source => "http://gemcutter.org"
@@ -58,4 +58,7 @@ Rails::Initializer.run do |config|
     #    http://ym4r.rubyforge.org/
     config.gem "ym4r"
     config.active_record.observers= :user_observer
+
+    
 end
+
