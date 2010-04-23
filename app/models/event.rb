@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
 
     acts_as_mappable :through => :address
     #validations
-    #    Event.reflect_on_all_validations
+    #    Event.reflect_on_all_                                          validations
     #    Event.reflect_on_all_validations
     #    Event.reflect_on_all_validations
     validates_length_of :title, :maximum => 150

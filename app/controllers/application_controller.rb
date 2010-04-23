@@ -9,6 +9,13 @@ class ApplicationController < ActionController::Base
     #    before_filter { |c| Authorization.current_user = c.current_user }
     before_filter :set_current_user
 
+    def call_rake(task, options = {})
+        options[:rails_env] = Rails.env
+        args = options.map{ |n, v| "#{n.to_s.upcase}='#{v}'" }
+        #System dependent - consider changing
+        system "/usr/bin/rake #{task} #{args.join(' ')} >> #{Rails.root}/log/rake.log &"
+    end
+
     def permission_denied
         flash[:notice] = "Sorry, permission denied."
         #        if request.env["HTTP_REFERER"].nil? then

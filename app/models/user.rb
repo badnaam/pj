@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
     after_save :assigndefault
 
     def imageible_name
-        return "Users"
+        return "users"
     end
 
     def deliver_activation_instructions!

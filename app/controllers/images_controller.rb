@@ -61,6 +61,8 @@ class ImagesController < ApplicationController
         @image = Image.find(params[:id])
         @image.destroy
         if @image.destroy
+            #delete image from disk as well
+            call_rake :delete_images, :imageible_name => find_imageible_name, :image_id => params[:id]
             flash[:notice] = "Successfully destroyed image."
             respond_to do |format|
                 format.js {

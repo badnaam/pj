@@ -45,14 +45,19 @@
         </div>
         <div class="span-24 last  main_links_div">
           <ul class="main_links ">
-            <li><a href ="http://google.com">WHAT'S NEW</a></li>
-            <li><%= link_to_unless_current "merchants".upcase, merchants_path do
+            <li><%= link_to "WHAT'S NEW", root_path  %></li>
+            <li><%= link_to_unless_current "MERCHANTS", merchants_path do
                 link_to "merchants".upcase, merchants_path
               end%></li>
-
-            <li><a  href ="http://google.com">EVENTS</a></li>
-            <li><a href ="http://google.com">BLOGS</a></li>
-            <li><a href ="http://google.com">ACCOUNT</a></li>
+            <li><%= link_to_unless_current "EVENTS", events_path do
+                link_to "EVENTS", events_path
+              end%></li>
+            <li><%= link_to_unless_current "BLOGS", articles_path do
+                link_to "BLOGS", articles_path
+              end%></li>
+            <% if current_user %>
+              <li><%= link_to "ACCOUNT", current_user %></li>
+            <% end  %>
           </ul>
         </div>
       </div>
@@ -72,9 +77,31 @@
         </div>
       </div>
       <div class="footer span-24 last footer_div">
-        <p class="footer_text">
-          Working Title, Inc
-        </p>
+        <div class ="span-10 prepend-5 footer_links_div" >
+          <ul class="footer_links">
+            <li>
+              <a href="#">Consumers</a>
+            </li>
+            <li>
+              <a href="#">Merchants</a>
+            </li>
+            <li>
+              <a href="#">FAQ</a>
+            </li>
+            <li>
+              <a href="#">Terms</a>
+            </li>
+            <li>
+              <a href="#">Privacy Policy</a>
+            </li>
+            <li>
+              <a href="#">Feedback</a>
+            </li>
+            <li>
+              <a href="#">About</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 

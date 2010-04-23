@@ -1,4 +1,6 @@
-<h1>New merchant</h1>
+<h1>Create business listing</h1>
+
+<%= render :partial => "form" %>
 
 <% form_for @merchant, :html => {:multipart => true} do |f| %>
   <%= f.error_messages %>

@@ -29,6 +29,7 @@ db\:test\:prepare=Check for pending migrations and load the test schema
 db\:test\:purge=Empty the test database
 db\:version=Retrieves the current schema version number
 default=
+delete_images=Remove image files after they are destroyed
 doc=
 doc/api=
 doc/api/index.html=
@@ -91,6 +92,7 @@ rails\:update\:javascripts=Update your javascripts from your current rails insta
 rails\:update\:scripts=Add new scripts to the application script/ directory
 rails_env=
 routes=Print out all defined routes in match order, with names. Target specific controller with CONTROLLER=x.
+say_hello=Says Hello
 secret=Generate a crytographically secure secret key. This is typically used to generate a secret for cookie sessions.
 stats=Report code statistics (KLOCs, etc) from the application
 test=Run all unit, functional and integration tests

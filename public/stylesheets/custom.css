@@ -131,9 +131,30 @@ body {
 
 
 .footer_div {
-    background-color: orange;
+    background-color: #27292A;
 }
 
+.footer_links_div {
+    padding-top:40px;
+    padding-bottom:20px;
+}
+
+.footer_links {
+    display: inline;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.footer_links li {
+    display: inline;
+    padding-left: 10px;
+}
+
+.footer a {
+    text-decoration: none;
+    color:#8F8F8F;
+}
 
 .fieldWithErrors {
     padding: 2px;
