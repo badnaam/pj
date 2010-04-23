@@ -2,3 +2,5 @@ log/*.log
 tmp/*
 config/database.yml
 public/assets/*
+nbproject/*
+
