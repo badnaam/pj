@@ -46,7 +46,7 @@ Rails::Initializer.run do |config|
     %w(middleware).each do |dir|
         config.load_paths << "#{RAILS_ROOT}/app/#{dir}"
     end
-
+  
     config.gem "geokit"
     config.gem 'mime-types', :lib => "mime/types",     :version => '1.16'
     config.gem("authlogic")
@@ -59,6 +59,9 @@ Rails::Initializer.run do |config|
     config.gem "ym4r"
     config.active_record.observers= :user_observer
 
-    
+    #for rmagick installation
+    #    sudo apt-get install imagemagick
+    #sudo apt-get install libmagick9-dev
+    #sudo gem install rmagick
 end
 
