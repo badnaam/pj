@@ -2,7 +2,10 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-    layout "users"
+    #    layout "users"
+    
+    layout proc{ |c| c.request.xhr? ? false : "users" }
+
     helper :all # include all helpers, all the time
     protect_from_forgery # See ActionController::RequestForgeryProtection for details
     helper_method :current_user, :current_role

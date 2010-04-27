@@ -1,0 +1,19 @@
+<% semantic_form_for @merchant do |form| %>
+  <%#= form.error_messages %>
+  <% form.inputs do %>
+  <%= form.input :name, :label => "Listing name" %>
+    <%= form.input :description, :label => 'Description', :as => :text, :hint => "Maximum s500 words" %>
+    <%= form.input :listing_type, :label => "Listing type", :as => :select, :collection => Merchant::BUSINESS_TYPE  %>
+    <%= form.input :main_contact_name, :label => 'Main contact name' , :hint => "Person who will be contacted for validation
+    before listing is active",  :input_html => {:style => "width:50%"}%>
+    <%= form.input :main_contact_number, :label => 'Main contact number', :input_html => {:style => "width:30%"}, :hint => "Main contact's phone"%>
+  <% end %>
+  <% form.inputs :for => :address, :name => "Address"  do |af|  %>
+    <%= af.input :street1, :input_html => {:style => "width:50%"}%>
+    <%= af.input :street2 , :input_html => {:style => "width:50%"}%>
+    <%= af.input :city , :input_html => {:style => "width:30%"}%>
+    <%= af.input :state, :as => :select, :collection => Address::STATES%>
+    <%= af.input :zip , :input_html => {:style => "width:10%"}%>
+  <% end  %>
+  <%= form.buttons :input_html => {:class => 'btn'}%>
+<% end  %>

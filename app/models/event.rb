@@ -11,9 +11,11 @@ class Event < ActiveRecord::Base
     #    Event.reflect_on_all_validations
     #    Event.reflect_on_all_validations
     validates_length_of :title, :maximum => 150
-    validates_length_of :description, :maximum => 500
-    validates_presence_of :title, :event_date
-
+    validates_length_of [:description, :details], :maximum => 500
+    validates_presence_of :title, :event_date, :description
+   
+    validates_datetime :event_date, :on_or_after => lambda {Time.now}, :on_or_before_message => "Event date/time must be in the future."
+    
     def get_lat_lng
         return [self.address.lat, self.address.lng]
     end

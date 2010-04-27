@@ -29,7 +29,7 @@ class MerchantsController < ApplicationController
     # GET /merchants/new.xml
     def new
         @merchant = Merchant.new
-
+        @address = @merchant.build_address
         respond_to do |format|
             format.html # new.html.erb
             format.xml  { render :xml => @merchant }

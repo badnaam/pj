@@ -1,21 +1,20 @@
 class EventsController < ApplicationController
     layout "users"
 
+    before_filter :init_search, :only => [:index]
+    
     filter_resource_access
     
     def index
-        searchterm = params[:txtSearch]
-        origin = params[:txtOrigin]
-        distance = params[:sltDistance]
-
-        if origin.nil?
-            @events = Event.title_like(searchterm).paginate(:page => params[:page], :per_page => 2,
-                :order => "updated_at DESC", :include => :address)
-        else
-            @events = Event.title_like(searchterm).paginate(:page => params[:page], :per_page => 2,
-                :order => "distance", :include => :address, :origin => origin.to_s, :within => distance.to_i)
-        end
-
+        #        if origin.nil?
+        #            @events = Event.title_like(searchterm).paginate(:page => params[:page], :per_page => per_page,
+        #                :order => sort_by, :include => :address)
+        #        else
+        #        @events = Event.title_like(@searchterm).paginate(:page => params[:page], :per_page => @per_page,
+        #            :order => @sort_by, :include => :address, :origin => @origin.to_s, :within => @distance.to_i)
+        #        end
+        @events = Event.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :origin => @origin.to_s,
+            :within => @distance.to_i, :order => @sort_by)
         unless request.xhr?
             build_index_map@events
         else
@@ -95,10 +94,42 @@ class EventsController < ApplicationController
             format.xml  { head :ok }
         end
     end
+
+    def init_search
+        @searchparams = Hash.new
+
+        @searchparams[:title_like] ||= params[:title_like]
+#        @searchparams[:title_like] ||= ""
+        
+
+        @searchparams[:event_date_gte] ||= params[:event_date_gte]
+        @searchparams[:event_date_gte] ||= Time.now #default
+        @event_date_gte = @searchparams[:event_date_gte]
+
+        @searchparams[:event_date_lte] ||= params[:event_date_lte]
+        @searchparams[:event_date_lte] ||= 1.year.from_now
+        @event_date_lte = @searchparams[:event_date_lte] 
+
+        @origin = params[:txtOrigin]
+        @origin ||= cookies[:origin]
+        cookies[:origin] = @origin.nil? ? '94131' : @origin
+        @orgin ||= '94131'
+
+        @distance = params[:sltDistance]
+        @distance ||= cookies[:distance]
+        cookies[:distance] = @distance.nil? ? '15' : @distance
+        @distance ||= '15'
+
+        @sort_by = params[:slt_sort_by]
+        @sort_by ||= 'event_date DESC'
+
+        @per_page = params[:slt_per_page]
+        @per_page ||= '10'
+    end
     
     def build_index_map(events)
         @map = GMap.new("map_div_id")
-        @map.control_init(:large_map => true, :map_type => true)
+        @map.control_init(:small_map => true, :map_type => false)
         @map.center_zoom_init([38.134557,-95.537109],4)
         # to center on usa -  @map.center_zoom_init([38.134557,-95.537109],4)
         @markers = Hash.new

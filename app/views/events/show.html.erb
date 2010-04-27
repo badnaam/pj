@@ -1,3 +1,28 @@
-
+<div class ="event" id="event_"<%= @event.id %> class="span-18 last">
+  <%  if permitted_to? :edit, :events%>
+    <%= link_to 'Edit', edit_event_path(@event), :class => "action_link" %>
+  <% end  %>
+  <% if permitted_to? :destroy, :events %>
+    <%= link_to 'Delete', @event, :confirm => 'Are you sure?', :method => :delete,  :class => "action_link" %>
+  <% end  %>
+  <span class="listing_title blks"> <%= @event.title %> at <%= @event.event_date %></span>
+  <span class="blk">Tags:</span>
+  <p class="address">
+    <%= @event.address.street1.camelize %>
+    <br/>
+    <%= @event.address.street2.camelize + "<br/>" unless @event.address.street2.blank?  %>
+    <%= @event.address.city.camelize %>
+    <%= @event.address.state.camelize + "-" + @event.address.zip %>
+    <br/>
+  </p>
+  <div>
+    <span class="blk">Main Contact : <%= @event.main_contact_name %> </span>
+    <span class="blk">Contact Number : <%= @event.main_contact_number %></span>
+    <span class="blk">Details : <%= @event.details %></span>
+  </div>
+  <p class="listing_description">
+    <%= @event.description %>
+  </p>
+</div>
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>

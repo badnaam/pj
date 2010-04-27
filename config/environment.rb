@@ -11,7 +11,7 @@ Rails::Initializer.run do |config|
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    # Add additional load paths for your own custom dirs
+    # Add additional loadpaths for your own custom dirs
     # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
     # Specify gems that this application depends on and have them installed with rake gems:install
@@ -57,6 +57,7 @@ Rails::Initializer.run do |config|
     config.gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com'
     #    http://ym4r.rubyforge.org/
     config.gem "ym4r"
+    config.gem "calendar_date_select"
     config.active_record.observers= :user_observer
 
     #for rmagick installation

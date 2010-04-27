@@ -1,59 +1,103 @@
 <%= javascript_include_tag "markerGroup.js" %>
-<h1>Events</h1>
+<script type ="text/javascript">
+  $j(document).ready(function(){
+    //   $j("#map_div_id").addClass("span-4").css("height", "").css("width", "").css("position", "");
+<%#*$j('#map_link').colorbox({width:"60%", inline:true, href:'#map_div_id'});%>
+  });
+</script>
 
-<div id ="status" style="display: none">
-  <span>
-    <img src ="/images/spinner.gif" alt="loading..."></img>
-  </span>
+
+<div class="span-19 last search_div">
+  <% form_remote_tag :url=> events_path, :method => "GET" do %>
+    <div class="span-18 last">
+      <ul class="search_list">
+        <li>
+          <%= label_tag :txtSearch, "Search"%>
+        </li>
+        <li>
+          <%= text_field_tag :title_like, "", :size => 15, :class => "inputArea" %>
+
+        </li>
+        <li>
+          <%= label_tag :txtOrigin, "Near Address/Zip"%>
+        </li>
+        <li>
+          <%= text_field_tag :txtOrigin, @origin, :size => 20, :class => "inputArea" %>
+        </li>
+        <li>
+          <%= submit_tag "Search", :id => "btnEvent"%>
+        </li>
+        <li>
+          <%= label_tag :txtWithin, "Distance(Miles)"%>
+        </li>
+        <li>
+          <%= select_options_tag("sltDistance", (1..15).collect {|x| [(x * 5).to_s, (x* 5).to_s]}, :value => @distance )  %>
+        </li>
+        
+      </ul>
+    </div>
+    <div class ="span-18 last">
+      <ul class="search_list">
+        <li>
+          <%= label_tag :start_date, "Between "%>
+        </li>
+        <li>
+          <%= calendar_date_select_tag :event_date_gte, @event_date_gte, :default_time => Time.now, :time => true, :popup => 'force', :class => "inputArea" %>
+        </li>
+        <li>
+          <%= label_tag "and" %>
+        </li>
+        <li>
+          <%= calendar_date_select_tag :event_date_lte, @event_date_lte, :default_time => Time.now, :time => true, :popup => 'force', :class => "inputArea" %>
+        </li>
+      </ul>
+    </div>
+    <div class="span-18 last form_section_div">
+      <div class="span-4">
+        <ul class="search_list">
+          <li>
+            <%= label_tag :sort_by, "Sort by" %>
+          </li>
+          <li>
+            <%= select_options_tag :slt_sort_by,  {"Recent" => "event_date DESC", "Nearest" => "distance ASC"}, :value => @sort_by,
+              :onchange => "this.form.onsubmit();"%>
+          </li>
+        </ul>
+      </div>
+      <div class="span-4 prepend-10 last"
+           <ul class="search_list">
+          <li>
+            <%= label_tag :per_page, "Results per page" %>
+          </li>
+          <li>
+            <%= select_options_tag "slt_per_page", ((1..10).collect {|x| [(x * 5).to_s, (x * 5).to_s]}), :value => @per_page  %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  <% end  %>
+<%# if @events.size > 0 %>
+<%#= javascript_include_tag "jquery.colorbox-min.js" %>
+<%#*<a href ="#" id ="map_link">View Map</a>%>
+<%# end  %>
 </div>
-<% form_remote_tag :url=> events_path, :method => "GET" do%>
-  <p>
-  <table class ="searchTable">
-    <tr>
-      <td>
-        <%= label_tag :txtSearch, "Search events (e.g. Wine, 4th of July etc.)"%>
-      </td>
-      <td>
-        <%= label_tag :txtOrigin, "Near Address/Zip"%>
-      </td>
-      <td>
-        <%= label_tag :txtWithin, "Distance(Miles)"%>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= text_field_tag :txtSearch, "", :size => 40, :class => "inputArea" %>
-      </td>
-      <td>
-        <%= text_field_tag :txtOrigin, "", :size => 40, :class => "inputArea" %>
-      </td>
-      <td>
-        <%= select_tag "sltDistance", "<option>1</option><option>5</option><option>10</option><option>25</option><option>50</option><option>100</option><option>200</option><option>500</option><option>1000</option>"  %>
-      </td>
 
-    </tr>
-    <tr>
-      <td class ="td_btn_search" colspan="3">
-        <%= submit_tag "Search", :class => "btnSearch", :id => "btnEvent"%>
-      </td>
-    </tr>
-    <tr>
-
-    </tr>
-  </table>
-
-  </p>
-<% end  %>
 <%= render "events_index" %>
 
-<br />
-<p>
+<div class="span-17 prepend-1 last">
   <% if permitted_to? :create, :events %>
-    <%= link_to 'Add an event', new_event_path %>
+    <%= link_to 'Add an event', new_event_path, :class => "action_link" %>
   <% end  %>
-</p>
+</div>
+
 <br/>
 
-<%= @map.to_html unless @map.blank?%>
-<%= @map.div(:width => 600, :height => 400)  unless @map.blank?%>
-
+<% content_for :right_nav do%>
+  <div class="span-4">`
+  <%#*<div id="map_container" class ="span-17 prepend-1 last"  >%>
+  <%#*<div id="themap" style ="display: none">%>
+    <%= @map.to_html unless @map.blank?%>
+    <%= @map.div(:width => 180, :height => 400)  unless @map.blank?%>
+  <%#*</div>%>
+  </div>
+<% end  %>

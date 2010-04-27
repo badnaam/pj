@@ -1,5 +1,16 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+
+    def select_options_tag(name='',select_options={},options={})
+        #set selected from value
+        selected = ''
+        unless options[:value].blank?
+            selected = options[:value]
+            options.delete(:value)
+        end
+        select_tag(name,options_for_select(select_options,selected),options)
+    end
+
     def page_title(title)
         content_for(:title) {title}
     end

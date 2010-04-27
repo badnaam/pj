@@ -10,7 +10,7 @@
   <% @merchants.each do |merchant| %>
     <tr>
       <td><%= link_to merchant.name, merchant %></td>
-      <td><%=h merchant.merchant_type %></td>
+      <td><%=h merchant.listing_type %></td>
 
       <% if permitted_to? :update, merchant %>
         <td><%= link_to 'Edit', edit_merchant_path(merchant) %></td>

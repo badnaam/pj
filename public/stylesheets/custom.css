@@ -11,6 +11,23 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+#loading_inner {
+width:100px;
+height: 100px;
+position: fixed;
+top: 50%;
+left: 50%;
+background:url(/images/ajax-loader.gif) no-repeat center transparent;
+text-align:center;
+padding:10px;
+font:normal 16px Tahoma, Geneva, sans-serif;
+/*border:1px solid #666;*/
+margin-left: -50px;
+margin-top: -50px;
+z-index:2;
+overflow: auto;
+}
+
 body {
     background-color:#3F3F3F;
 }
@@ -130,6 +147,7 @@ body {
 }
 
 
+
 .footer_div {
     background-color: #27292A;
 }
@@ -172,6 +190,43 @@ body {
     padding: 5px;
 }
 
+/** Fix for event_date label**/
+#event_event_date_input  legend {
+    color:#222222;
+    font-size: 1em;
+}
+
+/** Search Form */
+div.form_section_div {
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+select {
+    font-family:"Helvetica Neue",Arial,Helvetica,sans-serif;
+    font-size:1em;
+    line-height:16px;
+    padding:0;
+    margin:0;
+}
+.search_div {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid 1px;
+}
+.search_list {
+    display: inline;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left:0px;
+}
+
+.search_list li {
+    display: inline;
+    padding-left: 5px;
+}
+
+
+
 /* form elements */
 .btn {
     background-color:#1F2122;
@@ -181,6 +236,7 @@ body {
     padding:4px 17px;
     display:block;
 }
+
 table {
     vertical-align: middle;
     text-align: center;
@@ -209,24 +265,6 @@ table.tbl_index_table {
     border-collapse:collapse;
 }
 
-div.frm_user_search {
-    margin-bottom: 2%;
-    width:50%;
-}
-
-.searchTable{
-    border:solid 1px;
-    margin-bottom:2%;
-    width:90%;
-    font-weight: bold;
-}
-
-.searchTable tr td {
-    border: none;
-    padding-left: 1%;
-    padding-right: 1%;
-}
-
 .inputArea:focus {
     background-image: none;
     background-color: #ffffff;
@@ -243,16 +281,11 @@ div.frm_user_search {
 }
 
 .btnSearch {
-    background-image: url("/images/header_b.png");
-    background-repeat: repeat-x;
+    /*background-image: url("/images/header_b.png");*/
+    /*background-repeat: repeat-x;*/
     color:white;
     font-weight: bold;
     background-color: #ff3366;
-}
-
-.td_btn_search {
-    text-align: right;
-    ;
 }
 
 #attachment_list #pending_files{ 
@@ -265,6 +298,37 @@ div.frm_user_search {
     margin-left:1em;
 }
 
+/*links*/
+a.title_link {
+    color:#e58610;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+}
+a.title_link:hover {
+    color:#f3af5c;
+}
+a.action_link {
+    text-decoration: none;
+    color: #22d1e6;
+    font-weight: bold;
+}
+a.action_link:hover {
+    color: #7ddeea;
+}
+/* Events */
+.event {
+    padding:5px;
+    border-bottom: 1px dotted #8b848f;
+}
+
+.blk {
+    display:block;
+}
+p.listing_description:first-letter {
+    color:red;
+    font:1.5em;
+}
 .presentation_section {
     border:1px solid black;
     margin:5px;

@@ -2,43 +2,30 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 document.observe("dom:loaded", function() {
-    // the element in which we will observe all clicks and capture
-    // ones originating from pagination links
-Ajax.Responders.register({
-    onComplete : function() {
-        Element.hide("main_spinner");
-    },
-    
-    onCreate : function() {
-        Element.show("main_spinner");
-    }
-})
-    var container = $(document.body)
+    $('loading').hide();
 
-    if (container) {
-        var img = new Image
-        img.src = '/images/spinner.gif'
+    Ajax.Responders.register({
+        onCreate: function() {
+            new Effect.Opacity('main_container', {
+                from: 1.0,
+                to: 0.3,
+                duration: 0.7
+            });
+            //            new	Effect.toggle('loading', 'appear');
+            $('loading').show();
 
-        function createSpinner() {
-            return new Element('img', {
-                src: img.src,
-                'class': 'spinner'
-            })
+        },
+        onComplete: function() {
+            new Effect.Opacity('main_container', {
+                from: 0.3,
+                to: 1,
+                duration: 0.7
+            });
+            //            new	Effect.toggle('loading', 'appear');
+            $('loading').hide();
         }
+    });
+});
 
-        container.observe('click', function(e) {
-            var el = e.element()
-            if (el.match('.pagination a')) {
-                el.up('.pagination').insert(createSpinner())
-                new Ajax.Request(el.href, {
-                    method: 'get'
-                })
-                e.stop()
-            }
-        })
-    }
 
-//jeditable
-
-})
 

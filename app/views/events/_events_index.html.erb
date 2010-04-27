@@ -1,41 +1,37 @@
 <script type ="text/javascript">
-function toggleStatus() {
-  $('status').toggle();
-}
+  function toggleStatus() {
+    <%#*$('status').toggle();%>
+  }
 </script>
 
-<div id ="events_list">
-  <table class ="tbl_index_table" id ="tbl_id_event_index">
-    <tr>
-      <th>Event</th>
-      <th colspan="3">Actions</th>
-    </tr>
-    <% col_count = 1 %>
-    <% @events.each do |event| %>
-      <tr class = <%= cycle("tr_odd_index_table", "tr_even_index_table") %>>
-        <td><%= link_to "#{event.title}", "#", :onclick => "event_marker_group.showMarker(#{event.id});return false;" %></td>
-        <% if permitted_to? :show, :events %>
-          <td><%= link_to_remote "Show", :url => event_path(event), :method => "get", :loading => "toggleStatus();",
-              :failure => "toggleStatus();", :success => "toggleStatus();"%></td>
-          <% col_count += 1 %>
-        <% end  %>
-        <%  if permitted_to? :edit, :events%>
-          <td><%= link_to 'Edit', edit_event_path(event) %></td>
-          <% col_count += 1 %>
-        <% end  %>
-        <% if permitted_to? :destroy, :events %>
-          <td><%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %></td>
-          <% col_count += 1 %>
-        <% end  %>
-      </tr>
-      <tr>
-        <td colspan=<%= "#{col_count}" %> id = <%= "#{dom_id(event)}"%> style="display:none;"></td>
-      </tr>
-    <% end %>
-  </table>
-  <br/>
-  <%= will_paginate @events %>
-
+<div id="events_list" class ="span-17 prepend-1 last">
+<% @events.each do |event| %>
+  <div class ="event" id="event_"<%= event.id %> class="span-16 last">
+    <span class="listing_title blk"><%= link_to "#{event.title}", event, :onclick => "event_marker_group.showMarker(#{event.id});return false;",
+      :class => "title_link"%> on <%= event.event_date.strftime("%b %d/%y") %></span>
+    <span class="blk">Tags:</span>
+    <p class="address">
+      <%= event.address.street1.camelize %>
+      <br/>
+      <%= event.address.street2.camelize + "<br/>" unless event.address.street2.blank?  %>
+      <%= event.address.city.camelize %>
+      <%= event.address.state.camelize + "-" + event.address.zip %>
+      <br/>
+    </p>
+    <p class="listing_description">
+      <%= event.description[0, 100] + "," %>
+      <%= link_to "More...", event_path(event), :class => "title_link" %>
+    </p>
+    <%  if permitted_to? :edit, :events%>
+      <%= link_to 'Edit', edit_event_path(event), :class => "action_link" %>
+    <% end  %>
+    <% if permitted_to? :destroy, :events %>
+      <%= link_to 'Delete', event, :confirm => 'Are you sure?', :method => :delete,  :class => "action_link" %>
+    <% end  %>
+  </div>
+<% end  %>
+<%= will_paginate @events %>
 </div>
+
 
 
