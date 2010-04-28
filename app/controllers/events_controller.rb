@@ -99,16 +99,38 @@ class EventsController < ApplicationController
         @searchparams = Hash.new
 
         @searchparams[:title_like] ||= params[:title_like]
-#        @searchparams[:title_like] ||= ""
+        @searchparams[:title_like] ||= ""
+
+        @searchparams[:category_like] ||= params[:category_like]
+        @searchparams[:category_like] ||= 1
+
+        @th_type ||= params[:th_type]
+        @th_type ||= cookies[:th_type]
+        @th_type ||= "thisweek" #default
         
+        case @th_type
+        when "today"
+            @searchparams[:event_date_equals] = Date.today
+        when "tomorrow"
+            @searchparams[:event_date_equals] = Date.tomorrow
+        when "thisweek"
+            @searchparams[:event_date_equals] = (Date.today..Date.today.end_of_week)
+        when "weekend"
+            @searchparams[:event_date_equals] = (Date.today.end_of_week..Date.today.end_of_week - 2)
+        when "nextweek"
+            @searchparams[:event_date_equals] = (Date.today..Date.today.next_week + 7)
+        when "cdate"
+            @searchparams[:event_date_equals] = params[:event_date_equals]
+        end
+        cookies[:th_type] = @th_type
 
-        @searchparams[:event_date_gte] ||= params[:event_date_gte]
-        @searchparams[:event_date_gte] ||= Time.now #default
-        @event_date_gte = @searchparams[:event_date_gte]
-
-        @searchparams[:event_date_lte] ||= params[:event_date_lte]
-        @searchparams[:event_date_lte] ||= 1.year.from_now
-        @event_date_lte = @searchparams[:event_date_lte] 
+#        @searchparams[:event_date_gte] ||= params[:event_date_gte]
+#        @searchparams[:event_date_gte] ||= Date.today #default
+#        @event_date_gte = @searchparams[:event_date_gte]
+#
+#        @searchparams[:event_date_lte] ||= params[:event_date_lte]
+#        @searchparams[:event_date_lte] ||= 1.year.from_now
+#        @event_date_lte = @searchparams[:event_date_lte]
 
         @origin = params[:txtOrigin]
         @origin ||= cookies[:origin]
@@ -125,6 +147,8 @@ class EventsController < ApplicationController
 
         @per_page = params[:slt_per_page]
         @per_page ||= '10'
+
+
     end
     
     def build_index_map(events)

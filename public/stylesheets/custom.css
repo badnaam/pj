@@ -12,20 +12,20 @@
 */
 
 #loading_inner {
-width:100px;
-height: 100px;
-position: fixed;
-top: 50%;
-left: 50%;
-background:url(/images/ajax-loader.gif) no-repeat center transparent;
-text-align:center;
-padding:10px;
-font:normal 16px Tahoma, Geneva, sans-serif;
-/*border:1px solid #666;*/
-margin-left: -50px;
-margin-top: -50px;
-z-index:2;
-overflow: auto;
+    width:100px;
+    height: 100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background:url(/images/ajax-loader.gif) no-repeat center transparent;
+    text-align:center;
+    padding:10px;
+    font:normal 16px Tahoma, Geneva, sans-serif;
+    /*border:1px solid #666;*/
+    margin-left: -50px;
+    margin-top: -50px;
+    z-index:2;
+    overflow: auto;
 }
 
 body {
@@ -65,6 +65,7 @@ body {
 
 .header_logo_div {
     background-color: #27292A;
+    border-bottom: 2px solid #D20D85;
 }
 
 .header_links {
@@ -114,6 +115,15 @@ body {
     margin-right: 0;
     border-right: 1px solid;
 }
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+
 .innertube{
     margin: 10px; /*Margins for inner DIV inside each column (to provide padding)*/
     margin-top: 5px;
@@ -197,9 +207,21 @@ body {
 }
 
 /** Search Form */
-div.form_section_div {
+.search_div {
+    padding-top: .75em;
+    padding-bottom: .5em;
+    border-bottom: 2px solid  #27292A;
+}
+.query_div {
+    border-bottom: 1px dotted;
+    border-bottom-color: #aea2a2;
+    padding-top: 1em;
+    padding-bottom: .5em;
+}
+
+div.filter_div {
     padding-top: 20px;
-    padding-bottom: 5px;
+    padding-right : 10px;
 }
 select {
     font-family:"Helvetica Neue",Arial,Helvetica,sans-serif;
@@ -208,11 +230,7 @@ select {
     padding:0;
     margin:0;
 }
-.search_div {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-bottom: solid 1px;
-}
+
 .search_list {
     display: inline;
     white-space: nowrap;
@@ -265,6 +283,20 @@ table.tbl_index_table {
     border-collapse:collapse;
 }
 
+select {
+    background-image: url("/images/input_b.png");
+    background-position:top;
+    background-repeat: repeat-x;
+    background-color: #ffffff;
+    border: solid 1px #33677F;
+    font-size:1em;
+    font-family: helvetica;
+}
+select:focus {
+    background-image: none;
+    background-color: #ffffff;
+    border: solid 1px #33677F;
+}
 .inputArea:focus {
     background-image: none;
     background-color: #ffffff;
@@ -278,6 +310,8 @@ table.tbl_index_table {
     background-repeat: repeat-x;
     background-color: #ffffff;
     border: solid 1px #33677F;
+    font-size:1em;
+    font-family: helvetica;
 }
 
 .btnSearch {
