@@ -1,7 +1,6 @@
 class Event < ActiveRecord::Base
-    CATEGORIES = {1 => "All", 2 => "Visual Arts", 3=> "Performing Arts", 4 => "Film", 5 => "Lectures", 6 => "Fashion",
-        7 => "Food", 8 => "Wine", 9 => "Festival", 10 => "Charities", 11 => "Nightlife", 12 => "Sports", 13 => "Family",
-        14 => "Music"
+    CATEGORIES = {1 => "All", 2 => "Charities",  3 => "Family", 4 => "Fashion", 5 => "Festival", 6 => "Film", 7 => "Food", 8 => "Music",  9 => "Nightlife",
+         10 => "Performing Arts", 11 => "Lectures", 12 => "Sports", 13 => "Wine",  14 => "Visual Arts"
     }
     has_one :address, :as =>:addressible
     belongs_to :user

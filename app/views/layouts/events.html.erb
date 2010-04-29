@@ -1,17 +1,131 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>Events: <%= controller.action_name %></title>
-  <%= stylesheet_link_tag 'scaffold' %>
-</head>
-<body>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title><%= (yield :title) == nil ?  "Point Joint" : "Point Joint ".concat(yield :title)%> </title>
 
-<p style="color: green"><%= flash[:notice] %></p>
+    <%= stylesheet_link_tag "screen", "custom", "formtastic", "formtastic_changes", "colorbox",  :cache => "base" %>
+    <%= stylesheet_link_tag "print", :media => "print" %>
+    <!--[if IE]>
+<style type="text/css">
+  .clearfix {
+    zoom: 1;     /* triggers hasLayout */
+    }  /* Only IE can see inside the conditional comment
+    and read this CSS rule. Don't ever use a normal HTML
+    comment inside the CC or it will close prematurely. */
+</style>
+<![endif]-->
+    <!--<link rel="stylesheet" href="css/reset.css" type="text/css" media="screen"/>-->
+    <!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"/><![endif]-->
 
-<%= yield %>
+    <%= javascript_include_tag   :defaults%>
+    <%= javascript_include_tag "jquery"  %>
+    <%= calendar_date_select_includes "silver" %>
+    <script type="text/javascript">
+      var $j = jQuery.noConflict();
+    </script>
+    <%= GMap.header %>
+  </head>
+  <body>
+    <div id ="loading">
+      <div id ="loading_inner">
+        Loading...
+      </div>
+    </div>
+    <div class="container showgrid" id="main_container">
+      <div class="header">
+        <div class ="span-3 prepend-21 header_links_div last">
+          <ul class="header_links">
+            <li><a href ="about.html">About</a></li>
+          </ul>
+        </div>
+        <div class="last span-24 header_logo_div">
+          <h1 class="header_txt">PointJoint</h1>
+        </div>
+        <div class="span-5 prepend-19 login_links_div last">
+          <ul class="login_links">
+            <% unless  current_user %>
+              <li><%= link_to "Register", new_user_path %></li>
+              <li><%= link_to "Login", login_path %></li>
+            <% else %>
+              <li><%= link_to current_user.username + "(" + current_role + ")", current_user %></li>
+              <li><%= link_to "Logout", logout_path  %></li>
+            <% end %>
+          </ul>
 
-</body>
+        </div>
+        <div class="span-24 last  main_links_div">
+          <ul class="main_links ">
+            <li><%= link_to "WHAT'S NEW", root_path  %></li>
+            <li><%= link_to_unless_current "MERCHANTS", merchants_path do
+                link_to "merchants".upcase, merchants_path
+              end%></li>
+            <li><%= link_to_unless_current "EVENTS", events_path do
+                link_to "EVENTS", events_path
+              end%></li>
+            <li><%= link_to_unless_current "BLOGS", articles_path do
+                link_to "BLOGS", articles_path
+              end%></li>
+            <% if current_user %>
+              <li><%= link_to "ACCOUNT", current_user %></li>
+            <% end  %>
+          </ul>
+        </div>
+      </div>
+      <div class ="span-24 last content_container">
+        <%#*<div class="right_nav span-4">%>
+          <%#*<div class="innertube">%>
+            <%#= yield :left_nav %>
+          <%#*</div>%>
+        <%#*</div>%>
+        <div class="content span-19 " id="content">
+<%#*<div class="innertube">%>
+          <% if flash[:notice] %>
+            <div class ="notice"><%= flash[:notice] %></div><br/>
+          <% end %>
+          <%= yield %>
+<%#*</div>%>
+        </div>
+        <div class="right_nav span-4 last">
+          <div class="innertube">
+            <%= yield :right_nav %>
+          </div>
+        </div>
+      </div>
+      <div class="footer span-24 last footer_div">
+        <div class ="span-10 prepend-5 footer_links_div" >
+          <ul class="footer_links">
+            <li>
+              <a href="#">Consumers</a>
+            </li>
+            <li>
+              <a href="#">Merchants</a>
+            </li>
+            <li>
+              <a href="#">FAQ</a>
+            </li>
+            <li>
+              <a href="#">Terms</a>
+            </li>
+            <li>
+              <a href="#">Privacy Policy</a>
+            </li>
+            <li>
+              <a href="#">Feedback</a>
+            </li>
+            <li>
+              <a href="#">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- end bp test -->
+
+    <!-- top level container, holds header, footer and all content, links/navbars etc -->
+
+  </body>
 </html>

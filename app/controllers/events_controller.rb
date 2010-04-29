@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-    layout "users"
+    layout "events"
 
     before_filter :init_search, :only => [:index]
     
@@ -13,8 +13,14 @@ class EventsController < ApplicationController
         #        @events = Event.title_like(@searchterm).paginate(:page => params[:page], :per_page => @per_page,
         #            :order => @sort_by, :include => :address, :origin => @origin.to_s, :within => @distance.to_i)
         #        end
-        @events = Event.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :origin => @origin.to_s,
-            :within => @distance.to_i, :order => @sort_by)
+        if @all
+            @events = Event.all.paginate(:page => params[:page], :per_page => @per_page, :include => :address)
+        else
+            @events = Event.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :origin => @origin.to_s,
+                :within => @distance.to_i, :order => @sort_by)
+        end
+        #        @events = Event.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :origin => @origin.to_s,
+        #            :within => @distance.to_i, :order => @sort_by)
         unless request.xhr?
             build_index_map@events
         else
@@ -96,58 +102,66 @@ class EventsController < ApplicationController
     end
 
     def init_search
-        @searchparams = Hash.new
-
-        @searchparams[:title_like] ||= params[:title_like]
-        @searchparams[:title_like] ||= ""
-
-        @searchparams[:category_like] ||= params[:category_like]
-        @searchparams[:category_like] ||= 1
-
-        @th_type ||= params[:th_type]
-        @th_type ||= cookies[:th_type]
-        @th_type ||= "thisweek" #default
-        
-        case @th_type
-        when "today"
-            @searchparams[:event_date_equals] = Date.today
-        when "tomorrow"
-            @searchparams[:event_date_equals] = Date.tomorrow
-        when "thisweek"
-            @searchparams[:event_date_equals] = (Date.today..Date.today.end_of_week)
-        when "weekend"
-            @searchparams[:event_date_equals] = (Date.today.end_of_week..Date.today.end_of_week - 2)
-        when "nextweek"
-            @searchparams[:event_date_equals] = (Date.today..Date.today.next_week + 7)
-        when "cdate"
-            @searchparams[:event_date_equals] = params[:event_date_equals]
-        end
-        cookies[:th_type] = @th_type
-
-#        @searchparams[:event_date_gte] ||= params[:event_date_gte]
-#        @searchparams[:event_date_gte] ||= Date.today #default
-#        @event_date_gte = @searchparams[:event_date_gte]
-#
-#        @searchparams[:event_date_lte] ||= params[:event_date_lte]
-#        @searchparams[:event_date_lte] ||= 1.year.from_now
-#        @event_date_lte = @searchparams[:event_date_lte]
-
-        @origin = params[:txtOrigin]
-        @origin ||= cookies[:origin]
-        cookies[:origin] = @origin.nil? ? '94131' : @origin
-        @orgin ||= '94131'
-
-        @distance = params[:sltDistance]
-        @distance ||= cookies[:distance]
-        cookies[:distance] = @distance.nil? ? '15' : @distance
-        @distance ||= '15'
+        @per_page = params[:slt_per_page]
+        @per_page ||= cookies[:per_page]
+        @per_page ||= '10'
+        cookies[:per_page] = @per_page
 
         @sort_by = params[:slt_sort_by]
+        @sort_by ||= cookies[:events_sort_by]
         @sort_by ||= 'event_date DESC'
+        cookies[:event_sort_by] = @sort_by
 
-        @per_page = params[:slt_per_page]
-        @per_page ||= '10'
+        unless params[:all]
+            @searchparams = Hash.new
 
+            @searchparams[:title_like] ||= params[:title_like]
+            @searchparams[:title_like] ||= ""
+
+            @searchparams[:category_like] ||= params[:category_like]
+            @searchparams[:category_like] ||= 1
+
+            @th_type ||= params[:th_type]
+            @th_type ||= cookies[:th_type]
+            @th_type ||= "thisweek" #default
+        
+            case @th_type
+            when "today"
+                @searchparams[:event_date_equals] = Date.today
+            when "tomorrow"
+                @searchparams[:event_date_equals] = Date.tomorrow
+            when "thisweek"
+                @searchparams[:event_date_equals] = (Date.today..Date.today.end_of_week)
+            when "weekend"
+                @searchparams[:event_date_equals] = (Date.today.end_of_week..Date.today.end_of_week - 2)
+            when "nextweek"
+                @searchparams[:event_date_equals] = (Date.today..Date.today.next_week + 7)
+            when "cdate"
+                @searchparams[:event_date_equals] = params[:event_date_equals]
+            end
+            cookies[:th_type] = @th_type
+
+            #        @searchparams[:event_date_gte] ||= params[:event_date_gte]
+            #        @searchparams[:event_date_gte] ||= Date.today #default
+            #        @event_date_gte = @searchparams[:event_date_gte]
+            #
+            #        @searchparams[:event_date_lte] ||= params[:event_date_lte]
+            #        @searchparams[:event_date_lte] ||= 1.year.from_now
+            #        @event_date_lte = @searchparams[:event_date_lte]
+
+            @origin = params[:txtOrigin]
+            @origin ||= cookies[:origin]
+            cookies[:origin] = @origin.nil? ? '94131' : @origin
+            @orgin ||= '94131'
+
+            @distance = params[:sltDistance]
+            @distance ||= cookies[:distance]
+            cookies[:distance] = @distance.nil? ? '15' : @distance
+            @distance ||= '15'
+
+        else
+            @all = true
+        end
 
     end
     

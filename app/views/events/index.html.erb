@@ -1,6 +1,15 @@
 <%= javascript_include_tag "markerGroup.js" %>
+<%= javascript_include_tag "jquery.colorbox-min.js" %>
+<%= javascript_include_tag "jquery.colorbox.js" %>
 <script type ="text/javascript">
   $j(document).ready(function(){
+    $j('#category_link').colorbox({width:"20%", height:"50%", inline:true, href:"#categories", onClosed:function() {
+      //  val = "title_like=" + $j("#title_like").val() + "txtorigin=" + $j("#txtOrigin").val() + "txtWithin=" + $j("#sltDistance").val();
+    //    alert(val);
+        $j('#search_form').submit();
+    }});
+
+
     $j('#map_div_id').css("overflow", "hidden");
     //show the calendar if that's what's chosen'
     if ($j('#th_type').val() == 'cdate') {
@@ -9,7 +18,8 @@
       $j('#cal').css("display", "none");
     }
   });
-  
+
+
   function th_changed(elem) {
     if (elem.getValue() == 'cdate') {
       $j('#cal').css("display", "inline").val("");
@@ -22,7 +32,9 @@
 
 
 <div class="span-19 last search_div">
-  <% form_remote_tag :url=> events_path, :method => "GET" do %>
+  <%= link_to_remote "All", {:url => events_path(:all => "true"), :method => :get}, :id => "all_link", :href => events_path, :method => :get %>
+  <% form_remote_tag :url=> events_path, :method => :get, :html => {:id => "search_form", :href => events_path, :method => :get} do %>
+  <%# form_remote_tag :html => {:action => url_for(:controller => "events", "action" => "index"), :id => "search_form"} do %>
     <div class="span-19 last query_div">
       <ul class="search_list">
         <li>
@@ -70,21 +82,25 @@
             :onchange => "this.form.onsubmit();"%>
         </li>
         <li>
-          <%= label_tag :category, "Category" %>
-        </li>
-        <li>
-          <%= select_options_tag :category_like, Event::CATEGORIES, :value => @category  %>
+          <a href ="#" id="category_link">Categories</a>
         </li>
       </ul>
     </div>
-  <div class="span-19 last">
-    <ul class="search_list">
-      <%Event::CATEGORIES.each do |k, v| %>
-        <%= check_box_tag "category_ids[]", k, false  %>
-        <%= label_tag  v%>
-    <% end  %>
-    </ul>
-  </div>
+    <div id ="test_cat" style="display:none">
+      <p> This is my test para </p>
+    </div>
+    <div class="span-19 last" style ="display:none">
+      <div id="categories" class="scroll_div">
+        <ul >
+          <%Event::CATEGORIES.each do |k, v| %>
+          <li>
+            <%= check_box_tag "category_ids[]", k, false  %>
+            <%= label_tag  v%>
+          </li>
+          <% end  %>
+        </ul>
+      </div>
+    </div>
     <div class ="span-19 last prepend-11">
       <ul class ="search_list">
         <li>

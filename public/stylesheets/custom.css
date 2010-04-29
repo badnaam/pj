@@ -231,6 +231,16 @@ select {
     margin:0;
 }
 
+.category_list li {
+    list-style-type:decimal;
+    list-style-position: outside;
+}
+.category_list li {
+    display:block;
+}
+.scroll_div {
+    overflow: auto;
+}
 .search_list {
     display: inline;
     white-space: nowrap;

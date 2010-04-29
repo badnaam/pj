@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
     #    layout "users"
     
-    layout proc{ |c| c.request.xhr? ? false : "users" }
+#    layout proc{ |c| c.request.xhr? ? false : "users" }
 
     helper :all # include all helpers, all the time
     protect_from_forgery # See ActionController::RequestForgeryProtection for details
