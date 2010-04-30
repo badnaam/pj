@@ -6,21 +6,13 @@ class EventsController < ApplicationController
     filter_resource_access
     
     def index
-        #        if origin.nil?
-        #            @events = Event.title_like(searchterm).paginate(:page => params[:page], :per_page => per_page,
-        #                :order => sort_by, :include => :address)
-        #        else
-        #        @events = Event.title_like(@searchterm).paginate(:page => params[:page], :per_page => @per_page,
-        #            :order => @sort_by, :include => :address, :origin => @origin.to_s, :within => @distance.to_i)
-        #        end
+
         if @all
+            #            ignore every othe filter besides results per page
             @events = Event.all.paginate(:page => params[:page], :per_page => @per_page, :include => :address)
         else
-            @events = Event.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :origin => @origin.to_s,
-                :within => @distance.to_i, :order => @sort_by)
+            @events = Event.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :order => @sort_by)
         end
-        #        @events = Event.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :origin => @origin.to_s,
-        #            :within => @distance.to_i, :order => @sort_by)
         unless request.xhr?
             build_index_map@events
         else
@@ -103,14 +95,12 @@ class EventsController < ApplicationController
 
     def init_search
         @per_page = params[:slt_per_page]
-        @per_page ||= cookies[:per_page]
-        @per_page ||= '10'
-        cookies[:per_page] = @per_page
 
         @sort_by = params[:slt_sort_by]
-        @sort_by ||= cookies[:events_sort_by]
+        @sort_by ||= session[:events_sort_by]
         @sort_by ||= 'event_date DESC'
-        cookies[:event_sort_by] = @sort_by
+        session[:event_sort_by] = @sort_by
+
 
         unless params[:all]
             @searchparams = Hash.new
@@ -118,14 +108,15 @@ class EventsController < ApplicationController
             @searchparams[:title_like] ||= params[:title_like]
             @searchparams[:title_like] ||= ""
 
-            @searchparams[:category_like] ||= params[:category_like]
-            @searchparams[:category_like] ||= 1
-
-            @th_type ||= params[:th_type]
-            @th_type ||= cookies[:th_type]
-            @th_type ||= "thisweek" #default
-        
-            case @th_type
+            @searchparams[:categorizations_category_id_like_any] ||= params[:category_ids]
+            @searchparams[:categorizations_category_id_like_any] ||= session[:category_ids]
+            @searchparams[:categorizations_category_id_like_any] ||= []
+            session[:category_ids] = @searchparams[:categorizations_category_id_like_any]
+            
+            
+            session[:th_type] ||= params[:th_type]
+            
+            case session[:th_type]
             when "today"
                 @searchparams[:event_date_equals] = Date.today
             when "tomorrow"
@@ -139,28 +130,23 @@ class EventsController < ApplicationController
             when "cdate"
                 @searchparams[:event_date_equals] = params[:event_date_equals]
             end
-            cookies[:th_type] = @th_type
+            
+            @searchparams[:origin] = params[:txtOrigin]
+            @searchparams[:origin] ||= session[:origin]
+            @searchparams[:origin] = '94131'
+            session[:origin] = @searchparams[:origin]
 
-            #        @searchparams[:event_date_gte] ||= params[:event_date_gte]
-            #        @searchparams[:event_date_gte] ||= Date.today #default
-            #        @event_date_gte = @searchparams[:event_date_gte]
-            #
-            #        @searchparams[:event_date_lte] ||= params[:event_date_lte]
-            #        @searchparams[:event_date_lte] ||= 1.year.from_now
-            #        @event_date_lte = @searchparams[:event_date_lte]
-
-            @origin = params[:txtOrigin]
-            @origin ||= cookies[:origin]
-            cookies[:origin] = @origin.nil? ? '94131' : @origin
-            @orgin ||= '94131'
-
-            @distance = params[:sltDistance]
-            @distance ||= cookies[:distance]
-            cookies[:distance] = @distance.nil? ? '15' : @distance
-            @distance ||= '15'
+            session[:distance] = params[:sltDistance]
+            session[:distance] ||= session[:distance]
+            session[:distance] ||= '15'
+            session[:distance] = @searchparams[:within]
 
         else
             @all = true
+            session[:distance] = ''
+            session[:origin] = ''
+            session[:th_type] = ''
+            session[:category_ids] = ''
         end
 
     end

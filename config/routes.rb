@@ -8,7 +8,7 @@ ActionController::Routing::Routes.draw do |map|
     map.activate "activate/:id", :controller => "activations", :action => "create"
     
     #    map.connect "events/:action", :controller => 'events', :action => /[a-z_]+/i
-    map.resources :events, :has_many => :comments, :has_one => :address
+    map.resources :events, :has_many => [:comments, :categories, :assignments], :has_one => :address
     map.resources :merchants, :has_many => [:images, :loyalty_benefits], :has_one => :address
     map.resources :images
     #    map.resources :addresses
@@ -18,6 +18,7 @@ ActionController::Routing::Routes.draw do |map|
     map.resources :user_sessions
     
     map.resources :roles, :has_many => [:users, :assignments]
+    map.resources :categories, :has_many => [:events, :categorizations]
     map.resources :users, :has_many => [:roles, :friendships, :friends, :events, :articles, :comments, :assignments, :images, :interests, :merchants],
       :member => {:deactivate => :put, :activate => :put}, :has_one => :address
     map.resources :comments

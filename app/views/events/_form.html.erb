@@ -5,7 +5,7 @@
     <%= form.input :description, :label => 'Description' %>
     <%= form.input :event_date,  :label => 'Event date', :order => [:month, :day,  :year], :start_year => Time.now.year,
     :end_year => Time.now.year + 5%>
-<%= form.input :category, :as => :check_boxes, :collection => Event::CATEGORIES %>
+    <%= form.input :categories, :as => :check_boxes, :label_method => :category_name %>
     <%= form.input :main_contact_name, :label => 'Main contact name' , :input_html => {:style => "width:50%"}%>
     <%= form.input :main_contact_number, :label => 'Main contact number' , :input_html => {:style => "width:30%"}, :hint => "Main contact's phone"%>
     <%= form.input :details, :label => 'Details' %>

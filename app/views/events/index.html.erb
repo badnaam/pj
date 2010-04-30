@@ -1,13 +1,13 @@
 <%= javascript_include_tag "markerGroup.js" %>
 <%= javascript_include_tag "jquery.colorbox-min.js" %>
 <%= javascript_include_tag "jquery.colorbox.js" %>
+
 <script type ="text/javascript">
   $j(document).ready(function(){
     $j('#category_link').colorbox({width:"20%", height:"50%", inline:true, href:"#categories", onClosed:function() {
-      //  val = "title_like=" + $j("#title_like").val() + "txtorigin=" + $j("#txtOrigin").val() + "txtWithin=" + $j("#sltDistance").val();
-    //    alert(val);
-        $j('#search_form').submit();
-    }});
+        //$j('#search_form').submit();
+        submitForm();
+      }});
 
 
     $j('#map_div_id').css("overflow", "hidden");
@@ -20,6 +20,17 @@
   });
 
 
+function submitForm() {
+  $("search_form").onsubmit();
+}
+  function resetForm() {
+    $j(':input','#search_form')
+    .not(':button, :submit, :reset, :hidden')
+    .val('')
+    .removeAttr('checked')
+    .removeAttr('selected');
+  }
+  
   function th_changed(elem) {
     if (elem.getValue() == 'cdate') {
       $j('#cal').css("display", "inline").val("");
@@ -32,7 +43,7 @@
 
 
 <div class="span-19 last search_div">
-  <%= link_to_remote "All", {:url => events_path(:all => "true"), :method => :get}, :id => "all_link", :href => events_path, :method => :get %>
+  <%= link_to_remote "All", {:url => events_path(:all => "true"), :method => :get, :complete => "resetForm();"},  :id => "all_link", :href => events_path, :method => :get %>
   <% form_remote_tag :url=> events_path, :method => :get, :html => {:id => "search_form", :href => events_path, :method => :get} do %>
   <%# form_remote_tag :html => {:action => url_for(:controller => "events", "action" => "index"), :id => "search_form"} do %>
     <div class="span-19 last query_div">
@@ -67,8 +78,8 @@
           <%= label_tag "Happening" %>
         </li>
         <li>
-          <%= select_options_tag("th_type", [["Today", "today"], ["Tomorrow", "tomorrow"], ["This week", "thisweek"],["Weekend", "weekend"],
-              ["Next Week", "nextweek"], ["On a Date", "cdate"]], :value => @th_type, :onchange => "th_changed(this);")  %>
+          <%= select_options_tag("th_type", [["--", ""],["Today", "today"], ["Tomorrow", "tomorrow"], ["This week", "thisweek"],["Weekend", "weekend"],
+              ["Next Week", "nextweek"], ["On a Date", "cdate"]], :value => session[:th_type], :onchange => "th_changed(this);")  %>
         </li>
         <li id ="cal" style = "display:none">
           <%= calendar_date_select_tag :event_date_equals, @event_date_gte, :default_time => Date.today, :popup => 'force', :class => "inputArea",
@@ -86,17 +97,15 @@
         </li>
       </ul>
     </div>
-    <div id ="test_cat" style="display:none">
-      <p> This is my test para </p>
-    </div>
+    
     <div class="span-19 last" style ="display:none">
       <div id="categories" class="scroll_div">
         <ul >
-          <%Event::CATEGORIES.each do |k, v| %>
-          <li>
-            <%= check_box_tag "category_ids[]", k, false  %>
-            <%= label_tag  v%>
-          </li>
+          <%Category.get_category_hash.each do |k, v| %>
+            <li>
+              <%= check_box_tag "category_ids[]", k, session[:category_ids].include?(k.to_s)  %>
+              <%= label_tag  v%>
+            </li>
           <% end  %>
         </ul>
       </div>

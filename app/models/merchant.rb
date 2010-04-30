@@ -8,6 +8,7 @@ class Merchant < ActiveRecord::Base
     belongs_to :user
     has_one :address, :as => :addressible
     has_many :images, :as => :imageible, :dependent => :destroy
+    has_many :categories, :as => :categorizable
     has_many :loyalty_benefits
 
     accepts_nested_attributes_for :address

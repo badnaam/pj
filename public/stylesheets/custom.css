@@ -201,6 +201,10 @@ body {
 }
 
 /** Fix for event_date label**/
+#event_categories_input legend {
+    color:#222222;
+    font-size: 1em;
+}
 #event_event_date_input  legend {
     color:#222222;
     font-size: 1em;

@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  category_id: 
+  event_id: 
+
+two:
+  category_id: 
+  event_id: 

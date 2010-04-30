@@ -9,17 +9,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100411004852) do
+ActiveRecord::Schema.define(:version => 20100430060554) do
 
   create_table "addresses", :force => true do |t|
-    t.string   "street1",                                                                           :null => false
+    t.string   "street1",                                                                          :null => false
     t.string   "street2"
-    t.string   "city",                                                                              :null => false
-    t.string   "state",                                                                             :null => false
-    t.string   "country",                                                        :default => "USA"
-    t.string   "zip",              :limit => 5,                                                     :null => false
-    t.float    "lat",              :limit => 18
-    t.decimal  "lng",                            :precision => 18, :scale => 12
+    t.string   "city",                                                                             :null => false
+    t.string   "state",                                                                            :null => false
+    t.string   "country",                                                       :default => "USA"
+    t.string   "zip",              :limit => 5,                                                    :null => false
+    t.float    "lat"
+    t.decimal  "lng",                           :precision => 18, :scale => 12
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "addressible_id"
@@ -41,6 +41,19 @@ ActiveRecord::Schema.define(:version => 20100411004852) do
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
     t.integer  "role_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "categories", :force => true do |t|
+    t.string   "category_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "categorizations", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
