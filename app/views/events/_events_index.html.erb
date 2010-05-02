@@ -1,15 +1,22 @@
-<script type ="text/javascript">
-  function toggleStatus() {
-    <%#*$('status').toggle();%>
-  }
-</script>
-
 <div id="events_list" class ="span-17 prepend-1 last">
 <% @events.each do |event| %>
   <div class ="event" id="event_"<%= event.id %> class="span-16 last">
     <span class="listing_title blk"><%= link_to "#{event.title}", event, :onclick => "event_marker_group.showMarker(#{event.id});return false;",
-      :class => "title_link"%> on <%= event.event_date.strftime("%b %d/%y") %></span>
-    <span class="blk">Tags:</span>
+      :class => "title_link"%>  </span>
+    <span style="display:block"><%= "(#{event.event_date.strftime('%b %d/%y')})" %></span>
+    <%
+    @tags = Array.new
+    event.categorizations.each do |c|
+       #c.each do |ct|
+         @tags << c.category.category_name
+       #end
+    end %>
+    <span class="blk" style="font-style: italic">Tags: <%= @tags.join(", ") %></span>
+    <span class="blk">
+      <% event.categorizations.each do |ct| %>
+        <%= link_to ct.category.category_name, category_events_path(ct.category)  %>, 
+      <% end  %>
+    </span>
     <p class="address">
       <%= event.address.street1.camelize %>
       <br/>
@@ -20,7 +27,7 @@
     </p>
     <p class="listing_description">
       <%= event.description[0, 100] + "," %>
-      <%= link_to "More...", event_path(event), :class => "title_link" %>
+      <%= link_to "More...", event_path(event), :class => "norm_link" %>
     </p>
     <%  if permitted_to? :edit, :events%>
       <%= link_to 'Edit', edit_event_path(event), :class => "action_link" %>

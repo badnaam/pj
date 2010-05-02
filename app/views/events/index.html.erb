@@ -17,12 +17,30 @@
     } else {
       $j('#cal').css("display", "none");
     }
+    //enableWithinSelect();
   });
 
+  function enableWithinSelect() {
+    alert($j('#txtOrigin').val());
+    if ($j('#txtOrigin').val() == "") {
+      alert("bk");
+      $j('#sltDistance').val("");
+      $j('#sltDistance').attr('disabled', 'disabled');
+    } else {
+      $j("$sltDistance").removeAttr('disabled');
+    }
+  }
 
-function submitForm() {
-  $("search_form").onsubmit();
-}
+  function checkOrigin(elem) {
+    if ($j('#txtOrigin').val() == "") {
+      alert("Please enter an address or zip");
+    } else {
+      elem.form.onsubmit();
+    }
+  }
+  function submitForm() {
+    $("search_form").onsubmit();
+  }
   function resetForm() {
     $j(':input','#search_form')
     .not(':button, :submit, :reset, :hidden')
@@ -43,61 +61,60 @@ function submitForm() {
 
 
 <div class="span-19 last search_div">
-  <%= link_to_remote "All", {:url => events_path(:all => "true"), :method => :get, :complete => "resetForm();"},  :id => "all_link", :href => events_path, :method => :get %>
   <% form_remote_tag :url=> events_path, :method => :get, :html => {:id => "search_form", :href => events_path, :method => :get} do %>
-  <%# form_remote_tag :html => {:action => url_for(:controller => "events", "action" => "index"), :id => "search_form"} do %>
-    <div class="span-19 last query_div">
-      <ul class="search_list">
+    <div class="span-9  query_div">
+      <ul class="search_list_v">
         <li>
-          <%= label_tag :txtSearch, "Search"%>
+          <p class="inline-hints">(Search events. Wine tasting, 4th of July etc)</p>
         </li>
         <li>
           <%= text_field_tag :title_like, "", :size => 25, :class => "inputArea" %>
-
         </li>
         <li>
-          <%= label_tag :txtOrigin, "Near Address/Zip"%>
+          <p class="inline-hints">Near a City/Zip or Address</p>
         </li>
         <li>
-          <%= text_field_tag :txtOrigin, @origin, :size => 25, :class => "inputArea" %>
+          <%= text_field_tag :txtOrigin, @origin, :size => 25, :class => "inputArea", :value => session[:origin] %>
         </li>
         <li>
-          <%= submit_tag "Search", :id => "btnEvent"%>
+          <p class="inline-hints">Within.</p>
+        </li>
+        <li>
+          <%= select_options_tag("sltDistance", (1..15).collect {|x| [(x * 5).to_s  + " miles", (x* 5).to_s]} << ["--", ""], :value => session[:distance], :onchange => "checkOrigin(this);", :class => "inputArea")  %>
         </li>
       </ul>
     </div>
-    <div class ="span-19 last filter_div">
-      <ul class="search_list">
+    <div class ="span-9 last filter_div">
+      <ul class="search_list_v">
         <li>
-          <%= label_tag :txtWithin, "Within "%>
+          <p class="inline-hints">Happening when?</p>
         </li>
         <li>
-          <%= select_options_tag("sltDistance", (1..15).collect {|x| [(x * 5).to_s + " miles", (x* 5).to_s]}, :value => @distance, :onchange => "this.form.onsubmit();" )  %>
-        </li>
-        <li>
-          <%= label_tag "Happening" %>
-        </li>
-        <li>
-          <%= select_options_tag("th_type", [["--", ""],["Today", "today"], ["Tomorrow", "tomorrow"], ["This week", "thisweek"],["Weekend", "weekend"],
-              ["Next Week", "nextweek"], ["On a Date", "cdate"]], :value => session[:th_type], :onchange => "th_changed(this);")  %>
+          <%= select_options_tag("th_type", [["Anytime", ""],["Today", "today"], ["Tomorrow", "tomorrow"], ["This week", "thisweek"],["Weekend", "weekend"],
+              ["Next Week", "nextweek"], ["On a Date", "cdate"]], :value => session[:th_type], :onchange => "th_changed(this);", :class => "inputArea")  %>
         </li>
         <li id ="cal" style = "display:none">
-          <%= calendar_date_select_tag :event_date_equals, @event_date_gte, :default_time => Date.today, :popup => 'force', :class => "inputArea",
+          <%= calendar_date_select_tag :event_date_equals, nil, :default_time => Date.today, :popup => 'force', :class => "inputArea",
             :after_close => "this.form.onsubmit()"%>
         </li>
         <li>
-          <%= label_tag :sort_by, "Sort by" %>
+        <li>
+          <p class="inline-hints">Sort By.</p>
+        </li>
+        <%= select_options_tag :slt_sort_by,  {"Recent" => "event_date DESC", "Nearest" => "distance ASC"}, :value => session[:sort_by],
+          :onchange => "this.form.onsubmit();", :class => "inputArea"%>
         </li>
         <li>
-          <%= select_options_tag :slt_sort_by,  {"Recent" => "event_date DESC", "Nearest" => "distance ASC"}, :value => @sort_by,
-            :onchange => "this.form.onsubmit();"%>
+          <a href ="#" id="category_link" style ="margin-top:.5em" class="action_link">Refine by Categories</a>
         </li>
-        <li>
-          <a href ="#" id="category_link">Categories</a>
+          <li>
+          <%= submit_tag "Search", :id => "btnEvent", :class => "btn_event"%>
+            <span style="margin: 0 .2em 0 .2em; font-weight: bold"> or </span>
+          <%= link_to_remote "View All", {:url => events_path(:all => "true"), :method => :get, :complete => "resetForm();"},  :id => "all_link", :href => events_path, :method => :get, :class => "action_link" %>
         </li>
       </ul>
     </div>
-    
+
     <div class="span-19 last" style ="display:none">
       <div id="categories" class="scroll_div">
         <ul >
@@ -110,30 +127,19 @@ function submitForm() {
         </ul>
       </div>
     </div>
-    <div class ="span-19 last prepend-11">
+    
+    <div class ="span-7 last prepend-12">
       <ul class ="search_list">
         <li>
-          <%= label_tag "Showing #{@events.total_entries} events - " %>
+          <%#= label_tag "Showing #{@events.total_entries} events - ", :id => "label_count" %>
+          <span class="inline-hints" id="label_count"><%= "Showing #{@events.total_entries} events." %>  </span>
+          <span>Results per page</span>
         </li>
         <li>
-          <%= label_tag :per_page, "Results per page" %>
-        </li>
-        <li>
-          <%= select_options_tag "slt_per_page", ((1..10).collect {|x| [(x * 5).to_s, (x * 5).to_s]}), :value => @per_page  %>
+          <%= select_options_tag "slt_per_page", ((1..10).collect {|x| [(x * 5).to_s, (x * 5).to_s]}), :value => session[:per_page]  %>
         </li>
       </ul>
     </div>
-  <%#*<div class="span-19 last form_section_div">%>
-  <%#*<div class="span-4">%>
-  <%#*<ul class="search_list">%>
-  <%#*</ul>%>
-  <%#*</div>%>
-  <%#*<div class="span-4 prepend-10 last"%>
-  <%#*<ul class="search_list">%>
-
-  <%#*</ul>%>
-  <%#*</div>%>
-  <%#*</div>%>
   <% end  %>
 </div>
 

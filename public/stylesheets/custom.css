@@ -31,6 +31,35 @@
 body {
     background-color:#3F3F3F;
 }
+
+body a.action_link {
+    text-decoration: none;
+    color: #22d1e6;
+    font-weight: bold;
+}
+body a.action_link:hover {
+    color: #7ddeea;
+}
+body a.title_link {
+    color:#e58610;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+}
+body a.title_link:hover {
+    color:#f3af5c;
+}
+body a.norm_link {
+    color:#e58610;
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: none;
+}
+body a.norm_link:hover {
+    color:#f3af5c;
+}
+
+
 /* Header */
 
 
@@ -211,21 +240,29 @@ body {
 }
 
 /** Search Form */
+ p.inline-hints { color:#666; margin:0; }
 .search_div {
     padding-top: .75em;
     padding-bottom: .5em;
     border-bottom: 2px solid  #27292A;
 }
+.btn_event{
+    margin-top:.5em;
+    font-family: "Helvetica";
+    font-size: 1em;
+    color:#101010;
+
+}
 .query_div {
-    border-bottom: 1px dotted;
-    border-bottom-color: #aea2a2;
+    /*border-bottom: 1px dotted;*/
+    /*border-bottom-color: #aea2a2;*/
     padding-top: 1em;
     padding-bottom: .5em;
 }
 
 div.filter_div {
-    padding-top: 20px;
-    padding-right : 10px;
+    padding-top: 1em;
+    padding-right : .5em;
 }
 select {
     font-family:"Helvetica Neue",Arial,Helvetica,sans-serif;
@@ -244,6 +281,10 @@ select {
 }
 .scroll_div {
     overflow: auto;
+}
+
+.search_list_v {
+    list-style-type: none;
 }
 .search_list {
     display: inline;
@@ -326,6 +367,7 @@ select:focus {
     border: solid 1px #33677F;
     font-size:1em;
     font-family: helvetica;
+    margin: .5em 0 .5em 0;
 }
 
 .btnSearch {
@@ -347,23 +389,7 @@ select:focus {
 }
 
 /*links*/
-a.title_link {
-    color:#e58610;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-decoration: none;
-}
-a.title_link:hover {
-    color:#f3af5c;
-}
-a.action_link {
-    text-decoration: none;
-    color: #22d1e6;
-    font-weight: bold;
-}
-a.action_link:hover {
-    color: #7ddeea;
-}
+
 /* Events */
 .event {
     padding:5px;
@@ -375,7 +401,7 @@ a.action_link:hover {
 }
 p.listing_description:first-letter {
     color:red;
-    font:1.5em;
+    font-size: 2em;
 }
 .presentation_section {
     border:1px solid black;

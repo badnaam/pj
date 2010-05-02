@@ -9,10 +9,11 @@ class EventsController < ApplicationController
 
         if @all
             #            ignore every othe filter besides results per page
-            @events = Event.all.paginate(:page => params[:page], :per_page => @per_page, :include => :address)
+            @events = Event.all.paginate(:page => params[:page], :per_page => @per_page, :include => :address, :order => "event_date DESC")
         else
             @events = Event.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :order => @sort_by)
         end
+        
         unless request.xhr?
             build_index_map@events
         else
@@ -58,6 +59,7 @@ class EventsController < ApplicationController
         @event.user_id = current_user.id;
         respond_to do |format|
             if @event.save
+#                @event.update_categorizations
                 flash[:notice] = 'Event was successfully created.'
                 format.html { redirect_to(@event) }
                 format.xml  { render :xml => @event, :status => :created, :location => @event }
@@ -94,7 +96,11 @@ class EventsController < ApplicationController
     end
 
     def init_search
+        #for default index load or for all
         @per_page = params[:slt_per_page]
+        @per_page ||= session[:per_page]
+        @per_page ||= '10'
+        session[:per_page] = @per_page
 
         @sort_by = params[:slt_sort_by]
         @sort_by ||= session[:events_sort_by]
@@ -109,14 +115,17 @@ class EventsController < ApplicationController
             @searchparams[:title_like] ||= ""
 
             @searchparams[:categorizations_category_id_like_any] ||= params[:category_ids]
-            @searchparams[:categorizations_category_id_like_any] ||= session[:category_ids]
-            @searchparams[:categorizations_category_id_like_any] ||= []
-            session[:category_ids] = @searchparams[:categorizations_category_id_like_any]
+#            @searchparams[:categorizations_category_id_like_any] ||= session[:category_ids]
+#            @searchparams[:categorizations_category_id_like_any] ||= []
+#            session[:category_ids] = @searchparams[:categorizations_category_id_like_any]
+#
             
+            @th_type ||= params[:th_type]
+            @th_type ||= session[:th_type] #unless session[:th_type].blank?
+            @th_type ||= "thisweek"
+            session[:th_type] = @th_type
             
-            session[:th_type] ||= params[:th_type]
-            
-            case session[:th_type]
+            case @th_type
             when "today"
                 @searchparams[:event_date_equals] = Date.today
             when "tomorrow"
@@ -132,13 +141,13 @@ class EventsController < ApplicationController
             end
             
             @searchparams[:origin] = params[:txtOrigin]
-            @searchparams[:origin] ||= session[:origin]
-            @searchparams[:origin] = '94131'
+            @searchparams[:origin] ||= session[:origin] unless session[:origin].blank?
+            @searchparams[:origin] ||= '94131'
             session[:origin] = @searchparams[:origin]
 
-            session[:distance] = params[:sltDistance]
-            session[:distance] ||= session[:distance]
-            session[:distance] ||= '15'
+             @searchparams[:within]  = params[:sltDistance] 
+            @searchparams[:within] ||= session[:distance] unless  session[:distance].blank?
+            @searchparams[:within] ||= '15'
             session[:distance] = @searchparams[:within]
 
         else
@@ -171,10 +180,11 @@ class EventsController < ApplicationController
 
     def get_markers(events)
         @markers = Hash.new
+        i = 0
         events.each do |event|
             address = event.get_lat_lng
-            @markers[event.id] = GMarker.new([address[0], address[1]],:title => event.title,
-                :info_window => event.description)
+            @markers[event.id] = GMarker.new([address[0], address[1]],:title => i.to_s ,
+                :info_window => "")
         end
         return @markers
     end

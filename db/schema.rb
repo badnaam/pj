@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100430060554) do
+ActiveRecord::Schema.define(:version => 20100430220643) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street1",                                                                          :null => false
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(:version => 20100430060554) do
   create_table "events", :force => true do |t|
     t.string   "title",               :null => false
     t.text     "description",         :null => false
-    t.datetime "event_date",          :null => false
+    t.date     "event_date",          :null => false
     t.string   "main_contact_name"
     t.string   "main_contact_number"
     t.text     "details"
@@ -140,6 +140,12 @@ ActiveRecord::Schema.define(:version => 20100430060554) do
     t.integer  "user_id"
   end
 
+  create_table "plants", :force => true do |t|
+    t.string   "plant_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "roles", :force => true do |t|
     t.string   "name",       :limit => 40
     t.datetime "created_at"
@@ -181,5 +187,17 @@ ActiveRecord::Schema.define(:version => 20100430060554) do
 
   add_index "users", ["email"], :name => "email", :unique => true
   add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
+
+  create_table "variations", :force => true do |t|
+    t.integer  "plantvariety_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "varieties", :force => true do |t|
+    t.string   "var_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

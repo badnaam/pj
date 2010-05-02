@@ -1,12 +1,29 @@
-<div class ="event" id="event_"<%= @event.id %> class="span-18 last">
+<%= javascript_include_tag "jquery.colorbox-min.js" %>
+<%= javascript_include_tag "jquery.colorbox.js" %>
+
+<script type="text/javascript">
+  $j(document).ready(function() {
+    $j('#map_link').colorbox({innerWidth:"90%", innerHeight:"90%", iframe:true});
+  });
+</script>
+<div class ="event" id="event_"<%= @event.id %> class="span-19 last">
   <%  if permitted_to? :edit, :events%>
     <%= link_to 'Edit', edit_event_path(@event), :class => "action_link" %>
   <% end  %>
   <% if permitted_to? :destroy, :events %>
     <%= link_to 'Delete', @event, :confirm => 'Are you sure?', :method => :delete,  :class => "action_link" %>
   <% end  %>
-  <span class="listing_title blks"> <%= @event.title %> at <%= @event.event_date %></span>
-  <span class="blk">Tags:</span>
+  <span class="listing_title blk"> <%= @event.title %> </span>
+  <span class ="blk"> <%= "(#{@event.event_date.strftime('%b %d/%y')})" %> </span>
+  <%
+  @tags = Array.new
+  @event.categorizations.each do |c|
+    #c.each do |ct|
+    @tags << c.category.category_name
+    #end
+  end %>
+
+  <span class="blk">Tags: <%= @tags.join(", ") %></span>
   <p class="address">
     <%= @event.address.street1.camelize %>
     <br/>
@@ -14,6 +31,8 @@
     <%= @event.address.city.camelize %>
     <%= @event.address.state.camelize + "-" + @event.address.zip %>
     <br/>
+    <% @a = "http://maps.google.com/maps?q=#{@event.address.getaddress}" %>
+    <a href="<%= @a %>" class="action_link" id="map_link"> View Map</a>
   </p>
   <div>
     <span class="blk">Main Contact : <%= @event.main_contact_name %> </span>
@@ -24,5 +43,3 @@
     <%= @event.description %>
   </p>
 </div>
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>

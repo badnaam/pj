@@ -1,0 +1,425 @@
+Script started on Fri 30 Apr 2010 03:01:37 PM PDT
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ sudo reboot now[C[C[C[C[C[C[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kscript/generate plant[K[K[K[K[Kmodel name:string
+/usr/lib/ruby/gems/1.8/gems/rails-2.3.5/lib/rails/gem_dependency.rb:119:Warning: Gem::Dependency#version_requirements is deprecated and will be removed on or after August 2010.  Use #requirement
+/home/asit/Apps/pj/config/initializers/geokit_for_named_scope.rb:40: warning: already initialized constant VALID_FIND_OPTIONS
+wrong constant name Name:stringTest
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ clear
+[H[2J]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ pwd
+/home/asit/Apps/pj
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ pwdclearscript/generate model name:string
+/usr/lib/ruby/gems/1.8/gems/rails-2.3.5/lib/rails/gem_dependency.rb:119:Warning: Gem::Dependency#version_requirements is deprecated and will be removed on or after August 2010.  Use #requirement
+/home/asit/Apps/pj/config/initializers/geokit_for_named_scope.rb:40: warning: already initialized constant VALID_FIND_OPTIONS
+wrong constant name Name:stringTest
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ script/generate model name:stringpname:stringlname:string[1Pname:string[1Pname:stringpname:stringlname:stringaname:string[Cname:stringtname:string name:stringpname:stringlname:stringaname:string[Cname:stringtname:string_name:string
+/usr/lib/ruby/gems/1.8/gems/rails-2.3.5/lib/rails/gem_dependency.rb:119:Warning: Gem::Dependency#version_requirements is deprecated and will be removed on or after August 2010.  Use #requirement
+/home/asit/Apps/pj/config/initializers/geokit_for_named_scope.rb:40: warning: already initialized constant VALID_FIND_OPTIONS
+      exists  app/models/
+      exists  test/unit/
+      exists  test/fixtures/
+      create  app/models/plant.rb
+      create  test/unit/plant_test.rb
+      create  test/fixtures/plants.yml
+      exists  db/migrate
+      create  db/migrate/20100430220256_create_plants.rb
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ script/generate model plant plant_name:string[12Pname:string[K[K[K[K[K[K[K[K[K[K[K[K variety var_name:string
+/usr/lib/ruby/gems/1.8/gems/rails-2.3.5/lib/rails/gem_dependency.rb:119:Warning: Gem::Dependency#version_requirements is deprecated and will be removed on or after August 2010.  Use #requirement
+/home/asit/Apps/pj/config/initializers/geokit_for_named_scope.rb:40: warning: already initialized constant VALID_FIND_OPTIONS
+      exists  app/models/
+      exists  test/unit/
+      exists  test/fixtures/
+      create  app/models/variety.rb
+      create  test/unit/variety_test.rb
+      create  test/fixtures/varieties.yml
+      exists  db/migrate
+      create  db/migrate/20100430220343_create_varieties.rb
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ script/generate model variety var_name:string[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kation_[K :[Kvariety_id:int plant_id:int
+/usr/lib/ruby/gems/1.8/gems/rails-2.3.5/lib/rails/gem_dependency.rb:119:Warning: Gem::Dependency#version_requirements is deprecated and will be removed on or after August 2010.  Use #requirement
+/home/asit/Apps/pj/config/initializers/geokit_for_named_scope.rb:40: warning: already initialized constant VALID_FIND_OPTIONS
+      exists  app/models/
+      exists  test/unit/
+      exists  test/fixtures/
+      create  app/models/variation.rb
+      create  test/unit/variation_test.rb
+      create  test/fixtures/variations.yml
+      exists  db/migrate
+      create  db/migrate/20100430220643_create_variations.rb
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ clear
+[H[2J]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ ls db/migrate/*
+db/migrate/20100130065742_add_role_description_to_roles.rb    db/migrate/20100307060432_create_places.rb
+db/migrate/20100130081127_create_users.rb                     db/migrate/20100307203010_create_place_ownerships.rb
+db/migrate/20100130084608_create_roles.rb                     db/migrate/20100410175641_rename_places_to_merchants.rb
+db/migrate/20100201193818_create_friendships.rb               db/migrate/20100410180057_rename_place_type_to_merchant_type.rb
+db/migrate/20100204070243_create_articles.rb                  db/migrate/20100410194124_create_loyalty_benefits.rb
+db/migrate/20100204070717_create_comments.rb                  db/migrate/20100410202403_add_user_reference_to_loyalty_benefits.rb
+db/migrate/20100204232217_add_type_to_article.rb              db/migrate/20100410205326_rename_merchant_ownership_to_merchant_user.rb
+db/migrate/20100206012259_add_users_password_reset_fields.rb  db/migrate/20100410205613_rename_place_id_to_merchant_id.rb
+db/migrate/20100206181646_create_user_roles.rb                db/migrate/20100411004852_add_user_id_to_merchants.rb
+db/migrate/20100206215833_create_assignments.rb               db/migrate/20100420054838_create_tables.rb
+db/migrate/20100209024715_create_events.rb                    db/migrate/20100430054131_create_categories.rb
+db/migrate/20100209025405_create_addresses.rb                 db/migrate/20100430060554_create_categorizations.rb
+db/migrate/20100224211956_create_images.rb                    db/migrate/20100430220256_create_plants.rb
+db/migrate/20100226220252_create_interests.rb                 db/migrate/20100430220343_create_varieties.rb
+db/migrate/20100226221950_add_interest_name_to_interests.rb   db/migrate/20100430220643_create_variations.rb
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ rake db:migrate VERSION=20100430220256
+(in /home/asit/Apps/pj)
+==  CreatePlants: migrating ===================================================
+-- create_table(:plants)
+   -> 0.1190s
+==  CreatePlants: migrated (0.1192s) ==========================================
+
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ rake db:migrate VERSION=20100430220256[K[K[K343
+(in /home/asit/Apps/pj)
+==  CreateVarieties: migrating ================================================
+-- create_table(:varieties)
+   -> 0.1008s
+==  CreateVarieties: migrated (0.1011s) =======================================
+
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ rake db:migrate VERSION=20100430220343[K[K[K643
+(in /home/asit/Apps/pj)
+==  CreateVariations: migrating ===============================================
+-- create_table(:variations)
+   -> 0.1864s
+==  CreateVariations: migrated (0.1866s) ======================================
+
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ ri Array#merge
+Nothing known about Array#merge
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ ri merge
+[?1049h[?1h=More than one method matched your request. You can refine
+your search by asking for information on one of:
+
+     Set#merge, Set#flatten_merge, URI::Generic#merge_path,
+     URI::Generic#merge, URI::Generic#merge0, URI::Generic#merge!,
+     RI::ModuleDescription#merge_in, RI::ModuleDescription#merge,
+     Hash#merge, Hash#merge!, Hash#deep_merge,
+     ActiveRecord::Base::merge_conditions,
+     I18n::Backend::Simple#merge_translations,
+     HashWithIndifferentAccess#reverse_merge,
+     HashWithIndifferentAccess#merge,
+     I18nSimpleBackendTranslationsTest#test_store_translations_deep_merg
+     es_translations,
+     ActiveSupport::CoreExtensions::Hash::ReverseMerge#reverse_merge,
+     ActiveSupport::CoreExtensions::Hash::ReverseMerge#reverse_merge!,
+     ActiveSupport::CoreExtensions::Hash::DeepMerge#deep_merge,
+     ActiveSupport::CoreExtensions::Hash::DeepMerge#deep_merge!,
+     Authlogic::ActsAsAuthentic::Email::Config#merge_validates_uniquenes
+     s_of_email_field_options,
+     Authlogic::ActsAsAuthentic::Email::Config#merge_validates_length_of
+     _email_field_options,
+     Authlogic::ActsAsAuthentic::Email::Config#merge_validates_format_of
+     _email_field_options,
+     Authlogic::ActsAsAuthentic::Login::Config#merge_validates_format_of
+     _login_field_options,
+     Authlogic::ActsAsAuthentic::Login::Config#merge_validates_uniquenes
+     s_of_login_field_options,
+     Authlogic::ActsAsAuthentic::Login::Config#merge_validates_length_of
+     _login_field_options,
+     Authlogic::ActsAsAuthentic::Password::Config#merge_validates_confir
+     mation_of_password_field_options,
+     Authlogic::ActsAsAuthentic::Password::Config#merge_validates_length
+     _of_password_field_options,
+     Authlogic::ActsAsAuthentic::Password::Config#merge_validates_length
+     _of_password_confirmation_field_options,
+     Haml::Util#merge_adjacent_strings, Hirb::Util#recursive_hash_merge,
+:[K[K[?1l>[?1049l]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ ri Array#join
+[?1049h[?1h=------------------------------------------------------------- Array#join
+     array.join(sep=$,)    -> str
+------------------------------------------------------------------------
+     Returns a string created by converting each element of the array to
+     a string, separated by _sep_.
+
+        [ "a", "b", "c" ].join        #=> "abc"
+        [ "a", "b", "c" ].join("-")   #=> "a-b-c"
+
+[7m(END) [27m[K[K[K[7m(END) [27m[K[K[?1l>[?1049l]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ cd /.[Khome/asit/downlo[K[K[K[K[K[KDownloads/
+]0;asit@ubuntu: ~/Downloadsasit@ubuntu:~/Downloads$ mkdir [K[K[K[K[K[Kcd /[K../Videos/
+]0;asit@ubuntu: ~/Videosasit@ubuntu:~/Videos$ mkdir temp
+]0;asit@ubuntu: ~/Videosasit@ubuntu:~/Videos$ wget http://download.buttbangin.com/secure_content_dl.php?key=qdSww6WUodnR07a805xtYWhjammJeXp0meKV5OSw09SXmn11o1NdyJuVf3OspVl/naOtsXDDgHrGnHywiqzV lYu+g2flqW+hmJ1yhIWjYlN7mpukv3p6dJiWeKmaeYe9mOC2u+hibp6blGR7wsuroJ2YYVmWtLqpzdXApJ11nJZv56t0pWdipJeWdIyEnGllYp2rnYF5q6WVybfizaja3GTZrbvvZGennJp7jIeeb69mZWefxbe0ct7TvvGc d5bOq9e0deqgqw==
+--2010-04-30 18:59:04--  http://download.buttbangin.com/secure_content_dl.php?key=qdSww6WUodnR07a805xtYWhjammJeXp0meKV5OSw09SXmn11o1NdyJuVf3OspVl/naOtsXDDgHrGnHywiqzVlYu+g2flqW+hmJ1yhIWjYlN7mpukv3p6dJiWeKmaeYe9mOC2u+hibp6blGR7wsuroJ2YYVmWtLqpzdXApJ11nJZv56t0pWdipJeWdIyEnGllYp2rnYF5q6WVybfizaja3GTZrbvvZGennJp7jIeeb69mZWefxbe0ct7TvvGcd5bOq9e0deqgqw==
+Resolving download.buttbangin.com... 76.9.16.171
+Connecting to download.buttbangin.com|76.9.16.171|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+secure_content_dl.php?key=qdSww6WUodnR07a805xtYWhjammJeXp0meKV5OSw09SXmn11o1NdyJuVf3OspVl%2FnaOtsXDDgHrGnHywiqzVlYu+g2flqW+hmJ1yhIWjYlN7mpukv3p6dJiWeKmaeYe9mOC2u+hibp6blGR7wsuroJ2YYVmWtLqpzdXApJ11nJZv56t0pWdipJeWdIyEnGllYp2rnYF5q6WVybfizaja3GTZrbvvZGennJp7jIeeb69mZWefxbe0ct7TvvGcd5bOq9e0deqgqw==: File name too long
+
+Cannot write to `secure_content_dl.php?key=qdSww6WUodnR07a805xtYWhjammJeXp0meKV5OSw09SXmn11o1NdyJuVf3OspVl%2FnaOtsXDDgHrGnHywiqzVlYu+g2flqW+hmJ1yhIWjYlN7mpukv3p6dJiWeKmaeYe9mOC2u+hibp6blGR7wsuroJ2YYVmWtLqpzdXApJ11nJZv56t0pWdipJeWdIyEnGllYp2rnYF5q6WVybfizaja3GTZrbvvZGennJp7jIeeb69mZWefxbe0ct7TvvGcd5bOq9e0deqgqw==' (File name too long).
+]0;asit@ubuntu: ~/Videosasit@ubuntu:~/Videos$ wget http://download.buttbangin.com/secure_content_dl.php?key=qdSww6WUodnR07a805xtYWhjammJeXp0meKV5OSw09SXmn11o1NdyJuVf3OspVl/naOtsXDDgHrGnHywiqzV lYu+g2flqW+hmJ1yhIWjYlN7mpukv3p6dJiWeKmaeYe9mOC2u+hibp6blGR7wsuroJ2YYVmWtLqpzdXApJ11nJZv56t0pWdipJeWdIyEnGllYp2rnYF5q6WVybfizaja3GTZrbvvZGennJp7jIifba9mZWefxbe0ct7TvvGc d5bOq9e0deqgqw==[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K
+--2010-05-02 00:45:53--  http://download.buttbangin.com/secure_content_dl.php?key=qdSww6WUodnR07a805xtYWhjammJeXp0meKV5OSw09SXmn11o1NdyJuVf3O
+Resolving download.buttbangin.com... 76.9.16.171
+Connecting to download.buttbangin.com|76.9.16.171|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: `secure_content_dl.php?key=qdSww6WUodnR07a805xtYWhjammJeXp0meKV5OSw09SXmn11o1NdyJuVf3O'
+
+    [<=>                                                                                                                            ] 0           --.-K/s                  [ <=>                                                                                                                           ] 13          --.-K/s   in 0s      
+
+2010-05-02 00:45:53 (718 KB/s) - `secure_content_dl.php?key=qdSww6WUodnR07a805xtYWhjammJeXp0meKV5OSw09SXmn11o1NdyJuVf3O' saved [13]
+
+]0;asit@ubuntu: ~/Videosasit@ubuntu:~/Videos$ clear
+[H[2J]0;asit@ubuntu: ~/Videosasit@ubuntu:~/Videos$ cd /hom temp/as[K[K[K[K[K[K[K[Ke/asit/pj
+bash: cd: /home/asit/pj: No such file or directory
+]0;asit@ubuntu: ~/Videosasit@ubuntu:~/Videos$ cd ho[K[K/home/asit/a[KApps/pj
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ clear
+[H[2J]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ ra[Kake routes
+(in /home/asit/Apps/pj)
+suggest_change_authorization_rules GET    /authorization_rules/suggest_change(.:format)               {:action=>"suggest_change", :controller=>"authorization_rules"}
+        change_authorization_rules GET    /authorization_rules/change(.:format)                       {:action=>"change", :controller=>"authorization_rules"}
+         graph_authorization_rules GET    /authorization_rules/graph(.:format)                        {:action=>"graph", :controller=>"authorization_rules"}
+               authorization_rules GET    /authorization_rules(.:format)                              {:action=>"index", :controller=>"authorization_rules"}
+              authorization_usages GET    /authorization_usages(.:format)                             {:action=>"index", :controller=>"authorization_usages"}
+                  loyalty_benefits GET    /loyalty_benefits(.:format)                                 {:action=>"index", :controller=>"loyalty_benefits"}
+                                   POST   /loyalty_benefits(.:format)                                 {:action=>"create", :controller=>"loyalty_benefits"}
+               new_loyalty_benefit GET    /loyalty_benefits/new(.:format)                             {:action=>"new", :controller=>"loyalty_benefits"}
+              edit_loyalty_benefit GET    /loyalty_benefits/:id/edit(.:format)                        {:action=>"edit", :controller=>"loyalty_benefits"}
+                   loyalty_benefit GET    /loyalty_benefits/:id(.:format)                             {:action=>"show", :controller=>"loyalty_benefits"}
+                                   PUT    /loyalty_benefits/:id(.:format)                             {:action=>"update", :controller=>"loyalty_benefits"}
+                                   DELETE /loyalty_benefits/:id(.:format)                             {:action=>"destroy", :controller=>"loyalty_benefits"}
+                            images GET    /images(.:format)                                           {:action=>"index", :controller=>"images"}
+                                   POST   /images(.:format)                                           {:action=>"create", :controller=>"images"}
+                         new_image GET    /images/new(.:format)                                       {:action=>"new", :controller=>"images"}
+                        edit_image GET    /images/:id/edit(.:format)                                  {:action=>"edit", :controller=>"images"}
+                             image GET    /images/:id(.:format)                                       {:action=>"show", :controller=>"images"}
+                                   PUT    /images/:id(.:format)                                       {:action=>"update", :controller=>"images"}
+                                   DELETE /images/:id(.:format)                                       {:action=>"destroy", :controller=>"images"}
+                   password_resets GET    /password_resets(.:format)                                  {:action=>"index", :controller=>"password_resets"}
+                                   POST   /password_resets(.:format)                                  {:action=>"create", :controller=>"password_resets"}
+                new_password_reset GET    /password_resets/new(.:format)                              {:action=>"new", :controller=>"password_resets"}
+               edit_password_reset GET    /password_resets/:id/edit(.:format)                         {:action=>"edit", :controller=>"password_resets"}
+                    password_reset GET    /password_resets/:id(.:format)                              {:action=>"show", :controller=>"password_resets"}
+                                   PUT    /password_resets/:id(.:format)                              {:action=>"update", :controller=>"password_resets"}
+                                   DELETE /password_resets/:id(.:format)                              {:action=>"destroy", :controller=>"password_resets"}
+                          register        /register/:activation_code                                  {:action=>"new", :controller=>"activations"}
+                          activate        /activate/:id                                               {:action=>"create", :controller=>"activations"}
+                    event_comments GET    /events/:event_id/comments(.:format)                        {:action=>"index", :controller=>"comments"}
+                                   POST   /events/:event_id/comments(.:format)                        {:action=>"create", :controller=>"comments"}
+                 new_event_comment GET    /events/:event_id/comments/new(.:format)                    {:action=>"new", :controller=>"comments"}
+                edit_event_comment GET    /events/:event_id/comments/:id/edit(.:format)               {:action=>"edit", :controller=>"comments"}
+                     event_comment GET    /events/:event_id/comments/:id(.:format)                    {:action=>"show", :controller=>"comments"}
+                                   PUT    /events/:event_id/comments/:id(.:format)                    {:action=>"update", :controller=>"comments"}
+                                   DELETE /events/:event_id/comments/:id(.:format)                    {:action=>"destroy", :controller=>"comments"}
+                  event_categories GET    /events/:event_id/categories(.:format)                      {:action=>"index", :controller=>"categories"}
+                                   POST   /events/:event_id/categories(.:format)                      {:action=>"create", :controller=>"categories"}
+                new_event_category GET    /events/:event_id/categories/new(.:format)                  {:action=>"new", :controller=>"categories"}
+               edit_event_category GET    /events/:event_id/categories/:id/edit(.:format)             {:action=>"edit", :controller=>"categories"}
+                    event_category GET    /events/:event_id/categories/:id(.:format)                  {:action=>"show", :controller=>"categories"}
+                                   PUT    /events/:event_id/categories/:id(.:format)                  {:action=>"update", :controller=>"categories"}
+                                   DELETE /events/:event_id/categories/:id(.:format)                  {:action=>"destroy", :controller=>"categories"}
+                 event_assignments GET    /events/:event_id/assignments(.:format)                     {:action=>"index", :controller=>"assignments"}
+                                   POST   /events/:event_id/assignments(.:format)                     {:action=>"create", :controller=>"assignments"}
+              new_event_assignment GET    /events/:event_id/assignments/new(.:format)                 {:action=>"new", :controller=>"assignments"}
+             edit_event_assignment GET    /events/:event_id/assignments/:id/edit(.:format)            {:action=>"edit", :controller=>"assignments"}
+                  event_assignment GET    /events/:event_id/assignments/:id(.:format)                 {:action=>"show", :controller=>"assignments"}
+                                   PUT    /events/:event_id/assignments/:id(.:format)                 {:action=>"update", :controller=>"assignments"}
+                                   DELETE /events/:event_id/assignments/:id(.:format)                 {:action=>"destroy", :controller=>"assignments"}
+                 new_event_address GET    /events/:event_id/address/new(.:format)                     {:action=>"new", :controller=>"addresses"}
+                edit_event_address GET    /events/:event_id/address/edit(.:format)                    {:action=>"edit", :controller=>"addresses"}
+                     event_address GET    /events/:event_id/address(.:format)                         {:action=>"show", :controller=>"addresses"}
+                                   PUT    /events/:event_id/address(.:format)                         {:action=>"update", :controller=>"addresses"}
+                                   DELETE /events/:event_id/address(.:format)                         {:action=>"destroy", :controller=>"addresses"}
+                                   POST   /events/:event_id/address(.:format)                         {:action=>"create", :controller=>"addresses"}
+                            events GET    /events(.:format)                                           {:action=>"index", :controller=>"events"}
+                                   POST   /events(.:format)                                           {:action=>"create", :controller=>"events"}
+                         new_event GET    /events/new(.:format)                                       {:action=>"new", :controller=>"events"}
+                        edit_event GET    /events/:id/edit(.:format)                                  {:action=>"edit", :controller=>"events"}
+                             event GET    /events/:id(.:format)                                       {:action=>"show", :controller=>"events"}
+                                   PUT    /events/:id(.:format)                                       {:action=>"update", :controller=>"events"}
+                                   DELETE /events/:id(.:format)                                       {:action=>"destroy", :controller=>"events"}
+                   merchant_images GET    /merchants/:merchant_id/images(.:format)                    {:action=>"index", :controller=>"images"}
+                                   POST   /merchants/:merchant_id/images(.:format)                    {:action=>"create", :controller=>"images"}
+                new_merchant_image GET    /merchants/:merchant_id/images/new(.:format)                {:action=>"new", :controller=>"images"}
+               edit_merchant_image GET    /merchants/:merchant_id/images/:id/edit(.:format)           {:action=>"edit", :controller=>"images"}
+                    merchant_image GET    /merchants/:merchant_id/images/:id(.:format)                {:action=>"show", :controller=>"images"}
+                                   PUT    /merchants/:merchant_id/images/:id(.:format)                {:action=>"update", :controller=>"images"}
+                                   DELETE /merchants/:merchant_id/images/:id(.:format)                {:action=>"destroy", :controller=>"images"}
+         merchant_loyalty_benefits GET    /merchants/:merchant_id/loyalty_benefits(.:format)          {:action=>"index", :controller=>"loyalty_benefits"}
+                                   POST   /merchants/:merchant_id/loyalty_benefits(.:format)          {:action=>"create", :controller=>"loyalty_benefits"}
+      new_merchant_loyalty_benefit GET    /merchants/:merchant_id/loyalty_benefits/new(.:format)      {:action=>"new", :controller=>"loyalty_benefits"}
+     edit_merchant_loyalty_benefit GET    /merchants/:merchant_id/loyalty_benefits/:id/edit(.:format) {:action=>"edit", :controller=>"loyalty_benefits"}
+          merchant_loyalty_benefit GET    /merchants/:merchant_id/loyalty_benefits/:id(.:format)      {:action=>"show", :controller=>"loyalty_benefits"}
+                                   PUT    /merchants/:merchant_id/loyalty_benefits/:id(.:format)      {:action=>"update", :controller=>"loyalty_benefits"}
+                                   DELETE /merchants/:merchant_id/loyalty_benefits/:id(.:format)      {:action=>"destroy", :controller=>"loyalty_benefits"}
+              new_merchant_address GET    /merchants/:merchant_id/address/new(.:format)               {:action=>"new", :controller=>"addresses"}
+             edit_merchant_address GET    /merchants/:merchant_id/address/edit(.:format)              {:action=>"edit", :controller=>"addresses"}
+                  merchant_address GET    /merchants/:merchant_id/address(.:format)                   {:action=>"show", :controller=>"addresses"}
+                                   PUT    /merchants/:merchant_id/address(.:format)                   {:action=>"update", :controller=>"addresses"}
+                                   DELETE /merchants/:merchant_id/address(.:format)                   {:action=>"destroy", :controller=>"addresses"}
+                                   POST   /merchants/:merchant_id/address(.:format)                   {:action=>"create", :controller=>"addresses"}
+                         merchants GET    /merchants(.:format)                                        {:action=>"index", :controller=>"merchants"}
+                                   POST   /merchants(.:format)                                        {:action=>"create", :controller=>"merchants"}
+                      new_merchant GET    /merchants/new(.:format)                                    {:action=>"new", :controller=>"merchants"}
+                     edit_merchant GET    /merchants/:id/edit(.:format)                               {:action=>"edit", :controller=>"merchants"}
+                          merchant GET    /merchants/:id(.:format)                                    {:action=>"show", :controller=>"merchants"}
+                                   PUT    /merchants/:id(.:format)                                    {:action=>"update", :controller=>"merchants"}
+                                   DELETE /merchants/:id(.:format)                                    {:action=>"destroy", :controller=>"merchants"}
+                                   GET    /images(.:format)                                           {:action=>"index", :controller=>"images"}
+                                   POST   /images(.:format)                                           {:action=>"create", :controller=>"images"}
+                                   GET    /images/new(.:format)                                       {:action=>"new", :controller=>"images"}
+                                   GET    /images/:id/edit(.:format)                                  {:action=>"edit", :controller=>"images"}
+                                   GET    /images/:id(.:format)                                       {:action=>"show", :controller=>"images"}
+                                   PUT    /images/:id(.:format)                                       {:action=>"update", :controller=>"images"}
+                                   DELETE /images/:id(.:format)                                       {:action=>"destroy", :controller=>"images"}
+                             login        /login                                                      {:action=>"new", :controller=>"user_sessions"}
+                            logout        /logout                                                     {:action=>"destroy", :controller=>"user_sessions"}
+                     user_sessions GET    /user_sessions(.:format)                                    {:action=>"index", :controller=>"user_sessions"}
+                                   POST   /user_sessions(.:format)                                    {:action=>"create", :controller=>"user_sessions"}
+                  new_user_session GET    /user_sessions/new(.:format)                                {:action=>"new", :controller=>"user_sessions"}
+                 edit_user_session GET    /user_sessions/:id/edit(.:format)                           {:action=>"edit", :controller=>"user_sessions"}
+                      user_session GET    /user_sessions/:id(.:format)                                {:action=>"show", :controller=>"user_sessions"}
+                                   PUT    /user_sessions/:id(.:format)                                {:action=>"update", :controller=>"user_sessions"}
+                                   DELETE /user_sessions/:id(.:format)                                {:action=>"destroy", :controller=>"user_sessions"}
+                        role_users GET    /roles/:role_id/users(.:format)                             {:action=>"index", :controller=>"users"}
+                                   POST   /roles/:role_id/users(.:format)                             {:action=>"create", :controller=>"users"}
+                     new_role_user GET    /roles/:role_id/users/new(.:format)                         {:action=>"new", :controller=>"users"}
+                    edit_role_user GET    /roles/:role_id/users/:id/edit(.:format)                    {:action=>"edit", :controller=>"users"}
+                         role_user GET    /roles/:role_id/users/:id(.:format)                         {:action=>"show", :controller=>"users"}
+                                   PUT    /roles/:role_id/users/:id(.:format)                         {:action=>"update", :controller=>"users"}
+                                   DELETE /roles/:role_id/users/:id(.:format)                         {:action=>"destroy", :controller=>"users"}
+                  role_assignments GET    /roles/:role_id/assignments(.:format)                       {:action=>"index", :controller=>"assignments"}
+                                   POST   /roles/:role_id/assignments(.:format)                       {:action=>"create", :controller=>"assignments"}
+               new_role_assignment GET    /roles/:role_id/assignments/new(.:format)                   {:action=>"new", :controller=>"assignments"}
+              edit_role_assignment GET    /roles/:role_id/assignments/:id/edit(.:format)              {:action=>"edit", :controller=>"assignments"}
+                   role_assignment GET    /roles/:role_id/assignments/:id(.:format)                   {:action=>"show", :controller=>"assignments"}
+                                   PUT    /roles/:role_id/assignments/:id(.:format)                   {:action=>"update", :controller=>"assignments"}
+                                   DELETE /roles/:role_id/assignments/:id(.:format)                   {:action=>"destroy", :controller=>"assignments"}
+                             roles GET    /roles(.:format)                                            {:action=>"index", :controller=>"roles"}
+                                   POST   /roles(.:format)                                            {:action=>"create", :controller=>"roles"}
+                          new_role GET    /roles/new(.:format)                                        {:action=>"new", :controller=>"roles"}
+                         edit_role GET    /roles/:id/edit(.:format)                                   {:action=>"edit", :controller=>"roles"}
+                              role GET    /roles/:id(.:format)                                        {:action=>"show", :controller=>"roles"}
+                                   PUT    /roles/:id(.:format)                                        {:action=>"update", :controller=>"roles"}
+                                   DELETE /roles/:id(.:format)                                        {:action=>"destroy", :controller=>"roles"}
+                   category_events GET    /categories/:category_id/events(.:format)                   {:action=>"index", :controller=>"events"}
+                                   POST   /categories/:category_id/events(.:format)                   {:action=>"create", :controller=>"events"}
+                new_category_event GET    /categories/:category_id/events/new(.:format)               {:action=>"new", :controller=>"events"}
+               edit_category_event GET    /categories/:category_id/events/:id/edit(.:format)          {:action=>"edit", :controller=>"events"}
+                    category_event GET    /categories/:category_id/events/:id(.:format)               {:action=>"show", :controller=>"events"}
+                                   PUT    /categories/:category_id/events/:id(.:format)               {:action=>"update", :controller=>"events"}
+                                   DELETE /categories/:category_id/events/:id(.:format)               {:action=>"destroy", :controller=>"events"}
+          category_categorizations GET    /categories/:category_id/categorizations(.:format)          {:action=>"index", :controller=>"categorizations"}
+                                   POST   /categories/:category_id/categorizations(.:format)          {:action=>"create", :controller=>"categorizations"}
+       new_category_categorization GET    /categories/:category_id/categorizations/new(.:format)      {:action=>"new", :controller=>"categorizations"}
+      edit_category_categorization GET    /categories/:category_id/categorizations/:id/edit(.:format) {:action=>"edit", :controller=>"categorizations"}
+           category_categorization GET    /categories/:category_id/categorizations/:id(.:format)      {:action=>"show", :controller=>"categorizations"}
+                                   PUT    /categories/:category_id/categorizations/:id(.:format)      {:action=>"update", :controller=>"categorizations"}
+                                   DELETE /categories/:category_id/categorizations/:id(.:format)      {:action=>"destroy", :controller=>"categorizations"}
+                        categories GET    /categories(.:format)                                       {:action=>"index", :controller=>"categories"}
+                                   POST   /categories(.:format)                                       {:action=>"create", :controller=>"categories"}
+                      new_category GET    /categories/new(.:format)                                   {:action=>"new", :controller=>"categories"}
+                     edit_category GET    /categories/:id/edit(.:format)                              {:action=>"edit", :controller=>"categories"}
+                          category GET    /categories/:id(.:format)                                   {:action=>"show", :controller=>"categories"}
+                                   PUT    /categories/:id(.:format)                                   {:action=>"update", :controller=>"categories"}
+                                   DELETE /categories/:id(.:format)                                   {:action=>"destroy", :controller=>"categories"}
+                        user_roles GET    /users/:user_id/roles(.:format)                             {:action=>"index", :controller=>"roles"}
+                                   POST   /users/:user_id/roles(.:format)                             {:action=>"create", :controller=>"roles"}
+                     new_user_role GET    /users/:user_id/roles/new(.:format)                         {:action=>"new", :controller=>"roles"}
+                    edit_user_role GET    /users/:user_id/roles/:id/edit(.:format)                    {:action=>"edit", :controller=>"roles"}
+                         user_role GET    /users/:user_id/roles/:id(.:format)                         {:action=>"show", :controller=>"roles"}
+                                   PUT    /users/:user_id/roles/:id(.:format)                         {:action=>"update", :controller=>"roles"}
+                                   DELETE /users/:user_id/roles/:id(.:format)                         {:action=>"destroy", :controller=>"roles"}
+                  user_friendships GET    /users/:user_id/friendships(.:format)                       {:action=>"index", :controller=>"friendships"}
+                                   POST   /users/:user_id/friendships(.:format)                       {:action=>"create", :controller=>"friendships"}
+               new_user_friendship GET    /users/:user_id/friendships/new(.:format)                   {:action=>"new", :controller=>"friendships"}
+              edit_user_friendship GET    /users/:user_id/friendships/:id/edit(.:format)              {:action=>"edit", :controller=>"friendships"}
+                   user_friendship GET    /users/:user_id/friendships/:id(.:format)                   {:action=>"show", :controller=>"friendships"}
+                                   PUT    /users/:user_id/friendships/:id(.:format)                   {:action=>"update", :controller=>"friendships"}
+                                   DELETE /users/:user_id/friendships/:id(.:format)                   {:action=>"destroy", :controller=>"friendships"}
+                      user_friends GET    /users/:user_id/friends(.:format)                           {:action=>"index", :controller=>"friends"}
+                                   POST   /users/:user_id/friends(.:format)                           {:action=>"create", :controller=>"friends"}
+                   new_user_friend GET    /users/:user_id/friends/new(.:format)                       {:action=>"new", :controller=>"friends"}
+                  edit_user_friend GET    /users/:user_id/friends/:id/edit(.:format)                  {:action=>"edit", :controller=>"friends"}
+                       user_friend GET    /users/:user_id/friends/:id(.:format)                       {:action=>"show", :controller=>"friends"}
+                                   PUT    /users/:user_id/friends/:id(.:format)                       {:action=>"update", :controller=>"friends"}
+                                   DELETE /users/:user_id/friends/:id(.:format)                       {:action=>"destroy", :controller=>"friends"}
+                       user_events GET    /users/:user_id/events(.:format)                            {:action=>"index", :controller=>"events"}
+                                   POST   /users/:user_id/events(.:format)                            {:action=>"create", :controller=>"events"}
+                    new_user_event GET    /users/:user_id/events/new(.:format)                        {:action=>"new", :controller=>"events"}
+                   edit_user_event GET    /users/:user_id/events/:id/edit(.:format)                   {:action=>"edit", :controller=>"events"}
+                        user_event GET    /users/:user_id/events/:id(.:format)                        {:action=>"show", :controller=>"events"}
+                                   PUT    /users/:user_id/events/:id(.:format)                        {:action=>"update", :controller=>"events"}
+                                   DELETE /users/:user_id/events/:id(.:format)                        {:action=>"destroy", :controller=>"events"}
+                     user_articles GET    /users/:user_id/articles(.:format)                          {:action=>"index", :controller=>"articles"}
+                                   POST   /users/:user_id/articles(.:format)                          {:action=>"create", :controller=>"articles"}
+                  new_user_article GET    /users/:user_id/articles/new(.:format)                      {:action=>"new", :controller=>"articles"}
+                 edit_user_article GET    /users/:user_id/articles/:id/edit(.:format)                 {:action=>"edit", :controller=>"articles"}
+                      user_article GET    /users/:user_id/articles/:id(.:format)                      {:action=>"show", :controller=>"articles"}
+                                   PUT    /users/:user_id/articles/:id(.:format)                      {:action=>"update", :controller=>"articles"}
+                                   DELETE /users/:user_id/articles/:id(.:format)                      {:action=>"destroy", :controller=>"articles"}
+                     user_comments GET    /users/:user_id/comments(.:format)                          {:action=>"index", :controller=>"comments"}
+                                   POST   /users/:user_id/comments(.:format)                          {:action=>"create", :controller=>"comments"}
+                  new_user_comment GET    /users/:user_id/comments/new(.:format)                      {:action=>"new", :controller=>"comments"}
+                 edit_user_comment GET    /users/:user_id/comments/:id/edit(.:format)                 {:action=>"edit", :controller=>"comments"}
+                      user_comment GET    /users/:user_id/comments/:id(.:format)                      {:action=>"show", :controller=>"comments"}
+                                   PUT    /users/:user_id/comments/:id(.:format)                      {:action=>"update", :controller=>"comments"}
+                                   DELETE /users/:user_id/comments/:id(.:format)                      {:action=>"destroy", :controller=>"comments"}
+                  user_assignments GET    /users/:user_id/assignments(.:format)                       {:action=>"index", :controller=>"assignments"}
+                                   POST   /users/:user_id/assignments(.:format)                       {:action=>"create", :controller=>"assignments"}
+               new_user_assignment GET    /users/:user_id/assignments/new(.:format)                   {:action=>"new", :controller=>"assignments"}
+              edit_user_assignment GET    /users/:user_id/assignments/:id/edit(.:format)              {:action=>"edit", :controller=>"assignments"}
+                   user_assignment GET    /users/:user_id/assignments/:id(.:format)                   {:action=>"show", :controller=>"assignments"}
+                                   PUT    /users/:user_id/assignments/:id(.:format)                   {:action=>"update", :controller=>"assignments"}
+                                   DELETE /users/:user_id/assignments/:id(.:format)                   {:action=>"destroy", :controller=>"assignments"}
+                       user_images GET    /users/:user_id/images(.:format)                            {:action=>"index", :controller=>"images"}
+                                   POST   /users/:user_id/images(.:format)                            {:action=>"create", :controller=>"images"}
+                    new_user_image GET    /users/:user_id/images/new(.:format)                        {:action=>"new", :controller=>"images"}
+                   edit_user_image GET    /users/:user_id/images/:id/edit(.:format)                   {:action=>"edit", :controller=>"images"}
+                        user_image GET    /users/:user_id/images/:id(.:format)                        {:action=>"show", :controller=>"images"}
+                                   PUT    /users/:user_id/images/:id(.:format)                        {:action=>"update", :controller=>"images"}
+                                   DELETE /users/:user_id/images/:id(.:format)                        {:action=>"destroy", :controller=>"images"}
+                    user_interests GET    /users/:user_id/interests(.:format)                         {:action=>"index", :controller=>"interests"}
+                                   POST   /users/:user_id/interests(.:format)                         {:action=>"create", :controller=>"interests"}
+                 new_user_interest GET    /users/:user_id/interests/new(.:format)                     {:action=>"new", :controller=>"interests"}
+                edit_user_interest GET    /users/:user_id/interests/:id/edit(.:format)                {:action=>"edit", :controller=>"interests"}
+                     user_interest GET    /users/:user_id/interests/:id(.:format)                     {:action=>"show", :controller=>"interests"}
+                                   PUT    /users/:user_id/interests/:id(.:format)                     {:action=>"update", :controller=>"interests"}
+                                   DELETE /users/:user_id/interests/:id(.:format)                     {:action=>"destroy", :controller=>"interests"}
+                    user_merchants GET    /users/:user_id/merchants(.:format)                         {:action=>"index", :controller=>"merchants"}
+                                   POST   /users/:user_id/merchants(.:format)                         {:action=>"create", :controller=>"merchants"}
+                 new_user_merchant GET    /users/:user_id/merchants/new(.:format)                     {:action=>"new", :controller=>"merchants"}
+                edit_user_merchant GET    /users/:user_id/merchants/:id/edit(.:format)                {:action=>"edit", :controller=>"merchants"}
+                     user_merchant GET    /users/:user_id/merchants/:id(.:format)                     {:action=>"show", :controller=>"merchants"}
+                                   PUT    /users/:user_id/merchants/:id(.:format)                     {:action=>"update", :controller=>"merchants"}
+                                   DELETE /users/:user_id/merchants/:id(.:format)                     {:action=>"destroy", :controller=>"merchants"}
+                  new_user_address GET    /users/:user_id/address/new(.:format)                       {:action=>"new", :controller=>"addresses"}
+                 edit_user_address GET    /users/:user_id/address/edit(.:format)                      {:action=>"edit", :controller=>"addresses"}
+                      user_address GET    /users/:user_id/address(.:format)                           {:action=>"show", :controller=>"addresses"}
+                                   PUT    /users/:user_id/address(.:format)                           {:action=>"update", :controller=>"addresses"}
+                                   DELETE /users/:user_id/address(.:format)                           {:action=>"destroy", :controller=>"addresses"}
+                                   POST   /users/:user_id/address(.:format)                           {:action=>"create", :controller=>"addresses"}
+                             users GET    /users(.:format)                                            {:action=>"index", :controller=>"users"}
+                                   POST   /users(.:format)                                            {:action=>"create", :controller=>"users"}
+                          new_user GET    /users/new(.:format)                                        {:action=>"new", :controller=>"users"}
+                         edit_user GET    /users/:id/edit(.:format)                                   {:action=>"edit", :controller=>"users"}
+                     activate_user PUT    /users/:id/activate(.:format)                               {:action=>"activate", :controller=>"users"}
+                   deactivate_user PUT    /users/:id/deactivate(.:format)                             {:action=>"deactivate", :controller=>"users"}
+                              user GET    /users/:id(.:format)                                        {:action=>"show", :controller=>"users"}
+                                   PUT    /users/:id(.:format)                                        {:action=>"update", :controller=>"users"}
+                                   DELETE /users/:id(.:format)                                        {:action=>"destroy", :controller=>"users"}
+                          comments GET    /comments(.:format)                                         {:action=>"index", :controller=>"comments"}
+                                   POST   /comments(.:format)                                         {:action=>"create", :controller=>"comments"}
+                       new_comment GET    /comments/new(.:format)                                     {:action=>"new", :controller=>"comments"}
+                      edit_comment GET    /comments/:id/edit(.:format)                                {:action=>"edit", :controller=>"comments"}
+                           comment GET    /comments/:id(.:format)                                     {:action=>"show", :controller=>"comments"}
+                                   PUT    /comments/:id(.:format)                                     {:action=>"update", :controller=>"comments"}
+                                   DELETE /comments/:id(.:format)                                     {:action=>"destroy", :controller=>"comments"}
+                  article_comments GET    /articles/:article_id/comments(.:format)                    {:action=>"index", :controller=>"comments"}
+                                   POST   /articles/:article_id/comments(.:format)                    {:action=>"create", :controller=>"comments"}
+               new_article_comment GET    /articles/:article_id/comments/new(.:format)                {:action=>"new", :controller=>"comments"}
+              edit_article_comment GET    /articles/:article_id/comments/:id/edit(.:format)           {:action=>"edit", :controller=>"comments"}
+                   article_comment GET    /articles/:article_id/comments/:id(.:format)                {:action=>"show", :controller=>"comments"}
+                                   PUT    /articles/:article_id/comments/:id(.:format)                {:action=>"update", :controller=>"comments"}
+                                   DELETE /articles/:article_id/comments/:id(.:format)                {:action=>"destroy", :controller=>"comments"}
+                          articles GET    /articles(.:format)                                         {:action=>"index", :controller=>"articles"}
+                                   POST   /articles(.:format)                                         {:action=>"create", :controller=>"articles"}
+                       new_article GET    /articles/new(.:format)                                     {:action=>"new", :controller=>"articles"}
+                      edit_article GET    /articles/:id/edit(.:format)                                {:action=>"edit", :controller=>"articles"}
+                           article GET    /articles/:id(.:format)                                     {:action=>"show", :controller=>"articles"}
+                                   PUT    /articles/:id(.:format)                                     {:action=>"update", :controller=>"articles"}
+                                   DELETE /articles/:id(.:format)                                     {:action=>"destroy", :controller=>"articles"}
+                       friendships GET    /friendships(.:format)                                      {:action=>"index", :controller=>"friendships"}
+                                   POST   /friendships(.:format)                                      {:action=>"create", :controller=>"friendships"}
+                    new_friendship GET    /friendships/new(.:format)                                  {:action=>"new", :controller=>"friendships"}
+                   edit_friendship GET    /friendships/:id/edit(.:format)                             {:action=>"edit", :controller=>"friendships"}
+                        friendship GET    /friendships/:id(.:format)                                  {:action=>"show", :controller=>"friendships"}
+                                   PUT    /friendships/:id(.:format)                                  {:action=>"update", :controller=>"friendships"}
+                                   DELETE /friendships/:id(.:format)                                  {:action=>"destroy", :co
