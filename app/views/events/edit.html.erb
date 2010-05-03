@@ -1,6 +1,7 @@
-<h1>Editing event</h1>
-
+<h3 class="page_title">Edit event</h3>
+<span class="page_title_menu">
+<%= link_to 'View Event', @event, :class => "action_link" %> |
+<%= link_to 'All Events', events_path, :class => "action_link" %>
+</span>
 <%= render :partial => "form" %>
 
-<%= link_to 'Show', @event %> |
-<%= link_to 'Back', events_path %>

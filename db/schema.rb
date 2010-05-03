@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100430220643) do
+ActiveRecord::Schema.define(:version => 20100503003628) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street1",                                                                          :null => false
@@ -125,6 +125,19 @@ ActiveRecord::Schema.define(:version => 20100430220643) do
     t.integer  "user_id"
   end
 
+  create_table "merchant_categories", :force => true do |t|
+    t.string   "category_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "merchant_categorizations", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "merchant_id"
+    t.integer  "merchant_category_id"
+  end
+
   create_table "merchant_users", :force => true do |t|
     t.integer  "user_id"
     t.integer  "merchant_id"
@@ -134,7 +147,14 @@ ActiveRecord::Schema.define(:version => 20100430220643) do
 
   create_table "merchants", :force => true do |t|
     t.string   "name"
-    t.string   "merchant_type"
+    t.string   "main_contact_name",   :limit => 100,                    :null => false
+    t.string   "main_contact_number", :limit => 15,                     :null => false
+    t.boolean  "active",                             :default => false, :null => false
+    t.integer  "green_grade",         :limit => 1,                      :null => false
+    t.string   "description",         :limit => 500,                    :null => false
+    t.string   "website",             :limit => 150,                    :null => false
+    t.string   "phone",               :limit => 15,                     :null => false
+    t.string   "fax",                 :limit => 15,                     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
@@ -189,7 +209,8 @@ ActiveRecord::Schema.define(:version => 20100430220643) do
   add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
 
   create_table "variations", :force => true do |t|
-    t.integer  "plantvariety_id"
+    t.integer  "variety_id"
+    t.integer  "plant_id",   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

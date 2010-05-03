@@ -1,9 +1,7 @@
 class Event < ActiveRecord::Base
-    CATEGORIES = {1 => "All", 2 => "Charities",  3 => "Family", 4 => "Fashion", 5 => "Festival", 6 => "Film", 7 => "Food", 8 => "Music",  9 => "Nightlife",
-        10 => "Performing Arts", 11 => "Lectures", 12 => "Sports", 13 => "Wine",  14 => "Visual Arts"
-    }
+    
 
-    has_many :categorizations
+    has_many :categorizations, :dependent => :destroy
     has_many :categories, :through => :categorizations
     has_one :address, :as =>:addressible
     belongs_to :user
@@ -23,10 +21,8 @@ class Event < ActiveRecord::Base
    
     validates_datetime :event_date, :on_or_after => lambda {Time.now}, :on_or_before_message => "Event date/time must be in the future."
 
-    #    Event.named_scope :event_today, :conditions => ["event_date = ?", Date.today]
-    #    Event.named_scope :event_tomorrow, :conditions => ["event_date = ?", Date.tomorrow]
-    #    Event.named_scope :event_week, :conditions => "event_date >= Date.today.beginning_of_week && event_date <= Date.today.end_of_week"
     after_save :update_categorizations
+    
     def get_lat_lng
         return [self.address.lat, self.address.lng]
     end

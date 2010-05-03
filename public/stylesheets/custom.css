@@ -246,7 +246,7 @@ body a.norm_link:hover {
     padding-bottom: .5em;
     border-bottom: 2px solid  #27292A;
 }
-.btn_event{
+.btn_search{
     margin-top:.5em;
     font-family: "Helvetica";
     font-size: 1em;
@@ -397,6 +397,13 @@ select:focus {
 }
 
 .blk {
+    display:block;
+}
+.page_title {
+    margin:1em 1em 1em 0;
+}
+.page_title_menu {
+    margin:1em 1em 1em 0;
     display:block;
 }
 p.listing_description:first-letter {

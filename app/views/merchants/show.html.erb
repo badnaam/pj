@@ -1,30 +1,39 @@
-<%= javascript_include_tag "jquery"  %>
 <%= javascript_include_tag "jquery.colorbox-min.js" %>
-<%= javascript_include_tag "jquery.colobox.js" %>
+<%= javascript_include_tag "jquery.colorbox.js" %>
+
 <script type="text/javascript">
   $j(document).ready(function() {
-    $j("a[rel='cimg']").colorbox({transition:"fade", slideshow:true});
+    $j('#map_link').colorbox({innerWidth:"90%", innerHeight:"90%", iframe:true});
   });
 </script>
+<div class ="merchant" id="merchant_"<%= @merchant.id %> class="span-19 last">
+  <%  if permitted_to? :edit, :merchants%>
+    <%= link_to 'Edit', edit_merchant_path(@merchant), :class => "action_link" %>
+  <% end  %>
+  <% if permitted_to? :destroy, :merchants %>
+    <%= link_to 'Delete', @merchant, :confirm => 'Are you sure?', :method => :delete,  :class => "action_link" %>
+  <% end  %>
+  <span class="listing_title blk"> <%= @merchant.name %> </span>
+  <%
+  @tags = Array.new
+  @merchant.merchant_categorizations.each do |c|
+    @tags << c.merchant_category.category_name
+  end %>
 
-<p>
-  <b>Name:</b>
-  <%=h @merchant.name %>
-</p>
-
-<p>
-  <b>Type:</b>
-  <%=h @merchant.listing_type %>
-</p>
-
-<div id="list_images">
-  <%= render :partial => "images/image", :collection => @merchant.images, :locals => {:edit => false} %>
-</div>
-
-
-
-<%= link_to 'Back', merchants_path %> |
-<% if permitted_to? :edit, @merchant %>
-  <%= link_to 'Edit', edit_merchant_path(@merchant) %> |
-  <%= link_to "Manage Loyalty Benefits", merchant_loyalty_benefits_path(@merchant) %>
-<% end  %>
+  <span class="blk">Tags: <%= @tags.join(", ") %></span>
+  <p class="address">
+    <%= @merchant.address.street1.camelize %>
+    <br/>
+    <%= @merchant.address.street2.camelize + "<br/>" unless @merchant.address.street2.blank?  %>
+    <%= @merchant.address.city.camelize %>
+    <%= @merchant.address.state.camelize + "-" + @merchant.address.zip %>
+    <br/>
+    <% @a = "http://maps.google.com/maps?q=#{@merchant.address.getaddress}" %>
+    <a href="<%= @a %>" class="action_link" id="map_link"> View Map</a>
+  </p>
+  <div>
+  </div>
+  <p class="listing_description">
+    <%= @merchant.description %>
+  </p>
+  </div>

@@ -1,15 +1,13 @@
 class Merchant < ActiveRecord::Base
     Max_Images = 2
     
-    BUSINESS_TYPE = {1 => "Beauty/Spa", 2 => "Events & Entertainment", 3 => "Gym", 4 => "Healthcare/Wellness", 5 => "Restaurant", 6 => "Photo/Video Services",
-        7 => "Home Services", 8 => "Transportation", 9 => "Retails Store"}
-#    BUSINESS_TYPE = ["Beauty/Spa", "Events & Entertainment", "Gym", "Healthcare/Wellness", "Restaurant", "Photo/Video Services", "Home Services",
-#        "Transportation"]
     belongs_to :user
-    has_one :address, :as => :addressible
+    has_one :address, :as => :addressible, :dependent => :destroy
     has_many :images, :as => :imageible, :dependent => :destroy
-    has_many :categories, :as => :categorizable
     has_many :loyalty_benefits
+
+    has_many :merchant_categorizations, :dependent => :destroy
+    has_many :merchant_categories, :through => :merchant_categorizations
 
     accepts_nested_attributes_for :address
     accepts_nested_attributes_for :images, :reject_if => proc {|attributes| attributes["image"].blank?}, :allow_destroy => true
@@ -18,12 +16,21 @@ class Merchant < ActiveRecord::Base
 
     validates_presence_of [:name, :main_contact_name, :main_contact_number, :type]
     validates_associated :address
-    
-    #    after_save :update_merchant_users
 
-    #    def update_merchant_users
-    #
-    #    end
+    after_save :update_merchant_categorizations
+
+    def update_merchant_categorizations
+        unless self.merchant_categorizations.nil?
+            self.merchant_categorizations.each do |a|
+                a.destroy unless merchant_category_ids.include?(a.merchant_category_id.to_s)
+                merchant_category_ids.delete(a.merchant_category_id.to_s)
+            end
+        end unless merchant_category_ids.nil?
+
+        merchant_category_ids.each do |r|
+            self.merchant_categorizations.create(:merchant_category_id => r) unless r.blank?
+        end unless merchant_category_ids.nil?
+    end
 
     def imageible_name
         return "merchants"
@@ -33,7 +40,7 @@ class Merchant < ActiveRecord::Base
         return [self.address.lat, self.address.lng]
     end
 
-    def self.get_lat_lng_events(events)
-        events.collect{|e|e.get_lat_lng}
+    def self.get_lat_lng_events(merchants)
+        merchants.collect{|e|e.get_lat_lng}
     end
 end

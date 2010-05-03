@@ -59,7 +59,7 @@ class EventsController < ApplicationController
         @event.user_id = current_user.id;
         respond_to do |format|
             if @event.save
-#                @event.update_categorizations
+                #                @event.update_categorizations
                 flash[:notice] = 'Event was successfully created.'
                 format.html { redirect_to(@event) }
                 format.xml  { render :xml => @event, :status => :created, :location => @event }
@@ -96,6 +96,17 @@ class EventsController < ApplicationController
     end
 
     def init_search
+        #Find the association in case it's a Merchant or Category based listing
+        association_name = find_association_name
+        unless association_name.kind_of?(HashWithIndifferentAccess)
+            case association_name
+            when "category"
+                @category_event_listing = true
+            when "merchant"
+                @merchant_event_listing = true
+            end
+        end
+        
         #for default index load or for all
         @per_page = params[:slt_per_page]
         @per_page ||= session[:per_page]
@@ -114,11 +125,13 @@ class EventsController < ApplicationController
             @searchparams[:title_like] ||= params[:title_like]
             @searchparams[:title_like] ||= ""
 
-            @searchparams[:categorizations_category_id_like_any] ||= params[:category_ids]
-#            @searchparams[:categorizations_category_id_like_any] ||= session[:category_ids]
-#            @searchparams[:categorizations_category_id_like_any] ||= []
-#            session[:category_ids] = @searchparams[:categorizations_category_id_like_any]
-#
+            if @category_event_listing == true 
+                @searchparams[:categorizations_category_id_like_any] ||= params[:category_id]
+            elsif @merchant_event_listing == true
+                #something
+            else
+                @searchparams[:categorizations_category_id_like_any] ||= params[:category_ids]
+            end
             
             @th_type ||= params[:th_type]
             @th_type ||= session[:th_type] #unless session[:th_type].blank?
@@ -145,7 +158,7 @@ class EventsController < ApplicationController
             @searchparams[:origin] ||= '94131'
             session[:origin] = @searchparams[:origin]
 
-             @searchparams[:within]  = params[:sltDistance] 
+            @searchparams[:within]  = params[:sltDistance]
             @searchparams[:within] ||= session[:distance] unless  session[:distance].blank?
             @searchparams[:within] ||= '15'
             session[:distance] = @searchparams[:within]
@@ -158,6 +171,22 @@ class EventsController < ApplicationController
             session[:category_ids] = ''
         end
 
+    end
+
+    def find_association_name
+        params.each do |name, value|
+            if name =~ /(.+)_id$/
+                return $1
+            end
+        end
+    end
+
+    def find_association
+        params.each do |name, value|
+            if name =~ /(.+)_id$/
+                return $1.classify.constantize.find(value)
+            end
+        end
     end
     
     def build_index_map(events)

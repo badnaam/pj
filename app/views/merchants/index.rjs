@@ -1,0 +1,8 @@
+page.replace "merchants_list", :partial => "merchants_index"
+page.replace_html "label_count", "Showing #{@merchants.total_entries} merchants."
+page << @map.clear_overlays
+page << @group.clear
+page << @group.activate
+@markers.each {|key, value| page << @group.addMarker(value, key)}
+page << @map.add_overlay(@group)
+page << @group.centerAndZoomOnMarkers()

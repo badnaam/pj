@@ -4,17 +4,10 @@
     <span class="listing_title blk"><%= link_to "#{event.title}", event, :onclick => "event_marker_group.showMarker(#{event.id});return false;",
       :class => "title_link"%>  </span>
     <span style="display:block"><%= "(#{event.event_date.strftime('%b %d/%y')})" %></span>
-    <%
-    @tags = Array.new
-    event.categorizations.each do |c|
-       #c.each do |ct|
-         @tags << c.category.category_name
-       #end
-    end %>
-    <span class="blk" style="font-style: italic">Tags: <%= @tags.join(", ") %></span>
+    
     <span class="blk">
       <% event.categorizations.each do |ct| %>
-        <%= link_to ct.category.category_name, category_events_path(ct.category)  %>, 
+        <%= link_to ct.category.category_name, category_events_path(ct.category), :class => "action_link" %>,
       <% end  %>
     </span>
     <p class="address">
