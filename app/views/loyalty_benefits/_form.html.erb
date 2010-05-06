@@ -1,39 +1,24 @@
 <script type ="text/javascript">
 
   $j(document).ready(function() {
-    $j("#loyalty_benefit_benefit_type").change(function() {
-      val = $j(this).val();
-      if (val == 1) {
-        $j("#point_conversion").show();
-        $j("#perk_description").hide();
-        $j("#loyalty_benefit_description").val("");
-      } else if (val == 2) {
-        $j("#point_conversion").hide();
-        $j("#loyalty_benefit_point_conversion_ratio").val("");
-        $j("#perk_description").show();
-      }
-    }).change();
+    $j('.date legend, .time legend').addClass('form_label');
+    
+    if ($j('#loyalty_benefit_point_bonus_multiplier').val() == "") {
+      //      $j('#loyalty_benefit_point_bonus_window_start_input, #loyalty_benefit_point_bonus_window_end_input,#loyalty_benefit_point_bonus_window_time_start_input, #loyalty_benefit_point_bonus_window_time_start_input')
+      $j('li.date, li.time').hide();
+    }
 
-    $j("#loyalty_benefit_bonus_type").change(function(){
-      val = $j(this).val();
-      if (val != "") {
-        $j("#bonus_window").show();
-      } else {
-        $j("#bonus_window").hide();
-        $j("#bonus1 :input, #bonus2 :input, #bonus3 :input, #bonus_window :input").val("");
-      }
-      for (i = 1; i <=3; i++) {
-        elem = $j("#bonus" + i);
-        //inputElems = $j("#bonus" + i + " :input")
-        inputElems = elem.children(":input")
-        if (i == val) {
-          elem.show();
-        } else {
-          inputElems.val("");
-          elem.hide();
-        }
-      }
-    }).change();
+   $j('#loyalty_benefit_point_bonus_multiplier').change(function(){
+     if ($j('#loyalty_benefit_point_bonus_multiplier').val() == "") {
+       $j('li.date, li.time').hide();
+       $j(':input', 'li.date').val('').removeAttr('selected');
+       $j(':input', 'li.time').val('').removeAttr('selected');
+       //$j('li.date:input, li.time:input').val('').removeAttr('selected');
+//       alert($j('li.date > select').val(''));
+     } else {
+       $j('li.date, li.time').show();
+     }
+   });
   });
 </script>
 
@@ -45,64 +30,22 @@
   <% submit_url = merchant_loyalty_benefit_path(@merchant,@loyalty_benefit) %>
 <% end  %>
 
-<% form_for(@loyalty_benefit, :url => submit_url) do |f| %>
+<% semantic_form_for(@loyalty_benefit, :url => submit_url) do |f| %>
   <%= f.error_messages %>
-
-  <div>
-    <%= f.label :loyalty_level %><br />
-    <%= f.select(:loyalty_level, options_for_select(LoyaltyBenefit::LEVEL_OPTIONS.collect{|k,v|[v,k]}, @loyalty_benefit.loyalty_level)) %>
-  </div>
-  <div>
-    <%= f.label :active %><br />
-    <%= f.check_box :active %>
-  </div>
-  <div>
-    <%= f.label "Benefit Type" %><br />
-    <%= f.select :benefit_type, options_for_select(LoyaltyBenefit::BENEFIT_OPTIONS.collect {|k, v| [v, k]}, @loyalty_benefit.benefit_type) %>
-  </div>
-  <div style="display: none" id="perk_description">
-    <%= f.label :description %><br />
-    <%= f.text_area :description, :size => "60x10" %>
-  </div>
-  <div  id="point_conversion">
-    <%= f.label "Points earned for $ spent"%><br />
-    <%= f.select :point_conversion_ratio, options_for_select((1..10).to_a.collect{|x| [x] * 2}, @loyalty_benefit.point_conversion_ratio), {:include_blank => true} %>
-  </div>
-  <div>
-    <%= f.label "Bonus Type" %>
-    <%= f.select :bonus_type, options_for_select(LoyaltyBenefit::BONUS_OPTIONS.collect {|k, v| [v, k]}, @loyalty_benefit.bonus_type), {:include_blank => true} %>
-  </div>
-
-  <div style="display: none" id="bonus1">
-      <%= f.label :point_bonus %><br />
-      <%= f.text_field :point_bonus , :class => "bonus_field"%>
-  </div>
-
-  <div style="display: none" id ="bonus2">
-      <%= f.label :point_bonus_multiplier %><br />
-      <%= f.select :point_bonus_multiplier, options_for_select((1..10).to_a.collect{|x| [x] * 2}, @loyalty_benefit.point_bonus_multiplier), :include_blank => true, :class => "bonus_field" %>
-  </div>
-
-  <div style="display: none" id="bonus3">
-      <%= f.label :perk_bonus %><br />
-      <%= f.text_area :perk_bonus, :size => "60x10", :class => "bonus_field"%>
-  </div>
-
-  <div style="display: none" id ="bonus_window">
-    <span>
-      <%= f.label :bonus_window_start %><br />
-      <%= f.datetime_select :bonus_window_start, :class => "bonus_field", :include_blank => true %>
-    </span>
-    <br/>
-    <span>
-      <%= f.label :bonus_window_end %><br />
-      <%= f.datetime_select :bonus_window_end, :class => "bonus_field", :include_blank => true %>
-    </span>
-  </div>
-
-  <p>
-    <%= f.submit act == "new" ? "Create" : "Update", :class => "btn" %>
-  </p>
+  <% f.inputs do %>
+    <%= f.input :loyalty_level, :as => :select, :collection => LoyaltyBenefit::LEVEL_OPTIONS.collect{|k, v| [v, k]} %>
+    <%= f.input :active %>
+    <%= f.input :description, :as => :text, :input_html => {:rows => "5", :cols => "20"}%>
+    <%= f.input :point_conversion_ratio, :as => :select, :label => "Points earner per $", :collection => (1..10).to_a.collect{|x| [x] * 2}, :include_blank => false %>
+    <%= f.input :community_use, :label => "Points valid with all affiliated merchants?" %>
+    <%= f.input :point_bonus_multiplier, :label => "Bonus points?", :as => :select, :collection => (1..10).to_a.collect{|x| [x] * 2} %>
+    <%= f.input :point_bonus_window_start, :label => "Between ", :as => :date %>
+    <%= f.input :point_bonus_window_end, :label => " and ",  :as => :date %>
+    <%= f.input :point_bonus_window_time_start, :label => "Between", :as => :time, :ignore_date => true %>
+    <%= f.input :point_bonus_window_time_end, :label => " And ", :as => :time, :ignore_date => true  %>
+    <%= f.input :perk_bonus, :label => "Additional Perks?", :as => :text %>
+  <% end  %>
+  <%= f.buttons %>
 <% end %>
 
 <%= link_to 'Back', merchant_loyalty_benefits_path(@merchant) %>

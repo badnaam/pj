@@ -1,43 +1,30 @@
-<% page_title("Loyalty Benefits") %>
-<h1>Listing loyalty_benefits</h1>
-
-<% @loyalty_benefits.each do |loyalty_benefit| %>
-  <div class="presentation_section">
-    <div class="presentation_label_header"><%= link_to LoyaltyBenefit::LEVEL_OPTIONS[loyalty_benefit.loyalty_level], merchant_loyalty_benefit_path(@merchant, loyalty_benefit) %></div>
-
-    <div class="presentation_secton_body">
-      <ul class="presentation_list">
+<% page_title("Green Rewards") %>
+<h2 class="page_title">Your Green Rewards Program</h2>
+<div class="lbs_list">
+  <% @loyalty_benefits.each do |loyalty_benefit| %>
+    <div class="lb">
+      <p>
+        <%= link_to LoyaltyBenefit::LEVEL_OPTIONS[loyalty_benefit.loyalty_level], merchant_loyalty_benefit_path(@merchant, loyalty_benefit), :class => "title_link" %>
+        <br/>
+        <%=h loyalty_benefit.description %>
+      </p>
+      <ul >
         <li>Active : <%=h loyalty_benefit.active == true ? "Yes" : "No" %></li>
-
-        <li>Type : <%=h LoyaltyBenefit::BENEFIT_OPTIONS[loyalty_benefit.benefit_type] %></li>
-
-        <li>Perk : <%=h loyalty_benefit.description %></li>
-
         <li>Point per $ : <%=h loyalty_benefit.point_conversion_ratio %></li>
-
-        <li>Bonus Type : <%=h LoyaltyBenefit::BONUS_OPTIONS[loyalty_benefit.bonus_type] %></li>
-
-        <li>Point bonus : <%=h loyalty_benefit.point_bonus %></li>
-
-        <li>Point bonus multiplier : <%=h loyalty_benefit.point_bonus_multiplier %></li>
-
-        <li>Perk bonus : <%=h loyalty_benefit.perk_bonus %></li>
-
-        <li>Bonus window start : <%=h loyalty_benefit.bonus_window_start.strftime("%A %B %d %Y") %></li>
-
-        <li>Bonus window end : <%=h loyalty_benefit.bonus_window_end.strftime("%A %B %d %Y") %></li>
-
+        <% unless loyalty_benefit.point_bonus_multiplier.blank? %>
+          <li>Bonus points per $ : <%=h loyalty_benefit.point_bonus_multiplier %></li>
+          <li>Bonus Valid From : <%=h loyalty_benefit.point_bonus_window_start.strftime("%A %B %d %Y") %> until <%=h loyalty_benefit.point_bonus_window_end.strftime("%A %B %d %Y") %></li>
+          <li> Between the hours of <%= h loyalty_benefit.point_bonus_window_time_start.strftime("%I:%M %p") %> and <%= h loyalty_benefit.point_bonus_window_time_end.strftime("%I:%M %p")  %></li>
+        <% end  %>
+        <li>Additional Perks : <%=h loyalty_benefit.perk_bonus %></li>
       </ul>
+      <span><%= link_to 'Edit', edit_merchant_loyalty_benefit_path(@merchant, loyalty_benefit), :class => "action_link"%></span>
+      <span><%= link_to 'Delete', merchant_loyalty_benefit_path(@merchant, loyalty_benefit), :confirm => 'Are you sure?', :method => :delete, :class => "action_link" %></span>
     </div>
-
-    <div class ="presentation_links">
-      <span><%= link_to 'Show', merchant_loyalty_benefit_path(@merchant, loyalty_benefit) %></span>
-      <span><%= link_to 'Edit', edit_merchant_loyalty_benefit_path(@merchant, loyalty_benefit) %></span>
-      <span><%= link_to 'Delete', merchant_loyalty_benefit_path(@merchant, loyalty_benefit), :confirm => 'Are you sure?', :method => :delete %></span>
-    </div>
+  <% end %>
+</div>
+<% if @loyalty_benefits.size < 3 %>
+  <div>
+    <span class="blk"><%= link_to 'Create another reward level', new_merchant_loyalty_benefit_path(@merchant), :class => "action_link" %></span>
   </div>
-<% end %>
-
-<br />
-
-<%= link_to 'New loyalty_benefit', new_merchant_loyalty_benefit_path(@merchant) %>
+<% end  %>

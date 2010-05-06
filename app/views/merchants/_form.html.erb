@@ -2,7 +2,7 @@
   <%#= form.error_messages %>
   <% form.inputs do %>
     <%= form.input :name, :label => "Listing name" %>
-    <%= form.input :description, :label => 'Description', :as => :text, :hint => "Maximum s500 words" %>
+    <%= form.input :description, :label => 'Description', :as => :text, :hint => "Maximum 255 words" %>
     <%= form.input :merchant_categories, :as => :check_boxes, :label_method => :category_name %>
     <%= form.input :main_contact_name, :label => 'Main contact name' , :hint => "Person who will be contacted for validation
     before listing is active",  :input_html => {:style => "width:50%"}%>

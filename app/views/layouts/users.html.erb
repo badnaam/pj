@@ -76,12 +76,17 @@
       </div>
       <div class ="span-24 last content_container">
         <div class="content span-19 " id="content">
-<%#*<div class="innertube">%>
           <% if flash[:notice] %>
-            <div class ="notice"><%= flash[:notice] %></div><br/>
-          <% end %>
+            <div class ="notice "><%= flash[:notice] %></div>
+          <% end  %>
+          <% if flash[:success] %>
+            <div class ="success"><%= flash[:success] %></div>
+          <% end  %>
+          <% if flash[:error] %>
+            <div class ="error"><%= flash[:error] %>
+            </div>
+          <% end  %>
           <%= yield %>
-<%#*</div>%>
         </div>
         <div class="right_nav span-4 last">
           <div class="innertube">

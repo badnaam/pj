@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  category_name: MyString
+  step: MyString
+  gpoint: 
+  mandatory: false
+  weight: 
+
+two:
+  category_name: MyString
+  step: MyString
+  gpoint: 
+  mandatory: false
+  weight: 

@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :gcertsteps
+
     map.resources :loyalty_benefits
 
     map.resources :images
@@ -9,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
     
     #    map.connect "events/:action", :controller => 'events', :action => /[a-z_]+/i
     map.resources :events, :has_many => [:comments, :categories, :assignments], :has_one => :address
-    map.resources :merchants, :has_many => [:images, :loyalty_benefits, :merchant_categories], :has_one => :address
+    map.resources :merchants, :has_many => [:images, :loyalty_benefits, :merchant_categories, :gcertsteps], :has_one => :address
     map.resources :images
     
     map.login "login", :controller =>:user_sessions, :action => "new"
@@ -19,6 +21,7 @@ ActionController::Routing::Routes.draw do |map|
     map.resources :roles, :has_many => [:users, :assignments]
     map.resources :categories, :has_many => [:events, :categorizations]
     map.resources :merchant_categories, :has_many => [:merchants, :merchant_categorizations]
+    map.resources :gcertsteps, :has_many => [:merchants, :gcertifications]
     map.resources :users, :has_many => [:roles, :friendships, :friends, :events, :articles, :comments, :assignments, :images, :interests, :merchants],
       :member => {:deactivate => :put, :activate => :put}, :has_one => :address
     map.resources :comments

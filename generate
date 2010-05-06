@@ -1180,4 +1180,81 @@ edit_merchant_category_merchant_categorization GET    /merchant_categories/:merc
                                 new_friendship GET    /friendships/new(.:format)                                                             {:action=>"new", :controller=>"friendships"}
                                edit_friendship GET    /friendships/:id/edit(.:format)                                                        {:action=>"edit", :controller=>"friendships"}
                                     friendship GET    /friendships/:id(.:format)                                                             {:action=>"show", :controller=>"friendships"}
-                                               PUT    /friendships/:id(.:format)                                                             {:action=>"update"
+                                               PUT    /friendships/:id(.:format)                                                             {:action=>"update", :controller=>"friendships"}
+                                               DELETE /friendships/:id(.:format)                                                             {:action=>"destroy", :controller=>"friendships"}
+                                  assisgnments GET    /assisgnments(.:format)                                                                {:action=>"index", :controller=>"assisgnments"}
+                                               POST   /assisgnments(.:format)                                                                {:action=>"create", :controller=>"assisgnments"}
+                               new_assisgnment GET    /assisgnments/new(.:format)                                                            {:action=>"new", :controller=>"assisgnments"}
+                              edit_assisgnment GET    /assisgnments/:id/edit(.:format)                                                       {:action=>"edit", :controller=>"assisgnments"}
+                                   assisgnment GET    /assisgnments/:id(.:format)                                                            {:action=>"show", :controller=>"assisgnments"}
+                                               PUT    /assisgnments/:id(.:format)                                                            {:action=>"update", :controller=>"assisgnments"}
+                                               DELETE /assisgnments/:id(.:format)                                                            {:action=>"destroy", :controller=>"assisgnments"}
+                                          root        /                                                                                      {:action=>"index", :controller=>"home"}
+                                                      /:controller/:action/:id                                                               
+                                                      /:controller/:action/:id(.:format)                                                     
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ clear
+[H[2J]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ git add.
+git: 'add.' is not a git-command. See 'git --help'.
+
+Did you mean this?
+	add
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ git add .
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ git commit -a -m "Merchant work"
+[greenus d239d4f] Merchant work
+ 33 files changed, 1247 insertions(+), 192 deletions(-)
+ create mode 100644 app/models/merchant_categorization.rb
+ create mode 100644 app/models/merchant_category.rb
+ delete mode 100644 app/models/plant.rb
+ delete mode 100644 app/models/variation.rb
+ delete mode 100644 app/models/variety.rb
+ delete mode 100644 app/views/events/_events_map.html.erb
+ create mode 100644 app/views/merchants/_merchants_index.html.erb
+ rewrite app/views/merchants/index.html.erb (99%)
+ create mode 100644 app/views/merchants/index.rjs
+ rewrite app/views/merchants/show.html.erb (80%)
+ delete mode 100644 db/migrate/20100430220256_create_plants.rb
+ delete mode 100644 db/migrate/20100430220343_create_varieties.rb
+ delete mode 100644 db/migrate/20100430220643_create_variations.rb
+ create mode 100644 db/migrate/20100503003600_create_merchant_categories.rb
+ create mode 100644 db/migrate/20100503003628_create_merchant_categorizations.rb
+ rename test/fixtures/{plants.yml => merchant_categories.yml} (62%)
+ rename test/fixtures/{varieties.yml => merchant_categorizations.yml} (58%)
+ delete mode 100644 test/fixtures/variations.yml
+ rename test/unit/{variation_test.rb => merchant_categorization_test.rb} (65%)
+ rename test/unit/{plant_test.rb => merchant_category_test.rb} (67%)
+ delete mode 100644 test/unit/variety_test.rb
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ clear
+[H[2J]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ git push pj greenus
+Counting objects: 65, done.
+Delta compression using up to 2 threads.
+Compressing objects:   2% (1/38)   Compressing objects:   5% (2/38)   Compressing objects:   7% (3/38)   Compressing objects:  10% (4/38)   Compressing objects:  13% (5/38)   Compressing objects:  15% (6/38)   Compressing objects:  18% (7/38)   Compressing objects:  21% (8/38)   Compressing objects:  23% (9/38)   Compressing objects:  26% (10/38)   Compressing objects:  28% (11/38)   Compressing objects:  31% (12/38)   Compressing objects:  34% (13/38)   Compressing objects:  36% (14/38)   Compressing objects:  39% (15/38)   Compressing objects:  42% (16/38)   Compressing objects:  44% (17/38)   Compressing objects:  47% (18/38)   Compressing objects:  50% (19/38)   Compressing objects:  52% (20/38)   Compressing objects:  55% (21/38)   Compressing objects:  57% (22/38)   Compressing objects:  60% (23/38)   Compressing objects:  63% (24/38)   Compressing objects:  65% (25/38)   Compressing objects:  68% (26/38)   Compressing objects:  71% (27/38)   Compressing objects:  73% (28/38)   Compressing objects:  76% (29/38)   Compressing objects:  78% (30/38)   Compressing objects:  81% (31/38)   Compressing objects:  84% (32/38)   Compressing objects:  86% (33/38)   Compressing objects:  89% (34/38)   Compressing objects:  92% (35/38)   Compressing objects:  94% (36/38)   Compressing objects:  97% (37/38)   Compressing objects: 100% (38/38)   Compressing objects: 100% (38/38), done.
+Writing objects:   2% (1/38)   Writing objects:   5% (2/38)   Writing objects:   7% (3/38)   Writing objects:  10% (4/38)   Writing objects:  13% (5/38)   Writing objects:  15% (6/38)   Writing objects:  18% (7/38)   Writing objects:  21% (8/38)   Writing objects:  23% (9/38)   Writing objects:  26% (10/38)   Writing objects:  28% (11/38)   Writing objects:  31% (12/38)   Writing objects:  34% (13/38)   Writing objects:  36% (14/38)   Writing objects:  39% (15/38)   Writing objects:  42% (16/38)   Writing objects:  44% (17/38)   Writing objects:  47% (18/38)   Writing objects:  50% (19/38)   Writing objects:  52% (20/38)   Writing objects:  55% (21/38)   Writing objects:  57% (22/38)   Writing objects:  60% (23/38)   Writing objects:  63% (24/38)   Writing objects:  65% (25/38)   Writing objects:  68% (26/38)   Writing objects:  73% (28/38)   Writing objects:  76% (29/38)   Writing objects:  78% (30/38)   Writing objects:  81% (31/38)   Writing objects:  84% (32/38)   Writing objects:  86% (33/38)   Writing objects:  89% (34/38)   Writing objects:  92% (35/38)   Writing objects:  94% (36/38)   Writing objects: 100% (38/38)   Writing objects: 100% (38/38), 20.29 KiB, done.
+Total 38 (delta 25), reused 0 (delta 0)
+To git@github.com:badnaam/pj.git
+   c57f0a9..d239d4f  greenus -> greenus
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ gedit /[Kgitir[K[K[K[K[K[K.[K .gitignore &
+[1] 28821
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ gedit icfongi[K[K[K[K[K[Kfconfi[K[K[K[K[K[K[K[K[K[K[K[K[K
+[1]+  Done                    gedit .gitignore
+]0;asit@ubuntu: ~/Apps/pjasit@ubuntu:~/Apps/pj$ ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:1f:16:ee:00:9d  
+          inet addr:192.168.2.4  Bcast:192.168.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::21f:16ff:feee:9d/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:11930797 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:13419029 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:9407729740 (9.4 GB)  TX bytes:12276727032 (12.2 GB)
+          Interrupt:27 Base address:0x8000 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:8215566 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8215566 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:1509642459 (1.5 GB)  TX bytes:1509642459 (1.5 GB)
+
+wlan0     Link encap:Ethernet  HWaddr 00:1e:64:70:4d:30  
+          inet addr:192.168.2.2  Bcast:192.168.2.25

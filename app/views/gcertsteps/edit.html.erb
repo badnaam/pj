@@ -1,0 +1,12 @@
+<h1>Editing gcertstep</h1>
+
+<% form_for(@gcertstep) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @gcertstep %> |
+<%= link_to 'Back', gcertsteps_path %>

@@ -9,6 +9,9 @@ class Merchant < ActiveRecord::Base
     has_many :merchant_categorizations, :dependent => :destroy
     has_many :merchant_categories, :through => :merchant_categorizations
 
+    has_many :gcertifications
+    has_many :gcertsteps, :through => :gcertifications
+    
     accepts_nested_attributes_for :address
     accepts_nested_attributes_for :images, :reject_if => proc {|attributes| attributes["image"].blank?}, :allow_destroy => true
 

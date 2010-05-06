@@ -78,10 +78,11 @@ class LoyaltyBenefitsController < ApplicationController
 
         respond_to do |format|
             if @loyalty_benefit.update_attributes(params[:loyalty_benefit])
-                flash[:notice] = 'LoyaltyBenefit was successfully updated.'
-                format.html { redirect_to(merchant_loyalty_benefit_path(@merchant, @loyalty_benefit)) }
+                flash[:success] = 'LoyaltyBenefit was successfully updated.'
+                format.html { redirect_to(merchant_loyalty_benefits_path(@merchant)) }
                 format.xml  { head :ok }
             else
+                flash[:error] = "Error updating program details"
                 format.html { render :action => "edit" }
                 format.xml  { render :xml => @loyalty_benefit.errors, :status => :unprocessable_entity }
             end

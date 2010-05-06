@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100503003628) do
+ActiveRecord::Schema.define(:version => 20100506221155) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street1",                                                                          :null => false
@@ -86,6 +86,22 @@ ActiveRecord::Schema.define(:version => 20100503003628) do
     t.datetime "updated_at"
   end
 
+  create_table "gcertifications", :force => true do |t|
+    t.boolean  "expired"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "merchant_id"
+    t.integer  "gcertstep_id"
+  end
+
+  create_table "gcertsteps", :force => true do |t|
+    t.string   "category_name"
+    t.string   "step"
+    t.boolean  "mandatory"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "images", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -107,17 +123,17 @@ ActiveRecord::Schema.define(:version => 20100503003628) do
   end
 
   create_table "loyalty_benefits", :force => true do |t|
-    t.integer  "level"
+    t.integer  "loyalty_level"
     t.string   "description"
-    t.integer  "type"
     t.integer  "point_bonus"
     t.integer  "point_bonus_multiplier"
     t.string   "perk_bonus"
     t.boolean  "active"
-    t.datetime "point_bonus_window_start"
-    t.datetime "point_bonus_window_end"
-    t.datetime "perk_bonus_window_start"
-    t.datetime "perk_bonus_window_end"
+    t.boolean  "community_use",                 :null => false
+    t.date     "point_bonus_window_start"
+    t.date     "point_bonus_window_end"
+    t.time     "point_bonus_window_time_start", :null => false
+    t.time     "point_bonus_window_time_end",   :null => false
     t.integer  "point_conversion_ratio"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -150,11 +166,11 @@ ActiveRecord::Schema.define(:version => 20100503003628) do
     t.string   "main_contact_name",   :limit => 100,                    :null => false
     t.string   "main_contact_number", :limit => 15,                     :null => false
     t.boolean  "active",                             :default => false, :null => false
-    t.integer  "green_grade",         :limit => 1,                      :null => false
+    t.integer  "green_grade",         :limit => 1,   :default => 0,     :null => false
     t.string   "description",         :limit => 500,                    :null => false
     t.string   "website",             :limit => 150,                    :null => false
     t.string   "phone",               :limit => 15,                     :null => false
-    t.string   "fax",                 :limit => 15,                     :null => false
+    t.string   "fax",                 :limit => 15
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
