@@ -25,6 +25,20 @@ document.observe("dom:loaded", function() {
             $('loading').hide();
         }
     });
+
+    var container = $(document.body)
+
+    container.observe('click', function(e) {
+        var el = e.element()
+        if (el.match('.pagination a')) {
+            //el.up('.pagination').insert(createSpinner())
+            new Ajax.Request(el.href, {
+                method: 'get'
+            })
+            e.stop()
+        }
+    });
+
 });
 
 

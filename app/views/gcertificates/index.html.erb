@@ -1,0 +1,22 @@
+<h1>Listing gcertificates</h1>
+
+<table>
+  <tr>
+    <th>Valid</th>
+    <th>Grade</th>
+  </tr>
+
+<% @gcertificates.each do |gcertificate| %>
+  <tr>
+    <td><%=h gcertificate.valid %></td>
+    <td><%=h gcertificate.grade %></td>
+    <td><%= link_to 'Show', gcertificate %></td>
+    <td><%= link_to 'Edit', edit_gcertificate_path(gcertificate) %></td>
+    <td><%= link_to 'Destroy', gcertificate, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New gcertificate', new_gcertificate_path %>

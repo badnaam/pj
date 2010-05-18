@@ -1,0 +1,34 @@
+
+<div class ="gcertsteps_list" id="gcertsteps_list">
+  <%= will_paginate @gcertsteps %>
+  
+  <span class="blk" id="label_count"> <%= page_entries_info @gcertsteps, :entry_name => "Green Steps" %> </span>
+  <table>
+    <th>Category</th>
+    <th>Sub Category</th>
+    <th>Step</th>
+    <th>Weight</th>
+    <th>Points</th>
+    <th>Mandatory</th>
+    <th>Applicable To</th>
+    <% @gcertsteps.each do |gcertstep| %>
+      <tr>
+        <td><%= gcertstep.category_name %></td>
+        <td><%= gcertstep.sub_category%></td>
+        <td><%= gcertstep.step %></td>
+        <td><%= gcertstep.weight %></td>
+        <td><%= gcertstep.gpoint %></td>
+        <td><%= gcertstep.mandatory %></td>
+        <%
+        @applicable_to = ""
+        gcertstep.certstep_merchant_categorizations.each do |c|
+          @applicable_to += c.merchant_category.category_name + ","
+        end  %>
+        <td><%= @applicable_to %></td>
+        <td><%= link_to 'Edit', edit_gcertstep_path(gcertstep), :class => "action_link" %></td>
+        <td><%= link_to 'Delete', gcertstep, :confirm => 'Are you sure?', :method => :delete, :class => "action_link" %></td>
+      </tr>
+    <% end %>
+  </table>
+  <%= will_paginate @gcertsteps %>
+</div>

@@ -1,0 +1,2 @@
+page.remove("gcertstep_sub_category")
+page.insert_html(:bottom, "gcertstep_sub_category_input", :partial => "sub_cat")

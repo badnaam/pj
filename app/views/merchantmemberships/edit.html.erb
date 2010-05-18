@@ -1,0 +1,12 @@
+<h1>Editing merchantmembership</h1>
+
+<% form_for(@merchantmembership) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @merchantmembership %> |
+<%= link_to 'Back', merchantmemberships_path %>

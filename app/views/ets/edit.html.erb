@@ -1,0 +1,12 @@
+<h1>Editing et</h1>
+
+<% form_for(@et) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @et %> |
+<%= link_to 'Back', ets_path %>

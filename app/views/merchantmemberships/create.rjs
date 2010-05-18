@@ -1,0 +1,4 @@
+# TODO Operate on the page object
+page.replace_html :notice, flash[:notice]
+page.replace_html :error, flash[:error]
+page.replace_html :success, flash[:success]

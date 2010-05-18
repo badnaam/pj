@@ -1,0 +1,18 @@
+<h1>Listing gcertifications</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @gcertifications.each do |gcertification| %>
+  <tr>
+    <td><%= link_to 'Show', gcertification %></td>
+    <td><%= link_to 'Edit', edit_gcertification_path(gcertification) %></td>
+    <td><%= link_to 'Destroy', gcertification, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New gcertification', new_gcertification_path %>

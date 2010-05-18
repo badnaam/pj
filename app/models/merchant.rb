@@ -1,16 +1,23 @@
 class Merchant < ActiveRecord::Base
     Max_Images = 2
     
-    belongs_to :user
+    belongs_to :owner, :class_name => "User"
     has_one :address, :as => :addressible, :dependent => :destroy
     has_many :images, :as => :imageible, :dependent => :destroy
     has_many :loyalty_benefits
 
-    has_many :merchant_categorizations, :dependent => :destroy
-    has_many :merchant_categories, :through => :merchant_categorizations
+    belongs_to :merchant_category
+    has_many :gcertificates
+    
+    #    has_many :merchant_categorizations, :dependent => :destroy
+    #    has_many :merchant_categories, :through => :merchant_categorizations
 
+    has_many :ets
     has_many :gcertifications
-    has_many :gcertsteps, :through => :gcertifications
+    has_many :gcertsteps, :through => [:gcertifications]
+
+    has_many :merchant_memberships, :dependent => :destroy
+    has_many :users, :through => :merchant_memberships
     
     accepts_nested_attributes_for :address
     accepts_nested_attributes_for :images, :reject_if => proc {|attributes| attributes["image"].blank?}, :allow_destroy => true
@@ -22,6 +29,7 @@ class Merchant < ActiveRecord::Base
 
     after_save :update_merchant_categorizations
 
+    
     def update_merchant_categorizations
         unless self.merchant_categorizations.nil?
             self.merchant_categorizations.each do |a|

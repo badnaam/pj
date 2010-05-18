@@ -29,6 +29,10 @@ class MerchantsController < ApplicationController
         end
     end
 
+    def get_m_reward
+        @merchant = Merchant.find(params[:id])
+
+    end
     # GET /merchants/1
     # GET /merchants/1.xml
     def show
@@ -60,7 +64,7 @@ class MerchantsController < ApplicationController
     # POST /merchants.xml
     def create
         @merchant = Merchant.new(params[:merchant])
-        @merchant.user_id = current_user.id
+        @merchant.owner_id = current_user.id
         
         respond_to do |format|
             if @merchant.save
@@ -132,9 +136,11 @@ class MerchantsController < ApplicationController
             @searchparams[:name_like] ||= ""
 
             if @category_merchant_listing == true
-                @searchparams[:merchant_categorizations_merchant_category_id_like_any] ||= params[:merchant_category_id]
+                #                @searchparams[:merchant_categorizations_merchant_category_id_like_any] ||= params[:merchant_category_id]
+                @searchparams[:merchant_category_id_like_any] ||= params[:merchant_category_id]
             else
-                @searchparams[:merchant_categorizations_merchant_category_id_like_any] ||= params[:merchant_category_ids]
+                #                @searchparams[:merchant_categorizations_merchant_category_id_like_any] ||= params[:merchant_category_ids]
+                @searchparams[:merchant_category_id_like_any] ||= params[:merchant_category_ids]
             end
 
             @searchparams[:origin] = params[:txtOrigin]

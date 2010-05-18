@@ -1,0 +1,3 @@
+# TODO Operate on the page object
+page.replace "gcertsteps_list", :partial => "gcertsteps_index"
+page.replace_html "label_count", "#{page_entries_info @gcertsteps, :entry_name => "Green Steps"}"

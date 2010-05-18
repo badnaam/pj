@@ -1,0 +1,23 @@
+<script type="text/javascript">
+  function getSubCats() {
+    var url = "/gcertsteps"
+    var params = "category_name=" + $("gcertstep_category_name").getValue();
+    alert(params);
+    new Ajax.Request(url, {parameters:params, asynchronous:true, method:'get'})
+  }
+  </script>
+<% semantic_form_for @gcertstep do |f| %>
+
+
+  <% f.inputs do  %>
+    <%= f.input :category_name, :as => :select, :collection => Gcertstep::CATEGORIES.keys %>
+    <%= observe_field :gcertstep_category_name, :url => {:action => "getsubcat", :method => :get}, :frequency => 0.5, :with => "'category_name=' + encodeURIComponent(value)" %>
+    <%= f.input :sub_category, :as => :select, :collection => Gcertstep::CATEGORIES[:category_name] unless :category_name.nil? %>
+    <%= f.input :step %>
+    <%= f.input :weight %>
+    <%= f.input :gpoint %>
+    <%= f.input :mandatory, :label => "Mandatory?"%>
+    <%= f.input :merchant_categories, :label => "Applicable to ", :as => :check_boxes, :label_method => :category_name, :collection => MerchantCategory.all(:select => "id, category_name") %>
+  <% end  %>
+  <%= f.buttons %>
+<% end  %>

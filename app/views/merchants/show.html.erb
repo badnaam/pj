@@ -14,13 +14,8 @@
     <%= link_to 'Delete', @merchant, :confirm => 'Are you sure?', :method => :delete,  :class => "action_link" %>
   <% end  %>
   <span class="listing_title blk"> <%= @merchant.name %> </span>
-  <%
-  @tags = Array.new
-  @merchant.merchant_categorizations.each do |c|
-    @tags << c.merchant_category.category_name
-  end %>
 
-  <span class="blk">Tags: <%= @tags.join(", ") %></span>
+  <span class="blk">Category: <%= @merchant.merchant_category.category_name %></span>
   <p class="address">
     <%= @merchant.address.street1.camelize %>
     <br/>
@@ -32,8 +27,21 @@
     <a href="<%= @a %>" class="action_link" id="map_link"> View Map</a>
   </p>
   <div>
+    <% if current_user == nil %>
+      <%= link_to "Login/Register to become a member", login_path, :class => "action_link" %>
+    <% elsif MerchantMembership.is_user_member?(@merchant, current_user) %>
+      <% @membership = MerchantMembership.user_id_equals(current_user.id).first %>
+      <span class="blk">You are a <%= LoyaltyBenefit::LEVEL_OPTIONS[@membership.level]%> level member with <%= @membership.total_points %> points.</span>
+    <% else %>
+      <%= link_to_remote "Become a member", :url => {:action => :create, :controller => :merchantmemberships, :merchant_id => @merchant.id}, :class => "action_link" %>
+    <% end  %>
+  </div>
+  <p>
+
+  </p>
+  <div>
   </div>
   <p class="listing_description">
     <%= @merchant.description %>
   </p>
-  </div>
+</div>

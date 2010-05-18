@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100506221155) do
+ActiveRecord::Schema.define(:version => 20100515021054) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street1",                                                                          :null => false
@@ -28,6 +28,13 @@ ActiveRecord::Schema.define(:version => 20100506221155) do
 
   add_index "addresses", ["lat"], :name => "lat"
   add_index "addresses", ["lng"], :name => "lng"
+
+  create_table "applicabilities", :force => true do |t|
+    t.integer  "merchant_id"
+    t.integer  "gcertstep_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "articles", :force => true do |t|
     t.string   "subject"
@@ -58,11 +65,34 @@ ActiveRecord::Schema.define(:version => 20100506221155) do
     t.datetime "updated_at"
   end
 
+  create_table "certstep_merchant_categorizations", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "merchant_category_id"
+    t.integer  "gcertstep_id"
+  end
+
   create_table "comments", :force => true do |t|
     t.text     "content"
     t.integer  "user_id",          :null => false
     t.integer  "commentable_id"
     t.string   "commentable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "dudes", :force => true do |t|
+    t.string   "dude_name",  :limit => 10, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ets", :force => true do |t|
+    t.integer  "ets_type",    :limit => 2, :null => false
+    t.string   "comment"
+    t.integer  "amount"
+    t.integer  "merchant_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -86,17 +116,31 @@ ActiveRecord::Schema.define(:version => 20100506221155) do
     t.datetime "updated_at"
   end
 
+  create_table "gcertificates", :force => true do |t|
+    t.boolean  "cert_valid"
+    t.integer  "grade"
+    t.integer  "total_score", :null => false
+    t.integer  "merchant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "gcertifications", :force => true do |t|
-    t.boolean  "expired"
+    t.integer  "score",           :limit => 1, :null => false
+    t.integer  "response",        :limit => 1, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "merchant_id"
     t.integer  "gcertstep_id"
+    t.integer  "gcertificate_id",              :null => false
   end
 
   create_table "gcertsteps", :force => true do |t|
     t.string   "category_name"
+    t.string   "sub_category",  :limit => 200, :null => false
     t.string   "step"
+    t.integer  "weight",        :limit => 1,   :null => false
+    t.integer  "gpoint",        :limit => 1,   :null => false
     t.boolean  "mandatory"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -154,6 +198,13 @@ ActiveRecord::Schema.define(:version => 20100506221155) do
     t.integer  "merchant_category_id"
   end
 
+  create_table "merchant_memberships", :force => true do |t|
+    t.integer  "merchant_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "merchant_users", :force => true do |t|
     t.integer  "user_id"
     t.integer  "merchant_id"
@@ -163,17 +214,31 @@ ActiveRecord::Schema.define(:version => 20100506221155) do
 
   create_table "merchants", :force => true do |t|
     t.string   "name"
-    t.string   "main_contact_name",   :limit => 100,                    :null => false
-    t.string   "main_contact_number", :limit => 15,                     :null => false
-    t.boolean  "active",                             :default => false, :null => false
-    t.integer  "green_grade",         :limit => 1,   :default => 0,     :null => false
-    t.string   "description",         :limit => 500,                    :null => false
-    t.string   "website",             :limit => 150,                    :null => false
-    t.string   "phone",               :limit => 15,                     :null => false
-    t.string   "fax",                 :limit => 15
+    t.string   "main_contact_name",    :limit => 100,                    :null => false
+    t.string   "main_contact_number",  :limit => 15,                     :null => false
+    t.boolean  "active",                              :default => false, :null => false
+    t.integer  "green_grade",          :limit => 1,   :default => 0,     :null => false
+    t.string   "description",          :limit => 500,                    :null => false
+    t.string   "website",              :limit => 150,                    :null => false
+    t.string   "phone",                :limit => 15,                     :null => false
+    t.string   "fax",                  :limit => 15
+    t.integer  "merchant_category_id",                                   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+  end
+
+  create_table "nationalities", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "nation_id"
+    t.integer  "dude_id"
+  end
+
+  create_table "nations", :force => true do |t|
+    t.string   "n_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "plants", :force => true do |t|
@@ -206,8 +271,9 @@ ActiveRecord::Schema.define(:version => 20100506221155) do
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "users", :force => true do |t|
-    t.string   "username"
-    t.string   "email"
+    t.string   "username",                              :null => false
+    t.string   "email",              :default => "",    :null => false
+    t.boolean  "user_type",                             :null => false
     t.string   "crypted_password"
     t.boolean  "active",             :default => false, :null => false
     t.datetime "created_at"

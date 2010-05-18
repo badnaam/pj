@@ -1,0 +1,18 @@
+<h1>Listing merchantmemberships</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @merchantmemberships.each do |merchantmembership| %>
+  <tr>
+    <td><%= link_to 'Show', merchantmembership %></td>
+    <td><%= link_to 'Edit', edit_merchantmembership_path(merchantmembership) %></td>
+    <td><%= link_to 'Destroy', merchantmembership, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New merchantmembership', new_merchantmembership_path %>

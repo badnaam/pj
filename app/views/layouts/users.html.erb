@@ -69,7 +69,7 @@
                 link_to "BLOGS", articles_path
               end%></li>
             <% if current_user %>
-              <li><%= link_to "ACCOUNT", current_user %></li>
+              <li><%= link_to "ACCOUNT", gaccount_path %></li>
             <% end  %>
           </ul>
         </div>
@@ -77,13 +77,13 @@
       <div class ="span-24 last content_container">
         <div class="content span-19 " id="content">
           <% if flash[:notice] %>
-            <div class ="notice "><%= flash[:notice] %></div>
+            <div class ="notice" id ="notice"><%= flash[:notice] %></div>
           <% end  %>
           <% if flash[:success] %>
-            <div class ="success"><%= flash[:success] %></div>
+            <div class ="success" id ="success"><%= flash[:success] %></div>
           <% end  %>
           <% if flash[:error] %>
-            <div class ="error"><%= flash[:error] %>
+            <div class ="error" id ="error"><%= flash[:error] %>
             </div>
           <% end  %>
           <%= yield %>

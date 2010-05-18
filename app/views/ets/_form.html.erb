@@ -1,0 +1,44 @@
+<script type="text/javascript">
+  $j(document).ready(function() {
+    $j("#et_ets_type_input  :input[type='radio']").click(function() {
+      if ($j(this).val() == 1) { //credit
+        $j("label[for='et_amount']").html("Bill Amount*");
+      } else {
+        $j("label[for='et_amount']").html("Number of points to deduct*");
+      }
+    });
+
+      $j('.accordion .acc_header').click(function() {
+      $j(this).next().toggle('slow');
+      img_elem = $j("img", this);
+      if ($j(this).hasClass("acc_h_off")) {
+        $j(this).removeClass("acc_h_off", 'slow').addClass("acc_h_on", 'slow');
+        img_elem.attr("src", "/images/arr_down.png")
+      } else if ($j(this).hasClass("acc_h_on")) {
+        $j(this).removeClass("acc_h_on", 'slow').addClass("acc_h_off", 'slow');
+        img_elem.attr("src", "/images/arr_right.png")
+      }
+      return false;
+    }).next().hide();
+
+  });
+</script>
+<% semantic_form_for @et do |f| %>
+ <%= f.semantic_errors %>
+  <% f.inputs do %>
+    <li>
+      <%= label_tag "Customer's username" %>
+      <%= text_field_tag :username, params[:username] %>
+    </li>
+    <%= f.input :merchant, :as => :select, :label => "Select Business", :label_method => "name", :include_blank => true %>
+    <%= observe_field :et_merchant_id, :url => {:controller => :loyalty_benefits, :action => "index"}, :method => :get, :frequency => 0.5, :with => "'merchant_id=' + encodeURIComponent(value)" %>
+    <div id="accordion" class="accordion" style="display:none">
+      <h4 class="acc_header acc_h_on" id="acc_header">View Program Details<img src='/images/arr_down.png' alt='>>' class ='acc_arr'/></h4>
+      <div id ="lbs_list"></div>
+    </div>
+    <%= f.input :ets_type, :label => "Type", :collection => Et::ETS_TYPE, :as => :radio %>
+    <%= f.input :amount, :label => "Bill Amount", :input_html => {:size => 10} %>
+    <%= f.input :comment, :label => "Comment" %>
+  <% end  %>
+  <%= f.commit_button "Submit" %>
+<% end  %>

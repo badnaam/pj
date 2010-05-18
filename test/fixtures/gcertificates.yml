@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  valid: false
+  grade: 1
+
+two:
+  valid: false
+  grade: 1

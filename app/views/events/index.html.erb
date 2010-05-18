@@ -120,7 +120,7 @@
         <ul >
           <%Category.get_category_hash.each do |k, v| %>
             <li>
-              <%= check_box_tag "category_ids[]", k, session[:category_ids].include?(k.to_s)  %>
+              <%= check_box_tag "category_ids[]", k, session[:category_ids].include?(k.to_s) unless session[:category_ids].nil?  %>
               <%= label_tag  v%>
             </li>
           <% end  %>

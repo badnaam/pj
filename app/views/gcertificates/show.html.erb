@@ -1,0 +1,13 @@
+<% if @gcertificate.nil? %>
+
+<% else %>
+<div>
+  <span class="blk">Green Score: <%=h @gcertificate.gcertifications.sum(:score) %></span>
+  <span class ="blk"><%=h @gcertificate.grade %></span>
+
+</div>
+
+<span class="blk"><%= link_to "Merchant Profile", merchant_path(@merchant), :class => "action_link" %></span>
+<span class="blk"><%= link_to "Edit Profile", edit_merchant_path(@merchant), :class => "action_link" %></span>
+
+<% end  %>

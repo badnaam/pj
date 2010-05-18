@@ -1,0 +1,12 @@
+<h1>Editing gcertification</h1>
+
+<% form_for(@gcertification) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @gcertification %> |
+<%= link_to 'Back', gcertifications_path %>

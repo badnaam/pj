@@ -1,18 +1,7 @@
-<h1>Listing gcertsteps</h1>
+<% page_title("Green Grades") %>
+<h3 class ="page_title">Green Steps</h3>
+<span class="page_title_menu">
+  <%= link_to 'New step', new_gcertstep_path, :class => "action_link" %>
+</span>
 
-<table>
-  <tr>
-  </tr>
-
-<% @gcertsteps.each do |gcertstep| %>
-  <tr>
-    <td><%= link_to 'Show', gcertstep %></td>
-    <td><%= link_to 'Edit', edit_gcertstep_path(gcertstep) %></td>
-    <td><%= link_to 'Destroy', gcertstep, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New gcertstep', new_gcertstep_path %>
+<%= render "gcertsteps_index" %>

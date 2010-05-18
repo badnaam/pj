@@ -1,0 +1,2 @@
+module GcertificationsHelper
+end

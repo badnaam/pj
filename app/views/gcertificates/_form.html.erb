@@ -1,0 +1,88 @@
+<script type="text/javascript">
+  $j(document).ready(function() {
+    $j("li.radio").each(function () {
+      label = $j("label", this).html();
+      fldset = $j("fieldset", this).first();
+      rol = $j("ol", this).first();
+      fldset.before("<span class='gstep'>" + label + "</span>").after(rol);
+      fldset.remove();
+    });
+
+    $j('.accordion .acc_header').click(function() {
+      $j(this).next().toggle('slow');
+      img_elem = $j("img", this);
+      if ($j(this).hasClass("acc_h_off")) {
+        $j(this).removeClass("acc_h_off", 'slow').addClass("acc_h_on", 'slow');
+        img_elem.attr("src", "/images/arr_down.png")
+      } else if ($j(this).hasClass("acc_h_on")) {
+        $j(this).removeClass("acc_h_on", 'slow').addClass("acc_h_off", 'slow');
+        img_elem.attr("src", "/images/arr_right.png")
+      }
+      return false;
+    }).next().hide();
+
+<% if controller.action_name == "new" %>
+    $j("input:radio[value='0']").each(function() {
+      $j(this).attr('checked', true);
+    });
+<%end%>
+  });
+  
+  function evalScore(elem) {
+    elem_val = $j(elem).val();
+    parent_li = $j(elem).closest("li.radio").first();
+    gweight = $j(parent_li).next("input").attr("value");
+    gpoint_elem = $j(parent_li).next("input").next("input");
+    gpoint = gpoint_elem.attr("value");
+    next_li = $j(gpoint_elem).next("li");
+    $j("input[type='hidden']", next_li).val(gweight * gpoint * elem_val);
+  }
+</script>
+
+
+
+<div id="certstep_div">
+  <div class="accordion">
+    <% semantic_form_for @gcertificate do |f| %>
+      <% f.inputs do  %>
+        <%= f.input :merchant_id, :as => :hidden, :input_html => {:value => @merchant_id} %>
+        <% if @gcertificate.new_record? %>
+          <% @gcertsteps.keys.sort.each_with_index do |category, cat_index| %>
+            <h4 class="acc_header acc_h_off"><%= (cat_index + 1).to_s + "." + category %><img src="/images/arr_right.png" class ="acc_arr" alt=">>"/></h4>
+            <div class="acc_content">
+              <% @gcertsteps[category].each_with_index do |c, c_index|%>
+                <% f.semantic_fields_for :gcertifications do |cs| %>
+                  <%= cs.input :response, :as => :radio, :collection => [["Completely", "2"], ["Partially", "1"], ["None", "0"]], :label => (c_index + 1).to_s + "." + c.step,
+                    :input_html => {:onclick => "evalScore(this);"} %>
+                  <%= hidden_field_tag "gweight", c.weight %>
+                  <%= hidden_field_tag "gpoint", c.gpoint %>
+                  <%= cs.input :score, :as => :hidden, :input_html => {:value => 0} %>
+                  <%= cs.input :gcertstep_id, :as => :hidden, :input_html => {:value => c.id} %>
+                  <%= cs.input :merchant_id, :as => :hidden, :input_html => {:value => @merchant_id} %>
+                <% end  %>
+              <% end  %>
+            </div>
+          <% end  %>
+        <% else %>
+          <% @gcertifications.keys.sort.each_with_index do |category, cat_index|  %>
+            <h4 class="acc_header acc_h_off"><%= (cat_index + 1).to_s + "." + category %><img src="/images/arr_right.png" class ="acc_arr" alt=">>"/></h4>
+            <div class="acc_content">
+              <% @gcertifications[category].each_with_index do |rec, rec_index| %>
+                <% f.semantic_fields_for :gcertifications, rec  do |cs| %>
+                  <%= cs.input :response, :as => :radio, :collection => [["Completely", "2"], ["Partial", "1"], ["None", "0"]],  :label => (rec_index + 1).to_s + "." + cs.object.gcertstep.step,
+                    :input_html => {:onclick => "evalScore(this);"}%>
+                  <%= hidden_field_tag "gweight", cs.object.gcertstep.weight %>
+                  <%= hidden_field_tag "gpoint", cs.object.gcertstep.gpoint %>
+                  <%= cs.input :score, :as => :hidden %>
+                  <%= cs.input :gcertstep_id, :as => :hidden, :input_html => {:value => cs.object.gcertstep.id} %>
+                  <%= cs.input :merchant_id, :as => :hidden %>
+                <% end  %>
+              <% end  %>
+            </div>
+          <% end  %>
+        <% end  %>
+      <% end  %>
+      <%= f.buttons %>
+    <% end  %>
+  </div>
+</div>

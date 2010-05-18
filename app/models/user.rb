@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
     Max_Profile_Images = 2
     Max_Image_Size = 1.megabyte
     TO_FORMAT = /^[_a-z0-9+.-]+@[_a-z0-9-]+\.[_a-z0-9.-]+$/i
-    
+
+    USER_TYPE = {1 => "User", 2 => "BusinessUser", 3 => "Contributor"}
     acts_as_authentic do |a|
         a.validates_length_of_password_field_options = {:minimum => 1, :on =>:update, :if => :has_no_credential?}
         a.validates_length_of_login_field_options = {:minimum => 1, :on =>:update, :if => :has_no_credential?}
@@ -18,13 +19,16 @@ class User < ActiveRecord::Base
     #    validate :validate_attachments
 
     has_many :interests, :as => :interestible, :dependent => :destroy
+    has_many :ets
     accepts_nested_attributes_for :interests, :reject_if => proc {|attributes| attributes["interest_name"].blank?}, :allow_destroy => true
 
     has_many :images, :as => :imageible, :dependent => :destroy
     accepts_nested_attributes_for :images, :reject_if => proc {|attributes| attributes["image"].blank?}, :allow_destroy => true
 
-    #    has_many :merchant_users, :dependent => :destroy
-    has_many :merchants
+    has_many :owned_merchants, :foreign_key => :owner_id, :class_name => 'Merchant'
+
+    has_many :merchant_memberships, :dependent => :destroy
+    has_many :merchants, :through => :merchant_memberships
     
     #Associations
     #    for roles

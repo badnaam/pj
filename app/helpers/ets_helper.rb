@@ -1,0 +1,2 @@
+module EtsHelper
+end

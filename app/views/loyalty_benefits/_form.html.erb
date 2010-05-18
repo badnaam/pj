@@ -4,21 +4,19 @@
     $j('.date legend, .time legend').addClass('form_label');
     
     if ($j('#loyalty_benefit_point_bonus_multiplier').val() == "") {
-      //      $j('#loyalty_benefit_point_bonus_window_start_input, #loyalty_benefit_point_bonus_window_end_input,#loyalty_benefit_point_bonus_window_time_start_input, #loyalty_benefit_point_bonus_window_time_start_input')
       $j('li.date, li.time').hide();
     }
 
-   $j('#loyalty_benefit_point_bonus_multiplier').change(function(){
-     if ($j('#loyalty_benefit_point_bonus_multiplier').val() == "") {
-       $j('li.date, li.time').hide();
-       $j(':input', 'li.date').val('').removeAttr('selected');
-       $j(':input', 'li.time').val('').removeAttr('selected');
-       //$j('li.date:input, li.time:input').val('').removeAttr('selected');
-//       alert($j('li.date > select').val(''));
-     } else {
-       $j('li.date, li.time').show();
-     }
-   });
+    $j('#loyalty_benefit_point_bonus_multiplier').change(function(){
+      if ($j('#loyalty_benefit_point_bonus_multiplier').val() == "") {
+        $j('li.date, li.time').hide();
+       // $j(':input li.date').val('');
+         $j(':input', 'li.date').val('').removeAttr('selected');
+        $j(':input', 'li.time').val('').removeAttr('selected');
+      } else {
+        $j('li.date, li.time').show();
+      }
+    });
   });
 </script>
 
@@ -39,8 +37,16 @@
     <%= f.input :point_conversion_ratio, :as => :select, :label => "Points earner per $", :collection => (1..10).to_a.collect{|x| [x] * 2}, :include_blank => false %>
     <%= f.input :community_use, :label => "Points valid with all affiliated merchants?" %>
     <%= f.input :point_bonus_multiplier, :label => "Bonus points?", :as => :select, :collection => (1..10).to_a.collect{|x| [x] * 2} %>
-    <%= f.input :point_bonus_window_start, :label => "Between ", :as => :date %>
-    <%= f.input :point_bonus_window_end, :label => " and ",  :as => :date %>
+    <%= f.input :point_bonus_window_start, :label => "Bonus start on ", :as => :date %>
+    <%= f.input :point_bonus_window_end, :label => "Bonus ends on ", :as => :date %>
+    <%#*<li class ="date required">%>
+    <%#= label_tag "Bonus Start Date*" %>
+    <%#= calendar_date_select_tag :point_bonus_window_start, nil, :default_time => Date.today,  :popup => 'force', :name => "loyalty_benefit[point_bonus_window_start]"%>
+    <%#*</li>%>
+    <%#*<li class ="date required">%> 
+    <%#= label_tag "Bonus End Date*" %>
+    <%#= calendar_date_select_tag :point_bonus_window_end, nil, :default_time => Date.today + 7, :popup => 'force',:name => "loyalty_benefit[point_bonus_window_end]"%>
+    <%#*</li>%>
     <%= f.input :point_bonus_window_time_start, :label => "Between", :as => :time, :ignore_date => true %>
     <%= f.input :point_bonus_window_time_end, :label => " And ", :as => :time, :ignore_date => true  %>
     <%= f.input :perk_bonus, :label => "Additional Perks?", :as => :text %>

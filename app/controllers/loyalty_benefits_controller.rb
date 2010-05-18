@@ -18,6 +18,7 @@ class LoyaltyBenefitsController < ApplicationController
         respond_to do |format|
             format.html # index.html.erb
             format.xml  { render :xml => @loyalty_benefits }
+            format.js
         end
     end
 

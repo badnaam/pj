@@ -9,3 +9,9 @@
   <%= link_to "Add Images", polymorphic_path([@merchant, :images])%> |
   <%= link_to "Manage Loyalty Benefits", merchant_loyalty_benefits_path(@merchant) %>
 <% end  %>
+<% if @merchant.gcertificates.blank? %>
+<%= link_to "Set up your Green Grade", new_merchant_gcertificate_path(@merchant) %>
+<% else %>
+  <% @gcertificate = @merchant.gcertificates(:order => ":created_at DESC").first %>
+  <%= link_to "Manage your Green Grade", edit_merchant_gcertificate_path(@merchant, @gcertificate) %>
+<% end  %>

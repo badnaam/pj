@@ -4,13 +4,13 @@
 authorization do
     role :admin do
         includes [:guest, :business, :siteuser]
-        has_permission_on [:users, :roles, :articles, :home, :events, :loyalty_benefits], :to =>[:index, :show, :new, :create, :update, :destroy, :edit, :deactivate, :activate,
+        has_permission_on [:users, :roles, :articles, :home, :events, :loyalty_benefits, :gcertsteps, :merchants], :to =>[:index, :show, :new, :create, :update, :destroy, :edit, :deactivate, :activate,
             :assignbusinessrole, :assigncontribrole, :assignsiterole]        
        
     end
 
     role :guest do
-        has_permission_on [:articles, :comments, :home, :events, :businesses,:address, :images, :interests, :loyalty_benefits, :merchants], :to => [:index, :show]
+        has_permission_on [:articles, :comments, :home, :events, :businesses,:address, :images, :interests, :loyalty_benefits, :merchants, :gcertsteps], :to => [:index, :show]
         has_permission_on [:users,:address], :to =>[ :new, :create]
     end
 
@@ -39,6 +39,10 @@ authorization do
         has_permission_on :merchants, :to => [:new, :create]
         
         has_permission_on :merchants, :to =>[:edit, :update, :destroy] do
+            if_attribute :owner_id => is {user.id}
+        end
+
+        has_permission_on :gcertifications, :to => [:edit, :update, :destroy] do
             if_attribute :user_id => is {user.id}
         end
 

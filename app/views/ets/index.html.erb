@@ -1,0 +1,18 @@
+<h1>Listing ets</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @ets.each do |et| %>
+  <tr>
+    <td><%= link_to 'Show', et %></td>
+    <td><%= link_to 'Edit', edit_et_path(et) %></td>
+    <td><%= link_to 'Destroy', et, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New et', new_et_path %>

@@ -1,0 +1,9 @@
+<% semantic_form_for(@gcertification) do |f| %>
+  <%= f.error_messages %>
+<% f.inputs do %>
+  <%= f.input :gcertstep, :as=> :check_boxes, :label_method => :step %>
+  <%= f.input :user_id, :as => :hidden, :input_html => {:value => @current_user.id} %>
+  <%= f.input :score, :as => :select, :collection => [["2", "Complete"], ["1", "Partial"], ["0", "None"]] %>
+<% end  %>
+    <%= f.buttons %>
+<% end %>
