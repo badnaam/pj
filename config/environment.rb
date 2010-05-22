@@ -36,7 +36,7 @@ Rails::Initializer.run do |config|
     config.time_zone = 'UTC'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
+     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**','*.{rb,yml}')]
     # config.i18n.default_locale = :de
     #    config.gem "mime-types"
 
@@ -58,7 +58,7 @@ Rails::Initializer.run do |config|
     #    http://ym4r.rubyforge.org/
     config.gem "ym4r"
     config.gem "calendar_date_select"
-    config.active_record.observers= :user_observer
+#    config.active_record.observers= :user_observer
 
     #for rmagick installation
     #    sudo apt-get install imagemagick

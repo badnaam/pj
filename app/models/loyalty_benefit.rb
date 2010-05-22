@@ -4,7 +4,7 @@ class LoyaltyBenefit < ActiveRecord::Base
     #    BONUS_OPTIONS = {1 => "Points", 2 => "Point Multiplier", 3 => "Special Perk"}
     #    BENEFIT_OPTIONS = {1 => "Points", 2 => "Perks"}
     
-    validates_presence_of :loyalty_level,  :point_conversion_ratio, :community_use
+    validates_presence_of :loyalty_level,  :point_conversion_ratio, :community_use, :points_req, :red_desc
     validates_presence_of :point_bonus_window_start, :point_bonus_window_end, :point_bonus_window_time_start, :point_bonus_window_time_end,
       :unless => Proc.new {|r| r.point_bonus_multiplier.blank? }
     validates_date :point_bonus_window_end, :after => lambda {:point_bonus_window_start}, :on_or_before_message => "End Date should be later than Start Date"
@@ -21,12 +21,9 @@ class LoyaltyBenefit < ActiveRecord::Base
 
     def self.get_points(amount, level, merchant_id)
         rec = merchant_id_equals(merchant_id).loyalty_level_equals(level).first
-        puts "#{rec.active}"
-        puts "active?"
         unless rec.active
             return 0
         end
-        puts "active"
         if (in_bonus_window(rec))
             pcv = rec.point_bonus_multiplier
         else

@@ -6,7 +6,7 @@ authorization do
         includes [:guest, :business, :siteuser]
         has_permission_on [:users, :roles, :articles, :home, :events, :loyalty_benefits, :gcertsteps, :merchants], :to =>[:index, :show, :new, :create, :update, :destroy, :edit, :deactivate, :activate,
             :assignbusinessrole, :assigncontribrole, :assignsiterole]        
-       
+         has_permission_on :authorization_rules, :to => :read
     end
 
     role :guest do

@@ -79,6 +79,17 @@ ActionController::Routing::Routes.draw do |map|
     # Note: These default routes make all actions in every controller accessible via GET requests. You should
     # consider removing or commenting them out if you're using named routes and resources.
 
+    map.with_options :controller => 'pages' do |page|
+        page.user_details '/user_details', :action => 'user_details'
+        page.about '/about', :action => 'about'
+        page.merchant_details '/merchant_details', :action => 'merchant_details'
+        page.faq '/faq', :action => 'faq'
+        page.terms '/terms', :action => 'terms'
+        page.pp '/pp', :action => 'pp'
+        page.feedback '/feedback', :action => 'feedback'
+        page.sign_up_choice '/sign_up_choice', :action => 'sign_up_choice'
+    end
+    
     map.root :controller =>"home"
     map.connect ':controller/:action/:id'
     map.connect ':controller/:action/:id.:format'

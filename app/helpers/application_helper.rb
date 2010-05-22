@@ -1,6 +1,9 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+    def t(s)
+        I18n.t s
+    end
     
     def select_options_tag(name='',select_options={},options={})
         #set selected from value

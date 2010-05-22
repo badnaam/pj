@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
     filter_resource_access
 
-    layout "users"
+    layout "wo_r_nav"
   
     def index
         @user = User.new

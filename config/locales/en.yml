@@ -2,4 +2,80 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  txt:
+    logo: "EcoEko"
+    logo_msg: "The rewarding eco-system"
+    sign_up: "SIGN UP!"
+    login: "Login"
+    logout: "Logout"
+    
+#Views
+  layout:
+    lnk_about: 'About'
+    lnk_pp: 'Privacy Policy'
+    lnk_fdb: 'Feedback'
+    lnk_terms: 'Terms'
+    lnk_m: 'Merchants'
+    lnk_u: 'How does it work?'
+    lnk_faq: 'FAQ'
+    lnk_merchants_c: 'MERCHANT'
+    users:
+ 
+    wo_r_nav:
+  lb:
+    index:
+      redeem: "Points used for"
+      rewards: "Your Eco Points Program"
+      points_needed: "Points needed to reach this level"
+  home:
+    index:
+      what_is_it: "What is EcoEko?"
+      how_works: "How does it work?"
+      intro_msg: "Go Green. Support Green. Get Rewarded."
+      what_intro_details: "EcoEko helps enhance the <a href='/eco_performance'>eco-performance</a> of your community, by promoting merchants who are eco-conscious and making it rewarding for consumers/users
+      who choose them. The hope is to enhance our eco-performance at an individual and community level by supporting merchants and consumers who care to take the initiative
+      and dispel the myth that being <i>eco-aware</i> or <i>going green</i> is a luxury or a fad. It can be a lifestyle that is rewarding both in the short and long term."
+      how_intro_details_merchant: "<ul class='m_benefit'><li>Rate and improve your eco performance.</li> <li>Enhance and differentiate your product/services.</li> <li>Acquire and keep loyal
+      customers</li><li> <a href = '/merchant_details'>Much more..find out how?</a></li></ul>"
+      how_intro_details_user: "<p>Accrue and redeem <a href=/user_details>green points/perks </a> for dining out, home improvement or even for a day at the spa(!), while reducing
+      the carbon footprint and enhancing the eco-health, of your community!</p>"
+   
+#End Viewyo
+    not_enough: "Not enough points for this transaction"
+    
+  activerecord:
+    attributes:
+      et:
+        ets_type: "Transaction Type"
+    errors:
+      messages:
+        blah: "foo"
+    models:
+        et:
+      
+          
+  formtastic:
+    labels:
+     loyalty_benefit:
+       new:
+       edit:
+         loyalty_level: "Membership Level"
+         active: "Is the program currently active?"
+         red_desc: "How can points be redeemed?"
+         points_req: "Points required for this level"
+         point_conversion_ratio: "Points earned per $ spent"
+         point_bonus_multiplier: "Bonus Points earned per $"
+         point_bonus_window_start: "Bonus can be earned from"
+         point_bonus_window_end: "Bonus can be earned until"
+         point_bonus_window_time_start: "Starting at?"
+         point_bonus_window_time_end: "Ending at?"
+         perk_bonus: "Any other perks?"
+         red_desc: "How can points be used?"
+    hints:
+     loyalty_benefit:
+       new:
+       edit:
+         red_desc: "Maximum 500 words"
+#         community_use: "Can points be used with other affiliated merchants?"
+         point_bonus_multiplier: "Extra incentive for customers during slow hours. Bonus points include the regular points.For example, if you select 2, customer is awared 2 points for every dollar spent."
+         point_conversion_ratio: "For example, if you select 1, customer is awared 1 point for every dollar spent"

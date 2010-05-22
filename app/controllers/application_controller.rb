@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
     #    layout "users"
     
-#    layout proc{ |c| c.request.xhr? ? false : "users" }
+    #    layout proc{ |c| c.request.xhr? ? false : "users" }
 
     helper :all # include all helpers, all the time
     protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -55,16 +55,16 @@ class ApplicationController < ActionController::Base
     end
 
     def current_role
-        unless current_user.roles.blank?
-            current_user.roles.first.name
-        else
-            "tbd"
+        unless current_user.nil?
+            unless current_user.roles.blank?
+                current_user.roles.first.name
+            else
+                "tbd"
+            end
         end
-        
     end
 
     def require_user
-
         unless current_user
             store_location
             flash[:notice] = "You must be logged in to access this page"

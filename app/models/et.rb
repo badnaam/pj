@@ -6,63 +6,45 @@ class Et < ActiveRecord::Base
     validates_presence_of [:amount, :ets_type, :user_id, :merchant_id]
     validates_numericality_of :amount
 
-    before_save :process_transaction
-
-    def process_transaction
+    before_save :calculate_points
+    after_save :update_level
+    
+    def calculate_points
         et_type = self.ets_type
         if et_type == 1 #Credit
             level = MerchantMembership.get_level(self.user_id, self.merchant_id)
             points = LoyaltyBenefit.get_points(self.amount, level, self.merchant_id)
-            unless credit(points, self.user_id, self.merchant_id)
-                return false
-            end
+            self.points = points
+            return true
         elsif et_type == 2 #Debit
-            unless debit(self.amount, self.user_id,self.merchant_id)
+            avl_points = Et.user_id_equals(self.user_id).merchant_id_equals(self.merchant_id).sum(:points)
+            if (avl_points - self.amount) < 0
+                errors.add(:amount, I18n.t('et.not_enough'))
                 return false
+            else
+                self.points = -1 * self.amount
             end
         else
             errors.add_to_base("Invalid transaction type")
             return false
         end
-        return true
     end
 
-    def credit(points, uid, mid)
-        rec = MerchantMembership.merchant_id_equals(mid).user_id_equals(uid).first
-        unless rec.nil?
-            tot_points = rec.total_points + points
-            rec.update_attributes(:total_points => tot_points)
-            if rec.save
-                return true
-            else
-                errors.add_to_base("Failed to credit points, please try later.")
-                return false
+    def update_level
+        total_points = Et.user_id_equals(self.user_id).merchant_id_equals(self.merchant_id).sum(:points)
+        new_level = 0
+        unless total_points == 0
+            LoyaltyBenefit.merchant_id_equals(self.merchant_id).each do |rec|
+                if total_points > rec.points_req
+                    new_level = rec.loyalty_level
+                end
             end
-        else
-            errors.add_to_base("Invalid membership")
-            return false
+        end
+        membership = MerchantMembership.merchant_id_equals(self.merchant_id).user_id_equals(self.user_id).first
+        membership.level = new_level
+        membership.save
+        if new_level >= 1
+            #send email to user
         end
     end
-
-    def debit(points, uid, mid)
-        rec = MerchantMembership.merchant_id_equals(mid).user_id_equals(uid).first
-        unless rec.nil?
-            tot_points = rec.total_points - points
-            if tot_points < 0
-                errors.add(:amount, "Not enough points for transaction")
-                return false
-            end
-            rec.update_attributes(:total_points => tot_points)
-            if rec.save
-                return true
-            else
-                errors.add_to_base("Failed to debit points, please try later.")
-                return false
-                #                return false
-            end
-        else
-            return false
-        end
-    end
-
 end

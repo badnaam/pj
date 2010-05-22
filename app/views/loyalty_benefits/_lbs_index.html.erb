@@ -1,4 +1,4 @@
-<div class="lbs_list">
+<div class="lbs_list" id ="lbs_list">
   <% @loyalty_benefits.each do |loyalty_benefit| %>
     <div class="lb">
       <p>
@@ -9,12 +9,14 @@
       <ul >
         <li>Active : <%=h loyalty_benefit.active == true ? "Yes" : "No" %></li>
         <li>Point per $ : <%=h loyalty_benefit.point_conversion_ratio %></li>
+        <li><%= t('lb.index.points_needed') + ": #{loyalty_benefit.points_req}" %></li>
         <% unless loyalty_benefit.point_bonus_multiplier.blank? %>
           <li>Bonus points per $ : <%=h loyalty_benefit.point_bonus_multiplier %></li>
           <li>Bonus Valid From : <%=h loyalty_benefit.point_bonus_window_start.strftime("%A %B %d %Y") %> until <%=h loyalty_benefit.point_bonus_window_end.strftime("%A %B %d %Y") %></li>
           <li> Between the hours of <%= h loyalty_benefit.point_bonus_window_time_start.strftime("%I:%M %p") %> and <%= h loyalty_benefit.point_bonus_window_time_end.strftime("%I:%M %p")  %></li>
         <% end  %>
         <li>Additional Perks : <%=h loyalty_benefit.perk_bonus %></li>
+        <li><%= t('lb.index.redeem') + ": #{loyalty_benefit.red_desc}" %> </li>
       </ul>
       <% if index_listing %>
         <span><%= link_to 'Edit', edit_merchant_loyalty_benefit_path(@merchant, loyalty_benefit), :class => "action_link"%></span>

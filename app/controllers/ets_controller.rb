@@ -26,7 +26,9 @@ class EtsController < ApplicationController
     # GET /ets/new.xml
     def new
         @et = Et.new
-
+        if current_role == "business"
+            @et.merchant_id = Merchant.find_by_owner_id(current_user.id).id
+        end
         respond_to do |format|
             format.html # new.html.erb
             format.xml  { render :xml => @et }
@@ -56,7 +58,7 @@ class EtsController < ApplicationController
                 format.html { redirect_to(@et) }
                 format.xml  { render :xml => @et, :status => :created, :location => @et }
             else
-                flash[:error] = "Failed to save transaction"
+#                flash[:error] = "Failed to save transaction"
                 format.html { render :action => "new" }
                 format.xml  { render :xml => @et.errors, :status => :unprocessable_entity }
             end

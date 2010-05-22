@@ -34,22 +34,16 @@
     <%= f.input :loyalty_level, :as => :select, :collection => LoyaltyBenefit::LEVEL_OPTIONS.collect{|k, v| [v, k]} %>
     <%= f.input :active %>
     <%= f.input :description, :as => :text, :input_html => {:rows => "5", :cols => "20"}%>
-    <%= f.input :point_conversion_ratio, :as => :select, :label => "Points earner per $", :collection => (1..10).to_a.collect{|x| [x] * 2}, :include_blank => false %>
-    <%= f.input :community_use, :label => "Points valid with all affiliated merchants?" %>
-    <%= f.input :point_bonus_multiplier, :label => "Bonus points?", :as => :select, :collection => (1..10).to_a.collect{|x| [x] * 2} %>
-    <%= f.input :point_bonus_window_start, :label => "Bonus start on ", :as => :date %>
-    <%= f.input :point_bonus_window_end, :label => "Bonus ends on ", :as => :date %>
-    <%#*<li class ="date required">%>
-    <%#= label_tag "Bonus Start Date*" %>
-    <%#= calendar_date_select_tag :point_bonus_window_start, nil, :default_time => Date.today,  :popup => 'force', :name => "loyalty_benefit[point_bonus_window_start]"%>
-    <%#*</li>%>
-    <%#*<li class ="date required">%> 
-    <%#= label_tag "Bonus End Date*" %>
-    <%#= calendar_date_select_tag :point_bonus_window_end, nil, :default_time => Date.today + 7, :popup => 'force',:name => "loyalty_benefit[point_bonus_window_end]"%>
-    <%#*</li>%>
-    <%= f.input :point_bonus_window_time_start, :label => "Between", :as => :time, :ignore_date => true %>
-    <%= f.input :point_bonus_window_time_end, :label => " And ", :as => :time, :ignore_date => true  %>
-    <%= f.input :perk_bonus, :label => "Additional Perks?", :as => :text %>
+    <%= f.input :points_req, :input_html => {:size => 8} %>
+    <%= f.input :point_conversion_ratio, :as => :select, :collection => (1..10).to_a.collect{|x| [x] * 2}, :include_blank => false %>
+    <%= f.input :community_use%>
+    <%= f.input :point_bonus_multiplier, :as => :select, :collection => (1..10).to_a.collect{|x| [x] * 2} %>
+    <%= f.input :point_bonus_window_start, :as => :date %>
+    <%= f.input :point_bonus_window_end, :as => :date %>
+    <%= f.input :point_bonus_window_time_start, :as => :time, :ignore_date => true %>
+    <%= f.input :point_bonus_window_time_end, :as => :time, :ignore_date => true  %>
+    <%= f.input :perk_bonus, :as => :text %>
+    <%= f.input :red_desc, :as => :text %>
   <% end  %>
   <%= f.buttons %>
 <% end %>

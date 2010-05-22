@@ -85,7 +85,7 @@
         </div>
       </div>
       <div class ="span-24 last content_container bounding_border">
-        <div class="content span-19 " id="content">
+        <div class="content span-24 last " id="content">
           <% if flash[:notice] %>
             <div class ="notice" id ="notice"><%= flash[:notice] %></div>
           <% end  %>
@@ -97,9 +97,6 @@
             </div>
           <% end  %>
           <%= yield %>
-        </div>
-        <div class="right_nav span-4 last">
-            <%= yield :right_nav %>
         </div>
       </div>
       <%= render :partial => "/layouts/footer" %>
