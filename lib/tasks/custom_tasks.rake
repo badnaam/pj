@@ -6,6 +6,6 @@ task :delete_images do |t, args|
 end
 
 desc "Says Hello"
-task :say_hello do |t, args|
+task :say_hello, [:name] do |t, args|
     puts "hello " + args.name
 end

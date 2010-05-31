@@ -13,10 +13,14 @@ class Gcertificate < ActiveRecord::Base
 
     named_scope :recent_grades, :order => "updated_at DESC"
     named_scope :latest, :order => "updated_at DESC", :limit => 1
-    
+
+    scope_procedure :certs_between, lambda { |p| updated_at_gte(p[0]).updated_at_lt(p[1]) } 
+
     def its_new?
         self.new_record?
     end
+
+
     def archive_gcertificate
         existing_record = Gcertificate.find(self.id)
         new_rec = Gcertificate.new(existing_record.attributes)

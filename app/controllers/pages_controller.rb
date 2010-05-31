@@ -20,7 +20,7 @@ class PagesController < ApplicationController
 
     end
 
-    def pp
+    def pvp
 
     end
 

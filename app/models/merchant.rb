@@ -7,10 +7,8 @@ class Merchant < ActiveRecord::Base
     has_many :loyalty_benefits
 
     belongs_to :merchant_category
-    has_many :gcertificates
+    has_many :gcertificates, :order => 'updated_at DESC'
     
-    #    has_many :merchant_categorizations, :dependent => :destroy
-    #    has_many :merchant_categories, :through => :merchant_categorizations
 
     has_many :ets
     has_many :gcertifications
@@ -27,22 +25,32 @@ class Merchant < ActiveRecord::Base
     validates_presence_of [:name, :main_contact_name, :main_contact_number, :type]
     validates_associated :address
 
-    after_save :update_merchant_categorizations
+    scope_procedure :created_between, lambda { |p| created_at_gte(p[0]).created_at_lt(p[1]) }
+    scope_procedure :updated_between, lambda { |p| updated_at_gte(p[0]).updated_at_lt(p[1]) }
 
-    
-    def update_merchant_categorizations
-        unless self.merchant_categorizations.nil?
-            self.merchant_categorizations.each do |a|
-                a.destroy unless merchant_category_ids.include?(a.merchant_category_id.to_s)
-                merchant_category_ids.delete(a.merchant_category_id.to_s)
-            end
-        end unless merchant_category_ids.nil?
+    #    after_save :update_merchant_categorizations
 
-        merchant_category_ids.each do |r|
-            self.merchant_categorizations.create(:merchant_category_id => r) unless r.blank?
-        end unless merchant_category_ids.nil?
+    #    named_scope :filled_gcertifications, :include => :gcertifications, :conditions => ['gcertifications.response in ?', (1..2) ]
+
+
+    define_index do
+        indexes :name, :sortable => true
+        indexes loyalty_benefits.description, :as => :ben_desc
+        indexes loyalty_benefits.red_desc, :as => :ben_red_desc
+        indexes address.city, :as => :city
+        
+        has created_at, updated_at
+
+        #        has addressible(:id), :as => :address_id
+#        has addressible(:id), :as => :addessible_id
+        has 'RADIANS(addresses.lat)', :as => :latitude,  :type => :float
+        has 'RADIANS(addresses.lng)',:as => :longitude, :type => :float
+
+        set_property :latitude_attr   => :latitude
+        set_property :longitude_attr  => :longitude
+
     end
-
+    
     def imageible_name
         return "merchants"
     end

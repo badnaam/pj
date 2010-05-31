@@ -39,10 +39,27 @@ en:
       customers</li><li> <a href = '/merchant_details'>Much more..find out how?</a></li></ul>"
       how_intro_details_user: "<p>Accrue and redeem <a href=/user_details>green points/perks </a> for dining out, home improvement or even for a day at the spa(!), while reducing
       the carbon footprint and enhancing the eco-health, of your community!</p>"
+  user:
+    new:
+      u_account: "If you are a consumer interested in signing up for reward points, please sign up here"
+      b_account: "If you are a merchant who is interested in partnering with EcoEko, please sign up here"
+      c_account: "if you are interested in contributing content (blogs, articles etc), please sign up here"
+      user: "User"
+      merchant: "Merchant"
+      con_con: "Content Contributor"
    
-#End Viewyo
+#End View
     not_enough: "Not enough points for this transaction"
-    
+
+    #Controllers
+    #Merchant
+  merchant:
+    create_success: "Business listing created!"
+    create_failed: "Failed to create business listing"
+  gcertificate:
+    no_certsteps_for_category: "No applicable certification available for your business category"
+
+    #End Controllers
   activerecord:
     attributes:
       et:
@@ -71,6 +88,11 @@ en:
          point_bonus_window_time_end: "Ending at?"
          perk_bonus: "Any other perks?"
          red_desc: "How can points be used?"
+     user:
+       new:
+         phone: "Contact Number"
+       edit:
+         phone: "Contact Number"
     hints:
      loyalty_benefit:
        new:
@@ -79,3 +101,10 @@ en:
 #         community_use: "Can points be used with other affiliated merchants?"
          point_bonus_multiplier: "Extra incentive for customers during slow hours. Bonus points include the regular points.For example, if you select 2, customer is awared 2 points for every dollar spent."
          point_conversion_ratio: "For example, if you select 1, customer is awared 1 point for every dollar spent"
+     user:
+       new:
+         email: "Valid email reguired for activation"
+         phone: "Please enter a 10 digit number you can be reached at for setting up your account"
+       edit:
+         email: "Valid email reguired for activation"
+         phone: "Please enter a number you can be reached at for setting up your account"

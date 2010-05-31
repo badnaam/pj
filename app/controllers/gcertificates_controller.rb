@@ -11,6 +11,7 @@ class GcertificatesController < ApplicationController
         end
     end
 
+    
     # GET /gcertificates/1
     # GET /gcertificates/1.xml
     def show
@@ -28,23 +29,35 @@ class GcertificatesController < ApplicationController
     # GET /gcertificates/new
     # GET /gcertificates/new.xml
     def new
-        @gcertificate = Gcertificate.new
         @merchant_id = params[:merchant_id]
         m = Merchant.find(@merchant_id)
-        mc = MerchantCategory.find(m.merchant_category_id)
-        @gcertifications = @gcertificate.gcertifications.build
-        @gcertsteps = mc.gcertsteps.group_by {|gs| gs.category_name}
+        unless m.nil?
+            mc = m.merchant_category(:include => :gcertsteps) unless m.nil?
+            @gcertsteps = mc.gcertsteps.group_by {|gs| gs.category_name}
+            if @gcertsteps.size == 0
+                flash[:notice] = t('gcertificate.no_certsteps_for_category')
+            else
+                @gcertificate = m.gcertificates.build
+                @gcertifications = @gcertificate.gcertifications.build
+            end
+        end
+        #        mc = MerchantCategory.find(m.merchant_category_id)
         respond_to do |format|
-            format.html # new.html.erb
-            format.xml  { render :xml => @gcertificate }
+            unless @gcertificate.nil? && @gcertifications.nil?
+                format.html # new.html.erb
+                format.xml  { render :xml => @gcertificate }
+            else
+                format.html { redirect_to :back}
+            end
+        
         end
     end
 
     # GET /gcertificates/1/edit
     def edit
         @merchant = Merchant.find(params[:merchant_id])
-        #get the latest gcertificate 
-        @gcertificate = @merchant.gcertificates(:order => ":created_at DESC").first
+        #get the latest gcertificate
+        @gcertificate = @merchant.gcertificates(:order => ":created_at DESC", :include => :gcertifications).first
         @gcertifications = @gcertificate.gcertifications.group_by {|gc| gc.gcertstep.category_name}
     end
 

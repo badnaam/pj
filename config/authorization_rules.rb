@@ -12,6 +12,7 @@ authorization do
     role :guest do
         has_permission_on [:articles, :comments, :home, :events, :businesses,:address, :images, :interests, :loyalty_benefits, :merchants, :gcertsteps], :to => [:index, :show]
         has_permission_on [:users,:address], :to =>[ :new, :create]
+        has_permission_on [:merchant_grapgs], :to => [:graph, :g_category_points, :g_historical_points]
     end
 
     role :siteuser do

@@ -1,0 +1,48 @@
+<div id="intro_container" class="intro_container span-22 prepend-1 append-1">
+  <div class="intro_header" id="intro_header">
+    <h2 class="strong"><a href="#"><%= t('home.index.intro_msg') %></a></h2>
+
+    <div id="intro_tabs" class="tabs">
+      <ul id="intro_nav">
+        <li>
+          <h3><a href ="#intro_tabs_what" class="null_link"><%= t('home.index.what_is_it') %></a></h3>
+        </li>
+        <li>
+          <h3><a href ="#intro_tabs_how" class="null_link"><%= t('home.index.how_works') %></a></h3>
+        </li>
+      </ul>
+      <div id="intro_tabs_what">
+        <%= simple_format t 'home.index.what_intro_details' %>
+        <% unless current_user %>
+          <div>
+            <span class="intro_sign_up"><%= link_to t('txt.sign_up'), new_user_path, :class => "special_link_big" %></span>
+          </div>
+        <% end  %>
+      </div>
+      <div id="intro_tabs_how">
+        <div id="intro_accordion">
+          <h3><a href="#">Users</a></h3>
+          <div>
+            <%= t 'home.index.how_intro_details_user' %>
+            <% unless current_user %>
+              <div>
+                <span class="intro_sign_up"><%= link_to t('txt.sign_up'), new_user_path, :class => "special_link_big" %></span>
+              </div>
+            <% end  %>
+          </div>
+
+          <h3><a href="#">Merchants</a></h3>
+          <div>
+            <%= t 'home.index.how_intro_details_merchant' %>
+            <% unless current_user %>
+              <div>
+                <span class="intro_sign_up"><%= link_to t('txt.sign_up'), new_user_path, :class => "special_link_big" %></span>
+              </div>
+            <% end  %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

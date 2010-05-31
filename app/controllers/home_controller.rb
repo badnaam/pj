@@ -4,8 +4,8 @@ class HomeController < ApplicationController
     layout "wo_r_nav"
   
     def index
-        @user = User.new
-        @syms = @user.role_symbols
+#        @user = User.new
+#        @syms = @user.role_symbols
     end
 
 end

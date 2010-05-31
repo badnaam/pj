@@ -1,0 +1,3 @@
+development:
+  mem_limit: 12M
+  enable_star: true

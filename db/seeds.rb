@@ -10,4 +10,5 @@ Role.create(:name => "siteuser")
 Role.create(:name => "business")
 r = Role.create(:name => "admin")
 u = User.create(:username => "admin", :password => "t", :password_confirmation => "t", :email => "tin.singh@hotmail.com")
-u.assignments.create(:role_id => r.id)
+#u.assignments.create(:role_id => r.id)
+u.role_id = r.id

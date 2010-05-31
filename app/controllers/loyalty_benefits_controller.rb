@@ -57,7 +57,7 @@ class LoyaltyBenefitsController < ApplicationController
         #        @loyalty_benefit = LoyaltyBenefit.new(params[:loyalty_benefit])
         @merchant ||= Merchant.find(params[:merchant_id])
         @loyalty_benefit ||= @merchant.loyalty_benefits.build(params[:loyalty_benefit])
-        @loyalty_benefit.user_id = current_user.id
+#        @loyalty_benefit.user_id = current_user.id
         
         respond_to do |format|
             if @loyalty_benefit.save

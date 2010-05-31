@@ -9,17 +9,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100515021054) do
+ActiveRecord::Schema.define(:version => 20100531071803) do
 
   create_table "addresses", :force => true do |t|
-    t.string   "street1",                                                                          :null => false
+    t.string   "street1",                                          :null => false
     t.string   "street2"
-    t.string   "city",                                                                             :null => false
-    t.string   "state",                                                                            :null => false
-    t.string   "country",                                                       :default => "USA"
-    t.string   "zip",              :limit => 5,                                                    :null => false
-    t.float    "lat"
-    t.decimal  "lng",                           :precision => 18, :scale => 12
+    t.string   "city",                                             :null => false
+    t.string   "state",                                            :null => false
+    t.string   "country",                       :default => "USA"
+    t.string   "zip",              :limit => 5,                    :null => false
+    t.float    "lat",                                              :null => false
+    t.float    "lng",                                              :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "addressible_id"
@@ -27,7 +27,9 @@ ActiveRecord::Schema.define(:version => 20100515021054) do
   end
 
   add_index "addresses", ["lat"], :name => "lat"
+  add_index "addresses", ["lat"], :name => "lat_2"
   add_index "addresses", ["lng"], :name => "lng"
+  add_index "addresses", ["lng"], :name => "lng_2"
 
   create_table "applicabilities", :force => true do |t|
     t.integer  "merchant_id"
@@ -81,6 +83,21 @@ ActiveRecord::Schema.define(:version => 20100515021054) do
     t.datetime "updated_at"
   end
 
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
   create_table "dudes", :force => true do |t|
     t.string   "dude_name",  :limit => 10, :null => false
     t.datetime "created_at"
@@ -91,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20100515021054) do
     t.integer  "ets_type",    :limit => 2, :null => false
     t.string   "comment"
     t.integer  "amount"
+    t.integer  "points",                   :null => false
     t.integer  "merchant_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -168,21 +186,22 @@ ActiveRecord::Schema.define(:version => 20100515021054) do
 
   create_table "loyalty_benefits", :force => true do |t|
     t.integer  "loyalty_level"
+    t.integer  "points_req",                                   :null => false
     t.string   "description"
+    t.string   "red_desc",                      :limit => 500, :null => false
     t.integer  "point_bonus"
     t.integer  "point_bonus_multiplier"
     t.string   "perk_bonus"
     t.boolean  "active"
-    t.boolean  "community_use",                 :null => false
+    t.boolean  "community_use",                                :null => false
     t.date     "point_bonus_window_start"
+    t.datetime "point_bonus_window_time_start",                :null => false
     t.date     "point_bonus_window_end"
-    t.time     "point_bonus_window_time_start", :null => false
-    t.time     "point_bonus_window_time_end",   :null => false
+    t.datetime "point_bonus_window_time_end",                  :null => false
     t.integer  "point_conversion_ratio"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "merchant_id"
-    t.integer  "user_id"
   end
 
   create_table "merchant_categories", :force => true do |t|
@@ -199,6 +218,8 @@ ActiveRecord::Schema.define(:version => 20100515021054) do
   end
 
   create_table "merchant_memberships", :force => true do |t|
+    t.integer  "level",        :limit => 1, :null => false
+    t.integer  "total_points",              :null => false
     t.integer  "merchant_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -208,6 +229,11 @@ ActiveRecord::Schema.define(:version => 20100515021054) do
   create_table "merchant_users", :force => true do |t|
     t.integer  "user_id"
     t.integer  "merchant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "merchantmemberships", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -225,8 +251,10 @@ ActiveRecord::Schema.define(:version => 20100515021054) do
     t.integer  "merchant_category_id",                                   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
+    t.integer  "owner_id"
   end
+
+  add_index "merchants", ["name"], :name => "name"
 
   create_table "nationalities", :force => true do |t|
     t.datetime "created_at"
@@ -271,11 +299,15 @@ ActiveRecord::Schema.define(:version => 20100515021054) do
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "users", :force => true do |t|
-    t.string   "username",                              :null => false
-    t.string   "email",              :default => "",    :null => false
-    t.boolean  "user_type",                             :null => false
+    t.string   "username",                                            :null => false
+    t.integer  "role_id"
+    t.string   "email",                            :default => "",    :null => false
     t.string   "crypted_password"
-    t.boolean  "active",             :default => false, :null => false
+    t.boolean  "active",                           :default => false, :null => false
+    t.integer  "ut",                 :limit => 1,  :default => 1,     :null => false
+    t.string   "first_name",         :limit => 10
+    t.string   "last_name",          :limit => 10
+    t.string   "phone",              :limit => 10
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "password_salt"
@@ -284,7 +316,7 @@ ActiveRecord::Schema.define(:version => 20100515021054) do
     t.integer  "failed_login_count"
     t.datetime "last_request_at"
     t.datetime "current_login_at"
-    t.string   "perishable_token",   :default => "",    :null => false
+    t.string   "perishable_token",                 :default => "",    :null => false
   end
 
   add_index "users", ["email"], :name => "email", :unique => true

@@ -2,7 +2,8 @@ class UsersController < ApplicationController
     filter_resource_access :additional_member => {:deactivate => :update, :find => :show}
     #    session :cookie_only => false, :only => :create
     # GET /users.xml
-
+    layout "wo_r_nav"
+    
     def index
         @users = User.search(params[:search])
     end
@@ -12,9 +13,7 @@ class UsersController < ApplicationController
     # GET /users/1.xml
     def show
         @user = User.find(params[:id])
-        @roles = @user.roles
-        @friendships = @user.friendships
-
+        @role = @user.role
         respond_to do |format|
             format.html # show.html.erb
             format.xml  { render :xml => @user }
@@ -25,9 +24,13 @@ class UsersController < ApplicationController
     # GET /users/new.xml
     def new
         @user = User.new
-        #        images = 2.times{@user.images.build}
-        #        interests = @user.interests.build
-
+        if params[:reg] == "b" # business user
+            @user.ut = User::USER_TYPE["b"]
+        elsif params[:reg] == "c"
+            @user.ut = User::USER_TYPE["c"]
+        else
+            @user.ut = User::USER_TYPE["u"]
+        end
         respond_to do |format|
             format.html # new.html.erb
             format.xml  { render :xml => @user }
@@ -45,15 +48,17 @@ class UsersController < ApplicationController
         @user = User.new(params[:user])
 
         respond_to do |format|
-            if @user.save_without_session_maintenance
-                @user.deliver_activation_instructions!
+            v = verify_recaptcha(:model => @user, :message => "Image verification failure!")
+            if v && @user.save_without_session_maintenance
+#                system "rake send_act_in_email user=#{@user} &"
+                @user.send_later :deliver_activation_instructions!
                 flash[:notice] = 'Your account has been created and a confirmation request has been sent to your email address.'
                 format.html { redirect_to root_url }
                 format.xml  { render :xml => @user, :status => :created, :location => @user }
             else
                 format.html {
-                    #                    @user = User.new
-                    #                    images = @user.images.build
+#                    @user = User.new
+                    @user.ut = params[:user][:ut]
                     render :action => "new" }
                 format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
             end

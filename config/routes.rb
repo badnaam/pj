@@ -16,8 +16,9 @@ ActionController::Routing::Routes.draw do |map|
     map.activate "activate/:id", :controller => "activations", :action => "create"
     
     #    map.connect "events/:action", :controller => 'events', :action => /[a-z_]+/i
-    map.resources :events, :has_many => [:comments, :categories, :assignments], :has_one => :address
+    map.resources :events, :has_many => [:comments, :categories], :has_one => :address
     map.resources :merchants, :has_many => [:images, :loyalty_benefits, :gcertificates, :merchant_memberships], :has_one => [:address], :belongs_to => [:merchant_category, :owner]
+    map.resources :merchant_graphs,   :collection => {:graph => :get, :g_category_points => :get, :g_historical_points => :get}
     map.resources :images
     
     map.login "login", :controller =>:user_sessions, :action => "new"
@@ -25,12 +26,22 @@ ActionController::Routing::Routes.draw do |map|
     map.gaccount "gaccount", :controller => :gaccount, :action => "index"
     map.resources :user_sessions
     
-    map.resources :roles, :has_many => [:users, :assignments]
+    map.resources :roles, :has_many => [:users]
     map.resources :categories, :has_many => [:events, :categorizations]
-    map.resources :merchant_categories, :has_many => [:merchants, :merchant_categorizations]
+    map.resources :merchant_categories, :has_many => [:merchants]
     map.resources :gcertsteps, :has_many => [:merchants, :gcertifications, :merchant_categories], :collection => {:getsubcat => :get}
-    map.resources :users, :has_many => [:roles, :friendships, :friends, :events, :articles, :comments, :assignments, :images, :interests, :merchants, :merchant_memberships],
-      :member => {:deactivate => :put, :activate => :put}, :has_one => :address
+    #    map.resources :users, :has_many => [:roles, :friendships, :friends, :events, :articles, :comments, :assignments, :images, :interests, :owned_merchants, :merchant_memberships],
+    #      :member => {:deactivate => :put, :activate => :put}, :has_one => :address
+    map.resources :users, :member => {:deactivate => :put, :activate => :put} do |users|
+        users.resources :roles
+        users.resources :events
+        users.resources :articles
+        users.resources :comments
+        users.resources :images
+        users.resources :owned_merchants, :controller => :merchants
+        users.resources :merchant_memberships
+        users.resource :address
+    end
     map.resources :comments
     map.resources :articles, :has_many => :comments
     map.resources :friendships
@@ -85,9 +96,8 @@ ActionController::Routing::Routes.draw do |map|
         page.merchant_details '/merchant_details', :action => 'merchant_details'
         page.faq '/faq', :action => 'faq'
         page.terms '/terms', :action => 'terms'
-        page.pp '/pp', :action => 'pp'
+        page.pvp '/pvp', :action => 'pvp'
         page.feedback '/feedback', :action => 'feedback'
-        page.sign_up_choice '/sign_up_choice', :action => 'sign_up_choice'
     end
     
     map.root :controller =>"home"

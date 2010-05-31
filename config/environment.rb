@@ -36,7 +36,7 @@ Rails::Initializer.run do |config|
     config.time_zone = 'UTC'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**','*.{rb,yml}')]
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**','*.{rb,yml}')]
     # config.i18n.default_locale = :de
     #    config.gem "mime-types"
 
@@ -46,7 +46,17 @@ Rails::Initializer.run do |config|
     %w(middleware).each do |dir|
         config.load_paths << "#{RAILS_ROOT}/app/#{dir}"
     end
-  
+
+    ENV['RECAPTCHA_PUBLIC_KEY']  = '6LcbaboSAAAAADbBxT9yLOJ7CoLWLsuAfZr-aL-H'
+    ENV['RECAPTCHA_PRIVATE_KEY'] = '6LcbaboSAAAAACJMtxxfExG5dm_GcDHuZl9WVjZG'
+
+    config.gem(
+        'thinking-sphinx',
+        :lib     => 'thinking_sphinx',
+        :version => '1.3.16'
+    )
+
+    config.gem 'delayed_job'
     config.gem "geokit"
     config.gem 'mime-types', :lib => "mime/types",     :version => '1.16'
     config.gem("authlogic")
@@ -58,7 +68,7 @@ Rails::Initializer.run do |config|
     #    http://ym4r.rubyforge.org/
     config.gem "ym4r"
     config.gem "calendar_date_select"
-#    config.active_record.observers= :user_observer
+    #    config.active_record.observers= :user_observer
 
     #for rmagick installation
     #    sudo apt-get install imagemagick

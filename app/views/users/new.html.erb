@@ -1,4 +1,34 @@
 
-<h1>Register</h1>
+<div id="registration" class =" prepend-1 append-1 span22 last">
+  <% @sign_up_type = @user.ut %>
+  <% case @sign_up_type
+  when 1
+    @u_t = t('user.new.user')
+  when 2
+    @u_t = t('user.new.merchant')
+  when 3
+    @u_t = t('user.new.con_con')
+  end%>
+  <h3 class="page_title"> <%= @u_t %> Sign up</h3>
 
-<%= render :partial => "form", :locals => {:submit_txt => "Register"} %>
+  <div>
+    <ul class="reg_choice">
+      <% if @sign_up_type != 1  %>
+        <li>
+          <%= link_to_unless_current t("user.new.u_account"), new_user_path(:reg => "u") %>
+        </li>
+      <% end  %>
+      <% if @sign_up_type != 2 %>
+        <li>
+          <%= link_to_unless_current t("user.new.b_account"), new_user_path(:reg => "b") %>
+        </li>
+      <% end  %>
+      <% if @sign_up_type != 3 %>
+        <li>
+          <%= link_to_unless_current t("user.new.c_account"), new_user_path(:reg => "c") %>
+        </li>
+      <% end  %>
+    </ul>
+  </div>
+  <%= render :partial => "form" %>
+</div>

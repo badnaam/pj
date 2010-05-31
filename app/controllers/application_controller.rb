@@ -8,8 +8,10 @@ class ApplicationController < ActionController::Base
 
     helper :all # include all helpers, all the time
     protect_from_forgery # See ActionController::RequestForgeryProtection for details
-    helper_method :current_user, :current_role
+    helper_method :current_user, :current_role, :is_admin?, :is_business?
     #    before_filter { |c| Authorization.current_user = c.current_user }
+    geocode_ip_address
+
     before_filter :set_current_user
 
     def call_rake(task, options = {})
@@ -56,14 +58,24 @@ class ApplicationController < ActionController::Base
 
     def current_role
         unless current_user.nil?
-            unless current_user.roles.blank?
-                current_user.roles.first.name
-            else
-                "tbd"
+            unless current_user.role.blank?
+                current_user.role.name
             end
         end
     end
 
+    def is_admin?
+        if current_role == 'admin'
+            return true
+        end
+    end
+
+    def is_business?
+        if current_role == 'business'
+            return true
+        end
+    end
+    
     def require_user
         unless current_user
             store_location

@@ -2,3 +2,6 @@
 
 <%= render :partial => "form" %>
 <%= link_to 'Back', gcertificates_path %>
+<% content_for :right_nav do %>
+  <%= render :partial => '/layouts/ad_holder' %>
+<% end  %>

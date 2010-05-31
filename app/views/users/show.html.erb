@@ -16,12 +16,9 @@
 </p>
 
 <p>
-  <b>Roles</b>
+  <b>Role</b>
   <br/>
-  <%for role in @roles %>
-    <i> <%=  h role.name%> </i>
-    <br/>
-  <%end%>
+  <%= @user.role.name %>
 </p>
 
 <p>

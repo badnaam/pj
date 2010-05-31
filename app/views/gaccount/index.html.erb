@@ -1,4 +1,20 @@
-<h3 class="page_title">Your Account Page</h3>
+<h3 class="page_title">Your Account</h3>
 <div>
+  <% if is_admin? %>
   <span class="blk"><%= link_to "Manage Cert Steps", gcertsteps_path, :class => "action_link" %></span>
-</div>
+<% end  %>
+  <% if current_user && is_business? %>
+    <%= link_to "Create a business listing", new_user_owned_merchant_path(current_user) %>
+    <% @merchants = current_user.owned_merchants
+    if @merchants.size > 0%>
+      <h4>Manage your business listings</h4>
+      <ul>
+        <% @merchants.each do |@merchant| %>
+          <li>
+            <%= link_to @merchant.name, edit_user_owned_merchant_path(current_user, @merchant) %>
+          </li>
+        <% end  %>
+      </ul>
+    <% end%>
+  <% end  %>
+</div

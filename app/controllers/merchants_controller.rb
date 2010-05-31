@@ -1,15 +1,16 @@
 class MerchantsController < ApplicationController
     # GET /merchants
     # GET /merchants.xml
-    layout "users"
+    layout 'users'
+    geocode_ip_address
     before_filter :init_search, :only => [:index]
     filter_resource_access
+
     
     def index
-
         if @all
             #            ignore every othe filter besides results per page
-            @merchants = Merchant.all.paginate(:page => params[:page], :per_page => @per_page, :include => :address, :order => "green_grade DESC")
+            @merchants = Merchant.all.paginate(:page => params[:page], :per_page => @per_page, :include => :address, :order => 'green_grade DESC')
         else
             @merchants = Merchant.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :order => @sort_by)
         end
@@ -17,8 +18,8 @@ class MerchantsController < ApplicationController
         unless request.xhr?
             build_index_map@merchants
         else
-            @map = Variable.new("map")
-            @group = Variable.new("merchant_marker_group")
+            @map = Variable.new('map')
+            @group = Variable.new('merchant_marker_group')
             @markers = get_markers(@merchants)
         end
 
@@ -36,7 +37,7 @@ class MerchantsController < ApplicationController
     # GET /merchants/1
     # GET /merchants/1.xml
     def show
-        @merchant = Merchant.find(params[:id])
+        @merchant = Merchant.find(params[:id], :include => [:address, :gcertificates, :gcertifications, :merchant_category])
 
         respond_to do |format|
             format.html # show.html.erb
@@ -47,7 +48,7 @@ class MerchantsController < ApplicationController
     # GET /merchants/new
     # GET /merchants/new.xml
     def new
-        @merchant = Merchant.new
+        @merchant = current_user.owned_merchants.build
         @address = @merchant.build_address
         respond_to do |format|
             format.html # new.html.erb
@@ -63,16 +64,17 @@ class MerchantsController < ApplicationController
     # POST /merchants
     # POST /merchants.xml
     def create
-        @merchant = Merchant.new(params[:merchant])
-        @merchant.owner_id = current_user.id
+        @merchant = current_user.owned_merchants.create(params[:merchant])
+        #        @merchant.owner_id = current_user.id
         
         respond_to do |format|
             if @merchant.save
-                flash[:notice] = 'Merchant was successfully created.'
+                flash[:notice] = t('merchant.create_success')
                 format.html { redirect_to(@merchant) }
                 format.xml  { render :xml => @merchant, :status => :created, :location => @merchant }
             else
-                format.html { render :action => "new" }
+                flash[:notice] = t('merchant.create_failed')
+                format.html { render :action => 'new' }
                 format.xml  { render :xml => @merchant.errors, :status => :unprocessable_entity }
             end
         end
@@ -89,7 +91,7 @@ class MerchantsController < ApplicationController
                 format.html { redirect_to(@merchant) }
                 format.xml  { head :ok }
             else
-                format.html { render :action => "edit" }
+                format.html { render :action => 'edit' }
                 format.xml  { render :xml => @merchant.errors, :status => :unprocessable_entity }
             end
         end
@@ -112,7 +114,7 @@ class MerchantsController < ApplicationController
         association_name = find_association_name
         unless association_name.kind_of?(HashWithIndifferentAccess)
             case association_name
-            when "category"
+            when 'category'
                 @category_merchant_listing = true
             end
         end
@@ -133,7 +135,7 @@ class MerchantsController < ApplicationController
             @searchparams = Hash.new
 
             @searchparams[:name_like] ||= params[:name_like]
-            @searchparams[:name_like] ||= ""
+            @searchparams[:name_like] ||= ''
 
             if @category_merchant_listing == true
                 #                @searchparams[:merchant_categorizations_merchant_category_id_like_any] ||= params[:merchant_category_id]
@@ -179,7 +181,7 @@ class MerchantsController < ApplicationController
     end
 
     def build_index_map(merchants)
-        @map = GMap.new("map_div_id")
+        @map = GMap.new('map_div_id')
         @map.control_init(:small_map => true, :map_type => false)
         @map.center_zoom_init([38.134557,-95.537109],4)
         # to center on usa -  @map.center_zoom_init([38.134557,-95.537109],4)
@@ -192,7 +194,7 @@ class MerchantsController < ApplicationController
             @markers[merchant.id] = marker
         end
         group = GMarkerGroup.new(true, @markers)
-        @map.overlay_global_init(group, "merchant_marker_group")
+        @map.overlay_global_init(group, 'merchant_marker_group')
         @map.record_init group.center_and_zoom_on_markers
     end
 
@@ -202,7 +204,7 @@ class MerchantsController < ApplicationController
         merchants.each do |merchant|
             address = merchant.get_lat_lng
             @markers[merchant.id] = GMarker.new([address[0], address[1]],:title => i.to_s ,
-                :info_window => "")
+                :info_window => '')
         end
         return @markers
     end

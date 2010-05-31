@@ -1,44 +1,22 @@
 <script type="text/javascript">
   //<![CDATA[
   $j(document).ready(function() {
-    $j("#tabs").tabs(
-    {event: 'mouseover'}
+    var icons = {
+      header: "ui-icon-circle-arrow-e",
+      headerSelected: "ui-icon-circle-arrow-s"
+    };
+
+    $j("#intro_tabs").tabs(
+    { fx: { opacity: 'toggle' }, event : 'mouseover'
+    });
+
+    $j('#intro_accordion').accordion(
+    { event : 'mouseover', autoHeight : false, animated : 'bounceslide'}
   );
+    $j('#intro_header').accordion({collapsible : true, active :false, icons : icons});
   });
   //]]>
 </script>
 <% page_title(t "txt.logo")  %>
+<%= render :partial => "intro" %>
 
-<div id="intro_container" class="intro_container span-22 prepend-1 append-1">
-  <div class="intro_header" id="intro_header">
-    <%= t('home.index.intro_msg') %>
-  </div>
-  <div class="tabs append-bottom" id="tabs">
-    <div>
-      <ul class="intro_nav">
-        <li class="tab_link">
-          <a href="#tabs-1"><%= t('home.index.what_is_it') %></a>
-        </li>
-        <li class="tab_link">
-          <a href="#tabs-2"><%= t('home.index.how_works') %></a>
-        </li>
-      </ul>
-    </div>
-    <div id="tabs-1" class="tab" >
-      <%= simple_format t 'home.index.what_intro_details' %>
-    </div>
-    <div id="tabs-2" class="tab">
-      <h2>Merchants</h2>
-      <div class="span-10">
-        <%= t 'home.index.how_intro_details_merchant' %>
-      </div>
-      <h2>Users</h2>
-      <div class="span-10  last">
-        <%= t 'home.index.how_intro_details_user' %>
-      </div>
-    </div>
-  </div>
-  <div>
-    <span class="intro_sign_up"><%= link_to t('txt.sign_up'), new_user_path, :class => "special_link_big" %></span>
-  </div>
-</div>

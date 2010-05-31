@@ -25,7 +25,7 @@
       <td><%=h user.username %></td>
       <td><%=h user.email %></td>
       <td><%=h user.active == true ? "Yes" : "No" %></td>
-      <td><%=h user.roles.first.name unless user.roles.blank? %></td>
+      <td><%=h user.role.name unless user.role.blank? %></td>
       <% if permitted_to? :show, user %>
         <td><%= link_to 'Show', user %></td>
       <% end %>
