@@ -8,12 +8,29 @@ class ApplicationController < ActionController::Base
 
     helper :all # include all helpers, all the time
     protect_from_forgery # See ActionController::RequestForgeryProtection for details
-    helper_method :current_user, :current_role, :is_admin?, :is_business?
+    helper_method :current_user, :current_role, :is_admin?, :is_business?, :init_search
     #    before_filter { |c| Authorization.current_user = c.current_user }
     geocode_ip_address
 
     before_filter :set_current_user
 
+    def init_search(type)
+        if current_user
+            #check if a search exists
+            @search = Search.user_id_equals(current_user.id).stype_equals(type)
+            unless @search.blank?
+                return @search.first
+            else
+                @search = current_user.searches.build
+            end
+        elsif session[:gsearch]
+            #not logged in user, get search params from session
+            @search = Search.new(session[:gsearch])
+        else
+            @search = Search.new
+        end
+    end
+    
     def call_rake(task, options = {})
         options[:rails_env] = Rails.env
         args = options.map{ |n, v| "#{n.to_s.upcase}='#{v}'" }

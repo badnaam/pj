@@ -24,7 +24,10 @@ class ArticlesController < ApplicationController
     end
 
     def new
-        @article = Article.new
+        if current_user
+            @article = current_user.articles.build
+        end
+#        @article = Article.new
         respond_to do |format|
             format.html # new.html.erb
             #format.xml  { render :xml => @article }
@@ -32,7 +35,8 @@ class ArticlesController < ApplicationController
     end
 
     def create
-        @article = Article.new(params[:article])
+        @article = current_user.articles.create(params[:article])
+#        @article = Article.new(params[:article])
 
         respond_to do |format|
             if @article.save

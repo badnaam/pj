@@ -1,0 +1,58 @@
+<script type="text/javascript">
+  //<![CDATA[
+  $j(document).ready(function() {
+    $j('#toggle_refine').bind('click', function() {
+      $j('#refine').toggle('slow');
+      if ($j('img', this).hasClass('ui-icon-plus')) {
+        $j('img', this).removeClass('ui-icon-plus').addClass('ui-icon-minus');
+      } else if ($j('img', this).hasClass('ui-icon-minus')) {
+        $j('img', this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
+      }
+    });
+  });
+  //]]>
+</script>
+<% form_for @search, :url => {:action => :search_set, :controller => :searches, :stype => stype} do |f| %>
+  <div class="span-17 prepend-1 append-1 search_form" id="search_form">
+    <div class="span-5">
+      <%#*<p class="main_elems">%>
+        <%= f.label "Search For" %>
+        <%= f.text_field :keywords%>
+      <%#*</p>%>
+    </div>
+    <div class="span-5">
+      <%#*<p class="main_elems">%>
+        <%= f.label "Near Address/City/Zip" %>
+        <%= f.text_field :geo %>
+      <%#*</p>%>
+    </div>
+    <div class="span-5 last">
+      <%#*<p class="main_elems">%>
+        <%= f.submit_link_with_icon("Search", "ui-icon-search") %>
+      <%#*</p>%>
+    </div>
+    <% if show_refine %>
+      <div class="span-17 last">
+    <%#*<a href="#"><span id="toggle_refine" class="toggle_refine ui-icon ui-icon-plus"></span>Refine</a>%>
+        <a href="#" id="toggle_refine">Refine<img class="toggle_refine ui-icon ui-icon-plus" src="/images/spacer.png"/></a>
+      </div>
+      <div id="refine" style="display: none" class="span-17 last">
+        <p class="main_elems">
+          <%= f.label "Within : " %>
+          <%= f.select :within, options_for_select((10..50).select{|x| (x % 10) == 0 }.collect{|x|["#{x} miles", x]}, @search.within.to_i) %>
+        </p>
+        <p class="main_elems">
+          <%= f.label "Sort By" %>
+          <%= f.select :order, {"Recent" => "created_at DESC", "Nearest" => "@geodist ASC", "Best Match" => "@relevance DESC"} %>
+        </p>
+        <p class="main_elems">
+          <%= f.label "Per Page" %>
+          <%= select_options_tag :per_page, ((1..10).collect {|x| [(x * 5).to_s, (x * 5).to_s]}) %>
+        </p>
+        <p class="main_elems">
+          <a href="#" > Categories </a>
+        </p>
+      </div>
+    <% end  %>
+  </div>
+<% end  %>

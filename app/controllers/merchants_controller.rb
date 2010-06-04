@@ -2,7 +2,7 @@ class MerchantsController < ApplicationController
     # GET /merchants
     # GET /merchants.xml
     layout 'users'
-    geocode_ip_address
+#    geocode_ip_address
     before_filter :init_search, :only => [:index]
     filter_resource_access
 
@@ -10,9 +10,11 @@ class MerchantsController < ApplicationController
     def index
         if @all
             #            ignore every othe filter besides results per page
-            @merchants = Merchant.all.paginate(:page => params[:page], :per_page => @per_page, :include => :address, :order => 'green_grade DESC')
+#            @merchants = Merchant.all.paginate(:page => params[:page], :per_page => @per_page, :include => :address, :order => 'green_grade DESC')
+            @merchants = Merchant.all.paginate(:page => params[:page], :per_page => @per_page, :order => 'green_grade DESC')
         else
-            @merchants = Merchant.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :order => @sort_by)
+#            @merchants = Merchant.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :include => :address, :order => @sort_by)
+            @merchants = Merchant.searchlogic(@searchparams).paginate(:page => params[:page], :per_page => @per_page, :order => @sort_by)
         end
 
         unless request.xhr?
@@ -37,7 +39,7 @@ class MerchantsController < ApplicationController
     # GET /merchants/1
     # GET /merchants/1.xml
     def show
-        @merchant = Merchant.find(params[:id], :include => [:address, :gcertificates, :gcertifications, :merchant_category])
+        @merchant = Merchant.find(params[:id], :include => [:gcertificates, :gcertifications, :merchant_category])
 
         respond_to do |format|
             format.html # show.html.erb
@@ -49,7 +51,7 @@ class MerchantsController < ApplicationController
     # GET /merchants/new.xml
     def new
         @merchant = current_user.owned_merchants.build
-        @address = @merchant.build_address
+#        @address = @merchant.build_address
         respond_to do |format|
             format.html # new.html.erb
             format.xml  { render :xml => @merchant }

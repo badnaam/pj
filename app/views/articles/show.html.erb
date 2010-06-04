@@ -9,7 +9,7 @@
 <div>
   <% if permitted_to? :show, :users %>
   <p>
-    By: <%=link_to @article.user.username, @article.user   %>
+    By: <%=link_to @article.user.username, @article.user   %>, From <%= @article.city %>
   </p>
   <% end %>
   <%= @article.content %>

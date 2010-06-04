@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  term: MyString
+  group_by: MyString
+  group_function: MyString
+  group_clause: MyString
+  sort_mode: MyString
+  sort_by: MyString
+  with: MyString
+  origin: MyString
+  facet: MyString
+
+two:
+  term: MyString
+  group_by: MyString
+  group_function: MyString
+  group_clause: MyString
+  sort_mode: MyString
+  sort_by: MyString
+  with: MyString
+  origin: MyString
+  facet: MyString

@@ -1,0 +1,10 @@
+<% semantic_form_for @article do |f| %>
+  <%  f.inputs do %>
+    <%= f.input :subject, :input_html => {:style => "width:50%"}%>
+    <%= f.input :article_tag, :label_method => :tag_name %>
+    <%= f.input :zip, :label => "Your Zipcode", :input_html => {:style => "width:25%"}%>
+    <%= f.input :content, :input_html => {:rows => "20", :cols => "20"} %>
+  <% end  %>
+  <%= f.buttons %>
+<% end  %>
+

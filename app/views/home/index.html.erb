@@ -19,4 +19,9 @@
 </script>
 <% page_title(t "txt.logo")  %>
 <%= render :partial => "intro" %>
+<%#= render :action => :search_get, :controller => :searches, :stype => Search::SEARCH_TYPE["all"], :layout => false %>
+<%# @search = Search.new %>
+<%  @search = init_search(Search::SEARCH_TYPE["all"])%>
+<%= render :partial => "/searches/form", :object => @search, :locals => {:stype => Search::SEARCH_TYPE["all"], :show_refine => false}  %>
 
+<%#= render :partial => "/searches/form", :locals => {:search => Search.new } %>

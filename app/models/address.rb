@@ -100,9 +100,19 @@ class Address < ActiveRecord::Base
     def self.get_radian(lat, lng)
         return [(lat / 180.0) * Math::PI, (lng / 180.0) * Math::PI]
     end
+
+    def self.geocode_rad(str)
+        geo = Geokit::Geocoders::MultiGeocoder.geocode(str)
+        if geo.success
+            return get_radian(geo.lat, geo.lng)
+        else
+            return nil
+        end
+    end
+
     private
     def geocode_address
-        geo = Geokit::Geocoders::MultiGeocoder.geocode(getaddress)
+        geo = Geokit::Geocoders::MultiGeocoder.geocode(full_address)
         errors.add(:address, "Could not Geocode address") if !geo.success
         self.lat, self.lng = geo.lat,geo.lng if geo.success
     end

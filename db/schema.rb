@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100531071803) do
+ActiveRecord::Schema.define(:version => 20100602204511) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street1",                                          :null => false
@@ -38,13 +38,22 @@ ActiveRecord::Schema.define(:version => 20100531071803) do
     t.datetime "updated_at"
   end
 
+  create_table "article_categories", :force => true do |t|
+    t.string   "category_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "articles", :force => true do |t|
     t.string   "subject"
     t.text     "content"
+    t.string   "zip",          :limit => 8
+    t.float    "lat"
+    t.float    "lng"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "article_type", :null => false
+    t.string   "article_type"
   end
 
   create_table "assignments", :force => true do |t|
@@ -247,6 +256,14 @@ ActiveRecord::Schema.define(:version => 20100531071803) do
     t.string   "description",          :limit => 500,                    :null => false
     t.string   "website",              :limit => 150,                    :null => false
     t.string   "phone",                :limit => 15,                     :null => false
+    t.string   "street1",              :limit => 50,                     :null => false
+    t.string   "street2",              :limit => 20
+    t.string   "city",                 :limit => 15,                     :null => false
+    t.string   "state",                :limit => 5,                      :null => false
+    t.string   "zip",                  :limit => 8,                      :null => false
+    t.string   "country",              :limit => 10,  :default => "USA", :null => false
+    t.float    "lat"
+    t.float    "lng"
     t.string   "fax",                  :limit => 15
     t.integer  "merchant_category_id",                                   :null => false
     t.datetime "created_at"
@@ -284,6 +301,22 @@ ActiveRecord::Schema.define(:version => 20100531071803) do
   create_table "roles_users", :id => false, :force => true do |t|
     t.integer  "user_id"
     t.integer  "role_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "searches", :force => true do |t|
+    t.string   "term"
+    t.string   "group_by"
+    t.string   "group_function"
+    t.string   "group_clause"
+    t.string   "sort_mode"
+    t.string   "sort_by"
+    t.string   "with"
+    t.string   "geo"
+    t.string   "facet"
+    t.integer  "user_id"
+    t.integer  "stype",          :limit => 1, :default => 1, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

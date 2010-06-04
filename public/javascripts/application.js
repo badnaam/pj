@@ -3,7 +3,12 @@
 
 document.observe("dom:loaded", function() {
     $('loading').hide();
-
+    if ($$('.submit-link-button') != null) {
+        elem = $$('.submit-link-button').first();
+        Event.observe(elem, 'click', function(event) {
+            this.up('form').submit();
+        });
+    } 
     Ajax.Responders.register({
         onCreate: function() {
             new Effect.Opacity('main_container', {
@@ -40,6 +45,5 @@ document.observe("dom:loaded", function() {
     });
 
 });
-
 
 

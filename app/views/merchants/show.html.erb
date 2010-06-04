@@ -9,14 +9,6 @@
     $j('#hist_graph_link').colorbox({innerWidth:"650px", innerHeight:"350px", iframe:true});
     $j('#link_green_dlg').colorbox({width: "50%", inline: true, height:"50%",href: '#green_dlg'});
     $j('#benefit_accordion').accordion({collapsible : true, active : false});
-   /* $j('#lnk_show_benefit').bind('click', function(e) {
-        if ($j('#lbs_list').is(':visible')) {
-          e.preventDefault();
-          return false;
-        } else {
-          return true;
-        }
-    });*/
   });
 
   function checkShow() {
@@ -40,13 +32,13 @@
 
   <span class="blk">Category: <%= @merchant.merchant_category.category_name %></span>
   <p class="address">
-    <%= @merchant.address.street1.camelize %>
+    <%= @merchant.street1.camelize %>
     <br/>
-    <%= @merchant.address.street2.camelize + "<br/>" unless @merchant.address.street2.blank?  %>
-    <%= @merchant.address.city.camelize %>
-    <%= @merchant.address.state.camelize + "-" + @merchant.address.zip %>
+    <%= @merchant.street2.camelize + "<br/>" unless @merchant.street2.blank?  %>
+    <%= @merchant.city.camelize %>
+    <%= @merchant.state.camelize + "-" + @merchant.zip %>
     <br/>
-    <% @a = "http://maps.google.com/maps?q=#{@merchant.address.getaddress}" %>
+    <% @a = "http://maps.google.com/maps?q=#{@merchant.full_address}" %>
     <a href="<%= @a %>" class="action_link" id="map_link"> View Map</a>
   </p>
   <div>
@@ -65,35 +57,36 @@
 
   <div>
     <% @lat_gcert = @merchant.gcertificates.first %>
-    <span class="blk">Eco score <%= @lat_gcert.total_score %> - Grade - <%= @lat_gcert.grade %></span>
-    <span><a href="#" id="link_green_dlg" class="blk">How green?</a></span>
+    <% unless @lat_gcert.nil? %>
+      <span class="blk">Eco score <%= @lat_gcert.total_score %> - Grade - <%= @lat_gcert.grade %></span>
+      <span><a href="#" id="link_green_dlg" class="blk">How green?</a></span>
 
-    <div style="display:none">
-      <div id="green_dlg">
-        <% @certifications = @merchant.gcertifications.find(:all, :conditions => ['response IN (?)',
-            Gcertification::RESPONSE.keys.select{|x| x > 0}]).group_by {|gc|gc.gcertstep.category_name} %>
-        <% @certifications.keys.sort.each_with_index do |category, ind| %>
-          <p><h4><%= h (ind + 1).to_s + "." + category %> - <%= @certifications[category].sum(&:score) %> points</h4></p>
-          <% @certifications[category].each_with_index do  |gcrt, gcrt_ind|%>
-            <span class="blk"><%= (gcrt_ind + 1).to_s + "." + gcrt.gcertstep.step + " " +  Gcertification::RESPONSE[gcrt.response] %></span>
-          <%end%>
-        <% end  %>
+      <div style="display:none">
+        <div id="green_dlg">
+          <% @certifications = @merchant.gcertifications.find(:all, :conditions => ['response IN (?)',
+              Gcertification::RESPONSE.keys.select{|x| x > 0}]).group_by {|gc|gc.gcertstep.category_name} %>
+          <% @certifications.keys.sort.each_with_index do |category, ind| %>
+            <p><h4><%= h (ind + 1).to_s + "." + category %> - <%= @certifications[category].sum(&:score) %> points</h4></p>
+            <% @certifications[category].each_with_index do  |gcrt, gcrt_ind|%>
+              <span class="blk"><%= (gcrt_ind + 1).to_s + "." + gcrt.gcertstep.step + " " +  Gcertification::RESPONSE[gcrt.response] %></span>
+            <%end%>
+          <% end  %>
+        </div>
       </div>
+
+      <div>
+        <%= link_to "Points by category", {:controller => :merchant_graphs, :action => :graph, :id => @merchant.id, :graph_type => "g_category_points"},
+          :id => "cat_graph_link"%>
+        <%= link_to "Historical Points", {:controller => :merchant_graphs, :action => :graph, :id => @merchant.id, :graph_type => "g_historical_points"},
+          :id => "hist_graph_link"%>
+      </div>
+
     </div>
-
-    <div>
-      <%= link_to "Points by category", {:controller => :merchant_graphs, :action => :graph, :id => @merchant.id, :graph_type => "g_category_points"},
-        :id => "cat_graph_link"%>
-      <%= link_to "Historical Points", {:controller => :merchant_graphs, :action => :graph, :id => @merchant.id, :graph_type => "g_historical_points"},
-        :id => "hist_graph_link"%>
-    </div>
-
-  </div>
-
+  <% end  %>
   <div id="benefit_accordion">
     <h5><%= link_to_remote "How to earn and redeem points with #{@merchant.name}", :url => {:controller => :loyalty_benefits, :action => :index, :merchant_id => @merchant.id},
         :method => :get, :html => {:id => "lnk_show_benefit"}, :before => "if ($('lbs_list').childElements().size() > 1) {return false}" %></h5>
     <div id="lbs_list" style="display: none"></div>
   </div>
-  
+
 </div>

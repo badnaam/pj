@@ -18,6 +18,9 @@
     src: local(my_font), url('my_font.ttf') format('opentype');
 }*/
 
+.bld {
+    font-weight: bold;
+}
 #loading_inner {
     background:transparent url(/images/ajax-loader.gif) no-repeat scroll center center;
     font-size:16px;
@@ -244,6 +247,60 @@ body a:hover {
     color:#222222;
     font-size:1em;
 }
+
+
+/**Button specific **/
+.fg-button { outline: 0; margin:0 4px 0 0; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
+.fg-button .ui-icon { position: absolute; top: 50%; margin-top: -8px; left: 50%; margin-left: -8px; }
+
+/*a.fg-button { float:right; }*/
+
+/* remove extra button width in IE */
+button.fg-button { width:auto; overflow:visible; }
+
+.fg-button-icon-left { padding-left: 2.1em; }
+.fg-button-icon-right { padding-right: 2.1em; }
+.fg-button-icon-left .ui-icon { right: auto; left: .2em; margin-left: 0; }
+.fg-button-icon-right .ui-icon { left: auto; right: .2em; margin-left: 0; }
+
+.fg-button-icon-solo { display:block; width:8px; text-indent: -9999px; }	 /* solo icon buttons must have block properties for the text-indent to work */
+
+.fg-buttonset { float:left; }
+.fg-buttonset .fg-button { float: left; }
+.fg-buttonset-single .fg-button,
+.fg-buttonset-multi .fg-button { margin-right: -1px;}
+
+.fg-toolbar { padding: .5em; margin: 0;  }
+.fg-toolbar .fg-buttonset { margin-right:1.5em; padding-left: 1px; }
+.fg-toolbar .fg-button { font-size: 1em;  }
+
+
+img.ui-icon {
+  height: 16px;
+  width: 16px;
+  position: relative;
+  display: inline;
+}
+
+/** End Button specific **/
+/** Search Form **/
+.inline_list {
+    display:inline;
+}
+div.search_form p.main_elems {
+    width:30%;
+    display: inline;
+    margin-right: .5em;
+}
+#toggle_refine img {
+    height:1.2em;
+}
+/*.toggle_refine {
+    font-weight: bold;
+    color:#22D1E6;
+    cursor: pointer;
+}*/
+/** end Search Form **/
 #event_categories_input legend {
     color:#222222;
     font-size:1em;
@@ -496,7 +553,7 @@ p.listing_description:first-letter {
 }
 #intro_tabs_what p {
     font-size: 1.2em;
-    
+
 }
 #intro_tabs_what p a {
     color:#13F08C;

@@ -4,7 +4,17 @@ module ApplicationHelper
     def t(s)
         I18n.t s
     end
-    
+
+    class ActionView::Helpers::FormBuilder
+        def button_with_icon(text , icon)
+            object_name = self.object_name
+            return "<button id='#{object_name}_submit' class = 'ui-corner-all fg-button ui-state-default fg-button-icon-left' type='submit' name='commit'><span class='ui-icon ui-icon-#{icon}'></span>#{text}</button>"
+        end
+        def submit_link_with_icon(text, icon, options={})
+            object_name = self.object_name
+            return "<a id='#{object_name}_submit' class='submit-link-button fg-button ui-state-default fg-button-icon-left ui-corner-all' href='#'><span class='ui-icon #{icon}'></span>'#{text}'</a>"
+        end
+    end
     def select_options_tag(name='',select_options={},options={})
         #set selected from value
         selected = ''

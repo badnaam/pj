@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
-    map.resources :merchantmemberships
+    map.resources :searches, :collection => {:search_get => :get, :search_set => :put, :search_show => :get}
 
+    map.resources :merchantmemberships
     map.resources :ets
 
     map.resources :gcertificates, :has_many => [:gcertsteps, :gcertifications], :belongs_to => :merchant

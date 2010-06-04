@@ -10,11 +10,11 @@
       <%# end  %>
     </span>
     <p class="address">
-      <%= merchant.address.street1.camelize %>
+      <%= merchant.street1.camelize %>
       <br/>
-      <%= merchant.address.street2.camelize + "<br/>" unless merchant.address.street2.blank?  %>
-      <%= merchant.address.city.camelize %>
-      <%= merchant.address.state.camelize + "-" + merchant.address.zip %>
+      <%= merchant.street2.camelize + "<br/>" unless merchant.street2.blank?  %>
+      <%= merchant.city.camelize %>
+      <%= merchant.state.camelize + "-" + merchant.zip %>
       <br/>
     </p>
     <p class="listing_description">

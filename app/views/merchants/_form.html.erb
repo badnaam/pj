@@ -9,13 +9,19 @@
     <%= form.input :main_contact_number, :label => 'Main contact number', :input_html => {:style => "width:30%"}, :hint => "Main contact's phone"%>
     <%= form.input :website, :label => "Your Website", :input_html => {:size => 100} %>
     <%= form.input :phone, :input_html => {:size => 15} %>
+    <%= form.input :street1, :input_html => {:style => "width:50%"}%>
+    <%= form.input :street2 , :input_html => {:style => "width:50%"}%>
+    <%= form.input :city , :input_html => {:style => "width:30%"}%>
+    <%= form.input :state, :as => :select, :collection => Address::STATES%>
+    <%= form.input :zip , :input_html => {:style => "width:10%"}%>
   <% end %>
-  <% form.inputs :for => :address, :name => "Address"  do |af|  %>
-    <%= af.input :street1, :input_html => {:style => "width:50%"}%>
-    <%= af.input :street2 , :input_html => {:style => "width:50%"}%>
-    <%= af.input :city , :input_html => {:style => "width:30%"}%>
-    <%= af.input :state, :as => :select, :collection => Address::STATES%>
-    <%= af.input :zip , :input_html => {:style => "width:10%"}%>
-  <% end  %>
+  <%# form.inputs :for => :address, :name => "Address"  do |af|  %>
+  <%#= af.input :street1, :input_html => {:style => "width:50%"}%>
+  <%#= af.input :street2 , :input_html => {:style => "width:50%"}%>
+  <%#= af.input :city , :input_html => {:style => "width:30%"}%>
+  <%#= af.input :state, :as => :select, :collection => Address::STATES%>
+  <%#= af.input :zip , :input_html => {:style => "width:10%"}%>
+  <%# end  %>
+
   <%= form.buttons%>
 <% end  %>

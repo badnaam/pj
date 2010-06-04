@@ -20,7 +20,9 @@ class User < ActiveRecord::Base
     validates_presence_of :email
     validates_presence_of :first_name, :last_name, :phone, :if => Proc.new {|r| r.ut == USER_TYPE["b"] || r.ut == USER_TYPE["c"]}
     has_many :ets
-
+    has_many :searches
+    has_many :articles
+    
     has_many :images, :as => :imageible, :dependent => :destroy
     accepts_nested_attributes_for :images, :reject_if => proc {|attributes| attributes["image"].blank?}, :allow_destroy => true
 
