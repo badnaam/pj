@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-    map.resources :searches, :collection => {:search_get => :get, :search_set => :put, :search_show => :get}
+#    map.resources :searches, :collection => {:search_set => :put, :search_show => :get}, :path_names => {:show => "search_show"}
+    map.resources :searches, :collection => {:search_set =>  :get}
 
     map.resources :merchantmemberships
     map.resources :ets

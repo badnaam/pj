@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
 
     before_filter :set_current_user
 
+    def geokit
+        @location = session[:geo_location]  # @location is a GeoLoc instance.
+    end
+    
     def init_search(type)
         if current_user
             #check if a search exists

@@ -57,7 +57,8 @@ Rails::Initializer.run do |config|
     )
 
     config.gem 'delayed_job'
-    config.gem "geokit"
+    config.gem "geokit", :source => "gems.github.com"
+#    config.gem "Pr0d1r2-geokit-cache", :source => "gems.github.com"
     config.gem 'mime-types', :lib => "mime/types",     :version => '1.16'
     config.gem("authlogic")
     config.gem("searchlogic")

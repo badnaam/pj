@@ -1,0 +1,13 @@
+<% if @results.blank? || @results.nil? %>
+  <% content_for :search do %>
+    <%= render :partial => "form", :locals => {:stype => params[:stype], :show_refine => false, :ajax => true } %>
+  <% end  %>
+<% else %>
+  <% content_for :search do %>
+    <%= render :partial => "form", :locals => {:stype => params[:stype], :show_refine => true, :ajax => true, :results => @results } %>
+  <% end  %>
+<% end  %>
+
+<div id="search_results">
+  <%= render :partial => "results", :locals => {:results => @results} %>
+</div>

@@ -1,0 +1,9 @@
+<% if @results.blank? || @results.nil? %>
+  <%= render :partial => "form", :locals => {:stype => params[:stype], :show_refine => false, :ajax => true } %>
+<% else %>
+  <%= render :partial => "form", :locals => {:stype => params[:stype], :show_refine => true, :ajax => true, :results => @results } %>
+<% end  %>
+
+<div id="search_results">
+  <%= render :partial => "results", :locals => {:results => @results} %>
+</div>

@@ -1,0 +1,85 @@
+
+<% if local_assigns[:results].nil? %>
+  <% results = nil%>
+<% end  %>
+
+<div class="span-24 search_form" id="div_search_form">
+  <%= hidden_field_tag :filter_search, "false", {:id => "filter_search"} %>
+  <%= hidden_field_tag :refine_open, @refine_open, {:id => "refine_open"} %>
+  <div class="main_search_elems span-24 last" id ="main_search_elems">
+    <div class="span-10 search_elem_container keyword">
+      <%= f.label "Search For" %>
+      <%= f.text_field :keywords, :class => "search_input", :size => 0%>
+    </div>
+    <div class="span-10 search_elem_container">
+      <%= f.label "Near Address/City/Zip" %>
+      <%= f.text_field :geo, :class => "search_input" , :size => 0%>
+    </div>
+    <div class="span-2 last search_btn_container">
+      <%= f.submit  "Search", :class => "fg-button ui-state-default submit_link_button"%>
+    </div>
+    <% if show_refine %>
+      <div class="span-23 last refine_label" id="refine_label">
+        <a href="#" id="toggle_refine">Refine Search ></a>
+      </div>
+    <div id="refine" style= "display:none" class ="span-23 last refine">
+        <div id =" search_filters" class="search_filters span-23 last">
+          <ul class="inline_list">
+            <li>
+              <%= f.label "Within : " %>
+              <%= f.select :within, options_for_select((10..50).select{|x| (x % 10) == 0 }.collect{|x|["#{x} miles", x]}, @search.within.to_i)%>
+            </li>
+            <li>
+              <%= f.label "Sort By" %>
+              <%= f.select :order, {"Recent" => "created_at DESC", "Nearest" => "@geodist ASC", "Best Match" => "@relevance DESC"}%>
+            </li>
+            <li>
+              <%= f.label "Per Page" %>
+              <%= f.select :per_page, options_for_select((1..10).collect {|x| [(x * 5).to_s, (x * 5).to_s]}, @search.per_page.to_s)%>
+            </li>
+          </ul>
+        </div>
+      <% end  %>
+      <div class="facet_filters span-23 last" id="facet_filters">
+        <% unless results.nil?  %>
+          <% results.each do |result, result_options| %>
+            <% if result == :class
+              title = :listing_type.to_s.titleize
+            else
+              title = result.to_s.titleize
+            end
+          %>
+            <div class="clearfix bld span-4">
+              <%= label_tag title %>
+              <ul class="inline-list no_left">
+                <% i = 0
+                j = 0%>
+                <% result_options.each do |option, count| %>
+                  <li>
+                    <% if result == :class %>
+                      <%# unless (@search.classes.nil? || @search.classes[:class].nil?) %>
+                        <%#= check_box_tag "search[classes][#{result}][#{i}]", option, @search.classes[:class].values.include?(option), {:onclick => "refreshResults(this);"}   %>
+                      <%# else %>
+                        <%= check_box_tag "search[classes][#{result}][#{i}]", option, false, {:onclick => "refreshResults(this);"}   %>
+                      <%# end  %>
+                      <% i+=1 %>
+                    <% else %>
+                      <%# unless @search.conditions.nil? || @search.conditions[result].nil? %>
+                        <%#= check_box_tag  "search[conditions][#{result}][#{j}]", option, @search.conditions[result].values.include?(option), {:onclick => "refreshResults(this);"}   %>
+                      <%# else %>
+                        <%= check_box_tag  "search[conditions][#{result}][#{j}]", option, false, {:onclick => "refreshResults(this);"}   %>
+                      <%# end  %>
+                      <% j += 1 %>
+                    <% end  %>
+                    <span class="option"><%= option %></span>
+                  </li>
+                <% end  %>
+              </ul>
+            </div>
+          <% end  %>
+        </div>
+      </div>
+    <% end  %>
+  </div>
+
+</div>

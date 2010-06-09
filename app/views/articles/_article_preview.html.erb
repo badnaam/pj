@@ -1,0 +1,10 @@
+<ul>
+  <li>
+    <% if permitted_to? :show, :articles %>
+      <%= link_to article.subject,  article  %>
+    <% end %>
+    <% if permitted_to? :destroy, :articles %>
+      <%= link_to "Delete", article, :controller => "articles", :method => "delete", :confirm => "Sure?"%>
+    <% end %>
+  </li>
+</ul>

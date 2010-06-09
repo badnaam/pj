@@ -1,0 +1,12 @@
+# TODO Operate on the page object
+page.replace_html "search_status", @search_status
+if @results.blank? || @results.nil?
+    page.replace "search_container", :partial => "form", :locals => {:stype => params[:stype], :show_refine => false, :ajax => true }
+else
+    if @filter_search
+        page.replace_html "search_results", :partial => "results", :locals => {:results => @results}
+    else
+        page.replace_html "search_form_container", :partial => "form", :locals => {:stype => params[:stype], :show_refine => true, :ajax => true, :results => @results}
+        page.replace_html "search_results", :partial => "results", :locals => {:results => @results}
+    end
+end

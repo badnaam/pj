@@ -1,0 +1,13 @@
+<h3 class="search_status" id="search_status"> <%= @search_status %> </h3>
+
+<%= will_paginate @searches %>
+
+<% @searches.each do |s| %>
+  <% if s.class == Merchant %>
+    <%= render :partial => "merchants/merchant_preview", :locals => {:merchant => s} %>
+  <% elsif s.class == Article %>
+    <%= render :partial => "articles/article_preview", :locals => {:article => s} %>
+  <% end  %>
+<% end  %>
+
+<%= will_paginate @searches %>

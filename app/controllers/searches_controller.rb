@@ -1,60 +1,38 @@
 class SearchesController < ApplicationController
-    # GET /searches
-    # GET /searches.xml
-    layout "users", :only => [:search_show]
-    
-    # GET /searches/1
-    # GET /searches/1.xml
-    def search_show
-        if current_user
-            @s = Search.user_id_equals(current_user.id).stype_equals(params[:stype])
-            unless @s.blank?
-                @search = @s.first
-            end
-        elsif session[:gsearch]
-            @search = Search.new(session[:gsearch])
-        else
-            @search = Search.new
-        end
-        var = get_var(@search)
-        @result_class = params[:refine][:class] if params[:refine]
-        @results = Search.execute(@search[:keywords], var)
-        respond_to do |format|
-            format.html # show.html.erb
-            format.xml  { render :xml => @search }
-        end
-    end
+    layout "users"
 
     def search_set
-        if current_user
-            @s = Search.user_id_equals(current_user.id).stype_equals(params[:stype])
-            unless @s.blank?
-                @search = @s.first
-                @search.update_attributes(params[:search])
-            else
-                params[:search][:stype] = params[:stype]
-                @search = current_user.searches.build(params[:search])
-                @search.save
-            end
-        else
-            session[:gsearch] = params[:search]
-            @search = Search.new(params[:search])
+        if request.xhr? && params[:filter_search] == "true"
+            @filter_search = true
         end
-        
+        if params[:refine_open] == "true"
+            @refine_open = true
+        else
+            @refine_open = false
+        end
+        search_options = Search.process_params(params, @filter_search)
+        @search = Search.new(search_options)    
+        @results = Search.execute(search_options)
+        @searches = @results.for
+        set_search_status
         respond_to do |format|
-            format.html { redirect_to :controller => :searches, :action => :search_show, :stype => params[:stype] }
-            format.xml  { head :ok }
+            format.html
+            format.js
         end
     end
 
-    def get_var(search)
-        var = Hash.new
-        var[:order] = search[:order]
-        var[:geo] = search[:geo]
-        var[:within] = search[:within]
-        if params[:refine]
-            var[:refine] = params[:refine]
+    private
+
+    def set_search_status
+        if @searches.nil?
+            if @searches.total_entries == 0
+                @search_status = "Sorry no matches found."
+            end
+            @search_status = "Sorry no matches found."
+        else
+            tot_pages = (@searches.total_pages) == 0 ? 1 : @searches.total_pages
+            search_key = (@searches.args.first.nil?) ? "All" : @searches.args
+            @search_status = "Found #{@searches.total_entries} results for #{search_key}. Showing page #{@searches.current_page} of #{tot_pages}."
         end
-        return var
     end
 end

@@ -1,33 +1,6 @@
 <div id="merchants_list" class ="span-17 prepend-1 last">
 <% @merchants.each do |merchant| %>
-  <div class ="merchant" id="merchant_"<%= merchant.id %> class="span-16 last">
-    <span class="listing_title blk"><%= link_to "#{merchant.name}", merchant, :onclick => "merchant_marker_group.showMarker(#{merchant.id});return false;",
-      :class => "title_link"%>  </span>
-    <span class="blk">
-      <%# merchant.merchant_categorizations.each do |ct| %>
-      <% ct = MerchantCategory.find(merchant.merchant_category_id) %>
-        <%= link_to ct.category_name, merchant_category_merchants_path(ct), :class => "action_link" %>,
-      <%# end  %>
-    </span>
-    <p class="address">
-      <%= merchant.street1.camelize %>
-      <br/>
-      <%= merchant.street2.camelize + "<br/>" unless merchant.street2.blank?  %>
-      <%= merchant.city.camelize %>
-      <%= merchant.state.camelize + "-" + merchant.zip %>
-      <br/>
-    </p>
-    <p class="listing_description">
-      <%= merchant.description[0, 100] + "," %>
-      <%= link_to "More...", merchant_path(merchant), :class => "norm_link" %>
-    </p>
-    <%  if permitted_to? :edit, merchant%>
-      <%= link_to 'Edit', edit_merchant_path(merchant), :class => "action_link" %>
-    <% end  %>
-    <% if permitted_to? :destroy, merchant %>
-      <%= link_to 'Delete', merchant, :confirm => 'Are you sure?', :method => :delete,  :class => "action_link" %>
-    <% end  %>
-  </div>
+  <%= render :partial => "merchant_preview", :locals => {:merchant => merchant} %>
 <% end  %>
 <%= will_paginate @merchants %>
 </div>
