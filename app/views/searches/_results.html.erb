@@ -1,13 +1,15 @@
-<h3 class="search_status" id="search_status"> <%= @search_status %> </h3>
+<h5 class="search_status caption" id="search_status"> <%= @search_status %> </h5>
 
 <%= will_paginate @searches %>
 
-<% @searches.each do |s| %>
-  <% if s.class == Merchant %>
-    <%= render :partial => "merchants/merchant_preview", :locals => {:merchant => s} %>
-  <% elsif s.class == Article %>
-    <%= render :partial => "articles/article_preview", :locals => {:article => s} %>
-  <% end  %>
+<% @searches.each_with_index do |s, index| %>
+  <div class="search_result_container">
+    <% if s.class == Merchant %>
+      <%= render :partial => "merchants/merchant_preview", :locals => {:merchant => s, :index => index, :in_search => @all_search} %>
+    <% elsif s.class == Article %>
+      <%= render :partial => "articles/article_preview", :locals => {:article => s, :index => index, :in_search => @all_search} %>
+    <% end  %>
+  </div>
 <% end  %>
 
 <%= will_paginate @searches %>

@@ -12,7 +12,7 @@ class Merchant < ActiveRecord::Base
 
     has_many :ets
     has_many :gcertifications
-#    has_many :gcertsteps, :through => [:gcertifications]
+    #    has_many :gcertsteps, :through => [:gcertifications]
 
     has_many :merchant_memberships, :dependent => :destroy
     has_many :users, :through => :merchant_memberships
@@ -29,6 +29,8 @@ class Merchant < ActiveRecord::Base
     scope_procedure :created_between, lambda { |p| created_at_gte(p[0]).created_at_lt(p[1]) }
     scope_procedure :updated_between, lambda { |p| updated_at_gte(p[0]).updated_at_lt(p[1]) }
 
+
+
     before_validation_on_update :geocode_address#, :if => self.zip_changed?
 
     define_index do
@@ -43,7 +45,7 @@ class Merchant < ActiveRecord::Base
         indexes gcertifications.gcertstep.step
 
         has created_at, updated_at
-#        has :city, :as => :merchant_city
+        #        has :city, :as => :merchant_city
         has gcertificates.total_score, :as => :eco_meter
 
         has 'RADIANS(lat)', :as => :lat,  :type => :float
@@ -53,6 +55,10 @@ class Merchant < ActiveRecord::Base
         set_property :longitude_attr => "lng"
     end
 
+    sphinx_scope(:latest_first) {|limit|{:limit => limit,:order => 'created_at DESC, @relevance DESC'}}
+    sphinx_scope(:highest_rated) {{:order => 'eco_meter DESC, @relevance DESC'}}
+    sphinx_scope(:latest_first_for_geo) {|lat, lng, dist|{ :geo => [lat, lng], "@geodist" => (0.0..dist * Search::METERS_PER_MILE),:order => 'created_at DESC, @relevance DESC'}}
+    
     def full_address
         street2 = nil if street2 == ""
         [street1, street2, city, state, zip].compact.join(",")
@@ -67,11 +73,11 @@ class Merchant < ActiveRecord::Base
         #        return [self.address.lat, self.address.lng]
         return [self.lat, self.lng]
     end
-
-    def self.get_lat_lng_events(merchants)
-        merchants.collect{|e|e.get_lat_lng}
-    end
-    
+#
+#    def self.get_lat_lng_events(merchants)
+#        merchants.collect{|e|e.get_lat_lng}
+#    end
+#
     private
 
     def geocode_address

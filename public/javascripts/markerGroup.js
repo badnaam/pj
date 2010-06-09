@@ -65,6 +65,12 @@ GMarkerGroup.prototype.showMarker = function(id){
     }
 }
 
+GMarkerGroup.prototype.getMarker = function(id){
+    var marker = this.markersById[id];
+    if(marker != undefined){
+        return marker;
+    }
+}
 //Activate (or deactivate depending on the argument) the GMarkerGroup
 GMarkerGroup.prototype.activate = function(active){
     active = (active == undefined) ? true : active;

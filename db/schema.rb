@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100602204511) do
+ActiveRecord::Schema.define(:version => 20100609084433) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street1",                                          :null => false
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.string   "addressible_type"
   end
 
+  add_index "addresses", ["addressible_id", "addressible_type"], :name => "index_addresses_on_addressible_id_and_addressible_type"
   add_index "addresses", ["lat"], :name => "lat"
   add_index "addresses", ["lat"], :name => "lat_2"
   add_index "addresses", ["lng"], :name => "lng"
@@ -38,23 +39,27 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "updated_at"
   end
 
-  create_table "article_categories", :force => true do |t|
-    t.string   "category_name"
+  create_table "article_tags", :force => true do |t|
+    t.string   "tag_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "articles", :force => true do |t|
     t.string   "subject"
+    t.integer  "article_tag_id",                :null => false
     t.text     "content"
-    t.string   "zip",          :limit => 8
+    t.string   "zip",            :limit => 8
+    t.string   "city",           :limit => 100
     t.float    "lat"
     t.float    "lng"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "article_type"
   end
+
+  add_index "articles", ["article_tag_id"], :name => "index_articles_on_article_tag_id"
+  add_index "articles", ["user_id"], :name => "index_articles_on_user_id"
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -62,6 +67,9 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "assignments", ["role_id"], :name => "index_assignments_on_role_id"
+  add_index "assignments", ["user_id"], :name => "index_assignments_on_user_id"
 
   create_table "categories", :force => true do |t|
     t.string   "category_name"
@@ -76,12 +84,18 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "updated_at"
   end
 
+  add_index "categorizations", ["category_id"], :name => "index_categorizations_on_category_id"
+  add_index "categorizations", ["event_id"], :name => "index_categorizations_on_event_id"
+
   create_table "certstep_merchant_categorizations", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "merchant_category_id"
     t.integer  "gcertstep_id"
   end
+
+  add_index "certstep_merchant_categorizations", ["gcertstep_id"], :name => "index_certstep_merchant_categorizations_on_gcertstep_id"
+  add_index "certstep_merchant_categorizations", ["merchant_category_id"], :name => "index_certstep_merchant_categorizations_on_merchant_category_id"
 
   create_table "comments", :force => true do |t|
     t.text     "content"
@@ -91,6 +105,9 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "comments", ["commentable_id", "commentable_type"], :name => "index_comments_on_commentable_id_and_commentable_type"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -124,6 +141,9 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "updated_at"
   end
 
+  add_index "ets", ["merchant_id"], :name => "index_ets_on_merchant_id"
+  add_index "ets", ["user_id"], :name => "index_ets_on_user_id"
+
   create_table "events", :force => true do |t|
     t.string   "title",               :null => false
     t.text     "description",         :null => false
@@ -136,12 +156,17 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "updated_at"
   end
 
+  add_index "events", ["user_id"], :name => "index_events_on_user_id"
+
   create_table "friendships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "friendships", ["friend_id"], :name => "index_friendships_on_friend_id"
+  add_index "friendships", ["user_id"], :name => "index_friendships_on_user_id"
 
   create_table "gcertificates", :force => true do |t|
     t.boolean  "cert_valid"
@@ -152,6 +177,8 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "updated_at"
   end
 
+  add_index "gcertificates", ["merchant_id"], :name => "index_gcertificates_on_merchant_id"
+
   create_table "gcertifications", :force => true do |t|
     t.integer  "score",           :limit => 1, :null => false
     t.integer  "response",        :limit => 1, :null => false
@@ -161,6 +188,9 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.integer  "gcertstep_id"
     t.integer  "gcertificate_id",              :null => false
   end
+
+  add_index "gcertifications", ["gcertificate_id"], :name => "index_gcertifications_on_gcertificate_id"
+  add_index "gcertifications", ["gcertstep_id"], :name => "index_gcertifications_on_gcertstep_id"
 
   create_table "gcertsteps", :force => true do |t|
     t.string   "category_name"
@@ -185,6 +215,8 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "image_updated_at"
   end
 
+  add_index "images", ["imageible_id", "imageible_type"], :name => "index_images_on_imageible_id_and_imageible_type"
+
   create_table "interests", :force => true do |t|
     t.integer  "interestible_id"
     t.string   "interestible_type"
@@ -192,6 +224,8 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "updated_at"
     t.string   "interest_name"
   end
+
+  add_index "interests", ["interestible_id", "interestible_type"], :name => "index_interests_on_interestible_id_and_interestible_type"
 
   create_table "loyalty_benefits", :force => true do |t|
     t.integer  "loyalty_level"
@@ -212,6 +246,8 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "updated_at"
     t.integer  "merchant_id"
   end
+
+  add_index "loyalty_benefits", ["merchant_id"], :name => "index_loyalty_benefits_on_merchant_id"
 
   create_table "merchant_categories", :force => true do |t|
     t.string   "category_name"
@@ -234,6 +270,9 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "merchant_memberships", ["merchant_id"], :name => "index_merchant_memberships_on_merchant_id"
+  add_index "merchant_memberships", ["user_id"], :name => "index_merchant_memberships_on_user_id"
 
   create_table "merchant_users", :force => true do |t|
     t.integer  "user_id"
@@ -271,7 +310,9 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
     t.integer  "owner_id"
   end
 
+  add_index "merchants", ["merchant_category_id"], :name => "index_merchants_on_merchant_category_id"
   add_index "merchants", ["name"], :name => "name"
+  add_index "merchants", ["owner_id"], :name => "index_merchants_on_owner_id"
 
   create_table "nationalities", :force => true do |t|
     t.datetime "created_at"
@@ -306,20 +347,21 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
   end
 
   create_table "searches", :force => true do |t|
-    t.string   "term"
-    t.string   "group_by"
-    t.string   "group_function"
-    t.string   "group_clause"
-    t.string   "sort_mode"
-    t.string   "sort_by"
-    t.string   "with"
+    t.string   "keywords"
+    t.string   "classes"
+    t.integer  "per_page",   :limit => 2,                :null => false
+    t.integer  "page",       :limit => 2,                :null => false
+    t.string   "conditions"
+    t.string   "order"
+    t.string   "within"
     t.string   "geo"
-    t.string   "facet"
     t.integer  "user_id"
-    t.integer  "stype",          :limit => 1, :default => 1, :null => false
+    t.integer  "stype",      :limit => 1, :default => 1, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "searches", ["user_id"], :name => "user_id"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
@@ -354,6 +396,7 @@ ActiveRecord::Schema.define(:version => 20100602204511) do
 
   add_index "users", ["email"], :name => "email", :unique => true
   add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
+  add_index "users", ["role_id"], :name => "index_users_on_role_id"
 
   create_table "variations", :force => true do |t|
     t.integer  "variety_id"

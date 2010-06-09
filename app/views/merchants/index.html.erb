@@ -39,7 +39,12 @@
     .removeAttr('selected');
   }
 </script>
-
+<% content_for :page_headers  do%>
+<% end  %>
+<% @search = Search.new() %>
+<% content_for :search do %>
+  <%= render :partial => "/searches/form", :object => @search, :locals => {:stype => Search::SEARCH_TYPE["Merchant"], :show_refine => false}  %>
+<% end  %>
 
 <div class="span-19 last search_div">
   <% form_remote_tag :url=> merchants_path, :method => :get, :html => {:id => "search_form", :href => merchants_path, :method => :get} do %>
@@ -71,15 +76,15 @@
           <p class="inline-hints">Sort By.</p>
         </li>
         <li>
-        <%= select_options_tag :slt_sort_by,  {"Recently added" => "event_date DESC", "Nearest" => "distance ASC", "Green Grade" => "green_grade DESC"}, :value => session[:sort_by],
-          :onchange => "this.form.onsubmit();", :class => "inputArea"%>
+          <%= select_options_tag :slt_sort_by,  {"Recently added" => "event_date DESC", "Nearest" => "distance ASC", "Green Grade" => "green_grade DESC"}, :value => session[:sort_by],
+            :onchange => "this.form.onsubmit();", :class => "inputArea"%>
         </li>
         <li>
           <a href ="#" id="category_link" style ="margin-top:.5em" class="action_link">Refine by Categories</a>
         </li>
-          <li>
+        <li>
           <%= submit_tag "Search", :id => "btnSearch", :class => "btn_search"%>
-            <span style="margin: 0 .2em 0 .2em; font-weight: bold"> or </span>
+          <span style="margin: 0 .2em 0 .2em; font-weight: bold"> or </span>
           <%= link_to_remote "View All", {:url => merchants_path(:all => "true"), :method => :get, :complete => "resetForm();"},  :id => "all_link", :href => merchants_path, :method => :get, :class => "action_link" %>
         </li>
       </ul>

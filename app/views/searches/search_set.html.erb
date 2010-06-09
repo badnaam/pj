@@ -1,9 +1,26 @@
-<% if @results.blank? || @results.nil? %>
-  <%= render :partial => "form", :locals => {:stype => params[:stype], :show_refine => false, :ajax => true } %>
-<% else %>
-  <%= render :partial => "form", :locals => {:stype => params[:stype], :show_refine => true, :ajax => true, :results => @results } %>
+<%= javascript_include_tag "markerGroup.js" %>
+<%= javascript_include_tag "mapiconmaker.js" %>
+<script type="text/javascript">
+  //<![CDATA[
+  $j(document).ready(function() {
+    //$j('#map_div_id').css("overflow", "hidden");
+  });
+  //]]>
+</script>
+<% content_for :search do %>
+  <% if @results.blank? || @results.nil? %>
+    <%= render :partial => "form", :locals => {:stype => params[:stype], :show_refine => false, :ajax => true } %>
+  <% else %>
+    <%= render :partial => "form", :locals => {:stype => params[:stype], :show_refine => true, :ajax => true, :results => @results } %>
+  <% end  %>
 <% end  %>
-
-<div id="search_results">
+<div id="search_results" class="span-16">
   <%= render :partial => "results", :locals => {:results => @results} %>
 </div>
+
+<% content_for :right_nav do%>
+  <div class="span-4">`
+    <%= @map.to_html unless @map.blank?%>
+    <%= @map.div(:width => 300, :height => 300)  unless @map.blank?%>
+  </div>
+<% end  %>

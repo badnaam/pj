@@ -21,7 +21,8 @@
 <% content_for :page_headers  do%>
   <%= render :partial => "intro" %>
 <% end  %>
-<%  @search = init_search(Search::SEARCH_TYPE["all"])%>
+<%#  @search = init_search(Search::SEARCH_TYPE["all"])%>
+<%@search = Search.new %>
 <% content_for :search do %>
   <%= render :partial => "/searches/form", :object => @search, :locals => {:stype => Search::SEARCH_TYPE["all"], :show_refine => false}  %>
 <% end  %>

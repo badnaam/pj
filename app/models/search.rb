@@ -22,8 +22,15 @@ class Search < ActiveRecord::Base
             var.merge!(:geo => @geo, :with => {"@geodist" => (0.0..(var[:within].to_f * METERS_PER_MILE))}, :latitude_attr => :lat,
                 :longitude_attr => :lng, :all_facets => true, :class_facet => true)
             keywords = var[:keywords]
+            search_type = var[:stype]
             var.delete("keywords")
-            result = ThinkingSphinx.facets(keywords, var)
+            var.delete("stype")
+            if search_type != "1"
+                class_name = SEARCH_TYPE.index(search_type.to_i).camelize.constantize
+                result = class_name.facets(keywords, var)
+            else
+                result = ThinkingSphinx.facets(keywords, var)
+            end
         end
         return result
     end
@@ -36,6 +43,7 @@ class Search < ActiveRecord::Base
         var[:within] =  p[:search][:within] || Search::DEFAULT_WITHIN
         var[:per_page] = p[:search][:per_page] || Search::DEFAULT_PER_PAGE
         var[:page] = p[:page] || 1
+        var[:stype] = p[:stype]
         #ignore filters if not filter search
         if filter_search
             unless p[:search][:conditions].nil?

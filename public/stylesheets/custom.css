@@ -201,7 +201,8 @@ body a:hover {
 .right_nav {
     background-color:white;
     /*padding-right:10px;*/
-    padding-left:9px;
+    padding-left:.5em;
+    margin-bottom: 1em;
 }
 .right_nav_links li {
     display:inline;
@@ -287,6 +288,12 @@ img.ui-icon {
 }
 
 /** End Button specific **/
+/** For the map **/
+#map_div_id {
+    border:2px solid green;
+    overflow:hidden;
+}
+/** End Map **/
 /** Search Form **/
 .option {
     /*font-size: .8em;*/
@@ -323,7 +330,7 @@ img.ui-icon {
     padding-right: 3em;
 }
 .search_status {
-    padding: .5em 1em .5em 1em;
+    margin: .5em 1em .5em 1em;
     /*padding: 0 0 1em 0;*/
 }
 
@@ -349,6 +356,11 @@ img.ui-icon {
 }
 div.search_form {
     /*margin-left: 1em;*/
+}
+
+.search_result_container {
+    margin: .5em 1em .5em 1em;
+    border-bottom:1px dotted #3e3d4e;
 }
 /** end Search Form **/
 #event_categories_input legend {

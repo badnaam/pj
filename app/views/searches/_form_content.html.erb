@@ -1,4 +1,3 @@
-
 <% if local_assigns[:results].nil? %>
   <% results = nil%>
 <% end  %>
@@ -6,6 +5,7 @@
 <div class="span-24 search_form" id="div_search_form">
   <%= hidden_field_tag :filter_search, "false", {:id => "filter_search"} %>
   <%= hidden_field_tag :refine_open, @refine_open, {:id => "refine_open"} %>
+  <%= hidden_field_tag :stype, stype, {:id => "search_type"} %>
   <div class="main_search_elems span-24 last" id ="main_search_elems">
     <div class="span-10 search_elem_container keyword">
       <%= f.label "Search For" %>
@@ -22,7 +22,7 @@
       <div class="span-23 last refine_label" id="refine_label">
         <a href="#" id="toggle_refine">Refine Search ></a>
       </div>
-    <div id="refine" style= "display:none" class ="span-23 last refine">
+      <div id="refine" style= "display:none" class ="span-23 last refine">
         <div id =" search_filters" class="search_filters span-23 last">
           <ul class="inline_list">
             <li>
@@ -57,18 +57,10 @@
                 <% result_options.each do |option, count| %>
                   <li>
                     <% if result == :class %>
-                      <%# unless (@search.classes.nil? || @search.classes[:class].nil?) %>
-                        <%#= check_box_tag "search[classes][#{result}][#{i}]", option, @search.classes[:class].values.include?(option), {:onclick => "refreshResults(this);"}   %>
-                      <%# else %>
-                        <%= check_box_tag "search[classes][#{result}][#{i}]", option, false, {:onclick => "refreshResults(this);"}   %>
-                      <%# end  %>
+                      <%= check_box_tag "search[classes][#{result}][#{i}]", option, false, {:onclick => "refreshResults(this);"}   %>
                       <% i+=1 %>
                     <% else %>
-                      <%# unless @search.conditions.nil? || @search.conditions[result].nil? %>
-                        <%#= check_box_tag  "search[conditions][#{result}][#{j}]", option, @search.conditions[result].values.include?(option), {:onclick => "refreshResults(this);"}   %>
-                      <%# else %>
-                        <%= check_box_tag  "search[conditions][#{result}][#{j}]", option, false, {:onclick => "refreshResults(this);"}   %>
-                      <%# end  %>
+                      <%= check_box_tag  "search[conditions][#{result}][#{j}]", option, false, {:onclick => "refreshResults(this);"}   %>
                       <% j += 1 %>
                     <% end  %>
                     <span class="option"><%= option %></span>
@@ -81,5 +73,4 @@
       </div>
     <% end  %>
   </div>
-
 </div>

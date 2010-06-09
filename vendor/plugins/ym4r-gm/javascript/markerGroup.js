@@ -64,6 +64,12 @@ GMarkerGroup.prototype.showMarker = function(id){
 	GEvent.trigger(marker,"click");
     }
 }
+GMarkerGroup.prototype.getMarker = function(id){
+    var marker = this.markersById[id];
+    if(marker != undefined){
+        return marker;
+    }
+}
 
 //Activate (or deactivate depending on the argument) the GMarkerGroup
 GMarkerGroup.prototype.activate = function(active){

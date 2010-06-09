@@ -45,7 +45,8 @@ ActionController::Routing::Routes.draw do |map|
         users.resource :address
     end
     map.resources :comments
-    map.resources :articles, :has_many => :comments
+    map.resource :article_tag, :has_many => :articles
+    map.resources :articles, :has_many => :comments, :belongs_to => :article_tag
     map.resources :friendships
     map.resources :assisgnments, :belongs_to =>[:users, :roles]
 

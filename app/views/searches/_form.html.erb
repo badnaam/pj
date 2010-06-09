@@ -32,7 +32,7 @@
   });
 
   function resetFilter() {
-    $('filter_search').value = "false";
+    $j('#filter_search').val("false");
   }
 
   function submitForm() {
@@ -53,6 +53,7 @@
 <% if local_assigns[:results].nil? %>
   <% show_refine = false %>
 <% end  %>
+
 <div id ="search_form_container" class="search_form_container span-24 last">
   <% if ajax  %>
     <% form_remote_for @search, :url => {:action => :search_set, :controller => :searches, :stype => stype}, :method => :get, :html => { :id => "search_form",  :method => :get}, :complete => "resetFilter();" do |f| %>

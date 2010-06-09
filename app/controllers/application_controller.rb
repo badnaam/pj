@@ -18,22 +18,14 @@ class ApplicationController < ActionController::Base
         @location = session[:geo_location]  # @location is a GeoLoc instance.
     end
     
-    def init_search(type)
-        if current_user
-            #check if a search exists
-            @search = Search.user_id_equals(current_user.id).stype_equals(type)
-            unless @search.blank?
-                return @search.first
-            else
-                @search = current_user.searches.build
-            end
-        elsif session[:gsearch]
-            #not logged in user, get search params from session
-            @search = Search.new(session[:gsearch])
-        else
-            @search = Search.new
-        end
-    end
+#    def init_search(type)
+#        if session[:esearch]
+#            session[:esearch][:stype] = type
+#            @search = Search.new(session[:esearch])
+#        else
+#            @search = Search.new(Hash.new)
+#        end
+#    end
     
     def call_rake(task, options = {})
         options[:rails_env] = Rails.env

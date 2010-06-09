@@ -9,4 +9,10 @@ else
         page.replace_html "search_form_container", :partial => "form", :locals => {:stype => params[:stype], :show_refine => true, :ajax => true, :results => @results}
         page.replace_html "search_results", :partial => "results", :locals => {:results => @results}
     end
+    page << @map.clear_overlays
+    page << @group.clear
+    page << @group.activate
+    @markers.each {|key, value| page << @group.addMarker(value, key)}
+    page << @map.add_overlay(@group)
+    page << @group.centerAndZoomOnMarkers()
 end

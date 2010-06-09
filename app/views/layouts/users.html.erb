@@ -47,7 +47,7 @@
       <div class ="span-24 last content_container bounding_border">
         <%= yield :page_headers %>
         <%= yield :search %>
-        <div class="content span-19 " id="content">
+        <div class="content span-16 " id="content">
           <% if flash[:notice] %>
             <div class ="notice" id ="notice"><%= flash[:notice] %></div>
           <% end  %>
@@ -60,7 +60,7 @@
           <% end  %>
           <%= yield %>
         </div> <!-- end content div -->
-        <div class="right_nav span-5 last">
+        <div class="right_nav span-8 last">
           <%= yield :right_nav %>
         </div>
       </div> <!-- end content_container -->

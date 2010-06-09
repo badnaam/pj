@@ -1,10 +1,34 @@
-<ul>
-  <li>
-    <% if permitted_to? :show, :articles %>
-      <%= link_to article.subject,  article  %>
-    <% end %>
-    <% if permitted_to? :destroy, :articles %>
-      <%= link_to "Delete", article, :controller => "articles", :method => "delete", :confirm => "Sure?"%>
-    <% end %>
-  </li>
-</ul>
+<% if local_assigns[:in_search].nil? %>
+  <% in_search = false %>
+<% end  %>
+<% if local_assigns[:index].nil? %>
+  <% index = 0 %>
+<% end  %>
+<div class ="article" id="article_"<%= article.id %> class="span-16 last">
+
+  <span class="listing_title blk">
+    <%= link_to "#{index + 1}.#{truncate(article.subject, :length => 30)}", article,
+      :onclick => "map.panTo((search_marker_group.getMarker('#{article.class.to_s.concat(article.id.to_s)}')).getLatLng());return false;", :class => "title_link"  %>
+  </span>
+
+  <% if in_search %>
+    <span>(In Articles)</span>
+  <% end  %>
+  <span class="blk">
+    <% ct = article.article_tag%>
+    <%= link_to "Tags: #{ct.tag_name}", article_tag_articles_path(ct), :class => "action_link" %>
+  </span>
+  <span class="blk">
+    <%= article.user.username %>, from <%= article.city %>
+  </span>
+  <p class="listing_description">
+    <%= simple_format truncate(article.content, :length => 50)%>
+    <%= link_to "More...", article_path(article), :class => "norm_link" %>
+  </p>
+  <%  if permitted_to? :edit, article%>
+    <%= link_to 'Edit', edit_article_path(article), :class => "action_link" %>
+  <% end  %>
+  <% if permitted_to? :destroy, article%>
+    <%= link_to 'Delete', article, :confirm => 'Are you sure?', :method => :delete,  :class => "action_link" %>
+  <% end  %>
+</div>
