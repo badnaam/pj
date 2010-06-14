@@ -55,10 +55,10 @@ Rails::Initializer.run do |config|
         :lib     => 'thinking_sphinx',
         :version => '1.3.16'
     )
-
+    config.gem "ajaxful_rating"
     config.gem 'delayed_job'
     config.gem "geokit", :source => "gems.github.com"
-#    config.gem "Pr0d1r2-geokit-cache", :source => "gems.github.com"
+    #    config.gem "Pr0d1r2-geokit-cache", :source => "gems.github.com"
     config.gem 'mime-types', :lib => "mime/types",     :version => '1.16'
     config.gem("authlogic")
     config.gem("searchlogic")

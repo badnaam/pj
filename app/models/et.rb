@@ -1,5 +1,5 @@
 class Et < ActiveRecord::Base
-    ETS_TYPE = [["Credit Points", "1"], [ "Debit Points", "2"]]
+    ETS_TYPE = [["Credit Points", "1"], [ "Debit Points", "2"], ["Promotional Points", "3"]]
     belongs_to :merchant
     belongs_to :user
 
@@ -12,7 +12,11 @@ class Et < ActiveRecord::Base
     def calculate_points
         et_type = self.ets_type
         if et_type == 1 #Credit
-            level = MerchantMembership.get_level(self.user_id, self.merchant_id)
+            level = MerchantMembership.find_or_create_by_user_id_and_merchant_id(self.user_id, self.merchant_id).level
+            return false if level.nil?
+            if !LoyaltyBenefit.benefits_set_up?(self.merchant_id, level)
+                errors.add_to_base("Reward points not set up.")
+            end
             points = LoyaltyBenefit.get_points(self.amount, level, self.merchant_id)
             self.points = points
             return true
@@ -41,8 +45,22 @@ class Et < ActiveRecord::Base
             end
         end
         membership = MerchantMembership.merchant_id_equals(self.merchant_id).user_id_equals(self.user_id).first
+        #        if membership.nil?
+        #            #Create one
+        #            if (self.user_id != @self.merchant_id)
+        #                attribs = Hash.new
+        #                attribs[:total_points] = total_points
+        #                attribs[:level] = new_level
+        #                attribs[:user_id] = @u.id
+        #                @m = Merchant.find_by_id(self.merchant_id)
+        #                membership = @m.merchant_memberships.create(attribs)
+        #            else
+        #                return false
+        #            end
+        #        else
         membership.level = new_level
         membership.save
+        #        end
         if new_level >= 1
             #send email to user
         end

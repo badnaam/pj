@@ -1,0 +1,24 @@
+<h1>Listing vote_topics</h1>
+
+<table>
+  <tr>
+    <th>Topic</th>
+    <th>Start date</th>
+    <th>End date</th>
+  </tr>
+
+<% @vote_topics.each do |vote_topic| %>
+  <tr>
+    <td><%=h vote_topic.topic %></td>
+    <td><%=h vote_topic.start_date %></td>
+    <td><%=h vote_topic.end_date %></td>
+    <td><%= link_to 'Show', vote_topic %></td>
+    <td><%= link_to 'Edit', edit_vote_topic_path(vote_topic) %></td>
+    <td><%= link_to 'Destroy', vote_topic, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New vote_topic', new_vote_topic_path %>

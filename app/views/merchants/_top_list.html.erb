@@ -1,0 +1,23 @@
+
+<% if !collection.nil? %>
+  <span class="loud clearfix"><%= header %></span>
+  <ul>
+    <% collection.each do |l| %>
+      <% if l.class == Merchant %>
+        <% if class_id == :id %>
+          <li><%= link_to l.name, merchant_path(l)%></li>
+        <% else %>
+          <% l = Merchant.find(l.merchant_id) %>
+          <li><%= link_to l.name, merchant_path(l)%></li>
+        <% end  %>
+      <% elsif l.class == Offer %>
+        <% if class_id == :id %>
+          <li><%= link_to l.header, offer_path(l)%></li>
+        <% else %>
+          <% l = Offer.find(l.offer_id) %>
+          <li><%= link_to l.header, offer_path(l)%></li>
+        <% end  %>
+      <% end  %>
+    <% end  %>
+  </ul>
+<% end  %>

@@ -1,4 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :offers
+
+    map.resources :vote_topics, :belongs_to => :merchant
+    map.resources :vote_items, :belongs_to => :vote_topic
+
 #    map.resources :searches, :collection => {:search_set => :put, :search_show => :get}, :path_names => {:show => "search_show"}
     map.resources :searches, :collection => {:search_set =>  :get}
 
@@ -12,6 +17,7 @@ ActionController::Routing::Routes.draw do |map|
     map.resources :loyalty_benefits
 
     map.resources :images
+    map.resources :offers, :has_many => :images
 
     map.resources :password_resets
     map.register "register/:activation_code", :controller => "activations", :action => "new"
@@ -19,9 +25,9 @@ ActionController::Routing::Routes.draw do |map|
     
     #    map.connect "events/:action", :controller => 'events', :action => /[a-z_]+/i
     map.resources :events, :has_many => [:comments, :categories], :has_one => :address
-    map.resources :merchants, :has_many => [:images, :loyalty_benefits, :gcertificates, :merchant_memberships], :has_one => [:address], :belongs_to => [:merchant_category, :owner]
+    map.resources :merchants, :has_many => [:images, :offers, :loyalty_benefits, :gcertificates, :merchant_memberships, :vote_topics], :has_one => [:address],
+      :belongs_to => [:merchant_category, :owner], :member => {:rate => :post, :process_votes => :post}
     map.resources :merchant_graphs,   :collection => {:graph => :get, :g_category_points => :get, :g_historical_points => :get}
-    map.resources :images
     
     map.login "login", :controller =>:user_sessions, :action => "new"
     map.logout "logout", :controller =>:user_sessions, :action => "destroy"

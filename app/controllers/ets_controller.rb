@@ -27,7 +27,7 @@ class EtsController < ApplicationController
     def new
         @et = Et.new
         if current_role == "business"
-            @et.merchant_id = Merchant.find_by_owner_id(current_user.id).id
+            @et.merchant_id = current_user.id
         end
         respond_to do |format|
             format.html # new.html.erb

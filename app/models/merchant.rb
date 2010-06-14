@@ -2,36 +2,29 @@ class Merchant < ActiveRecord::Base
     Max_Images = 2
     
     belongs_to :owner, :class_name => "User"
-    #    has_one :address, :as => :addressible, :dependent => :destroy
     has_many :images, :as => :imageible, :dependent => :destroy
     has_many :loyalty_benefits
-
+#    has_many :offerables, :dependent => :destroy
+    has_many :offers, :as => :offerable
     belongs_to :merchant_category
     has_many :gcertificates, :order => 'updated_at DESC'
-    
-
     has_many :ets
     has_many :gcertifications
-    #    has_many :gcertsteps, :through => [:gcertifications]
-
     has_many :merchant_memberships, :dependent => :destroy
     has_many :users, :through => :merchant_memberships
+    has_many :vote_topics
+    has_many :flash_sales
     
-    #    accepts_nested_attributes_for :address
     accepts_nested_attributes_for :images, :reject_if => proc {|attributes| attributes["image"].blank?}, :allow_destroy => true
 
-    #    acts_as_mappable :through => :address
     acts_as_mappable :auto_geocode => {:field => :full_address, :error_message => "Invalid address"}
-
-    validates_presence_of [:name, :main_contact_name, :main_contact_number, :type, :street1, :state, :country]
-    #    validates_associated :address
-
-    scope_procedure :created_between, lambda { |p| created_at_gte(p[0]).created_at_lt(p[1]) }
-    scope_procedure :updated_between, lambda { |p| updated_at_gte(p[0]).updated_at_lt(p[1]) }
-
-
-
     before_validation_on_update :geocode_address#, :if => self.zip_changed?
+    
+    validates_presence_of [:name, :main_contact_name, :main_contact_number, :type, :street1, :state, :country]
+
+    ajaxful_rateable :stars => 5, :allow_updates => true, :cache_column => :rating_average, :dimensions => [:eco, :rewards, :quality]
+
+
 
     define_index do
         indexes :name, :sortable => true
@@ -44,9 +37,9 @@ class Merchant < ActiveRecord::Base
         indexes :country, :as => :country
         indexes gcertifications.gcertstep.step
 
-        has created_at, updated_at
-        #        has :city, :as => :merchant_city
+        has created_at, updated_at, rating_average_eco, rating_average_rewards, rating_average_quality
         has gcertificates.total_score, :as => :eco_meter
+        has gcertificates.cert_valid, :as => :current_cert
 
         has 'RADIANS(lat)', :as => :lat,  :type => :float
         has 'RADIANS(lng)',:as => :lng, :type => :float
@@ -55,10 +48,9 @@ class Merchant < ActiveRecord::Base
         set_property :longitude_attr => "lng"
     end
 
-    sphinx_scope(:latest_first) {|limit|{:limit => limit,:order => 'created_at DESC, @relevance DESC'}}
-    sphinx_scope(:highest_rated) {{:order => 'eco_meter DESC, @relevance DESC'}}
-    sphinx_scope(:latest_first_for_geo) {|lat, lng, dist|{ :geo => [lat, lng], "@geodist" => (0.0..dist * Search::METERS_PER_MILE),:order => 'created_at DESC, @relevance DESC'}}
-    
+    scope_procedure :created_between, lambda { |p| created_at_gte(p[0]).created_at_lt(p[1]) }
+    scope_procedure :updated_between, lambda { |p| updated_at_gte(p[0]).updated_at_lt(p[1]) }
+
     def full_address
         street2 = nil if street2 == ""
         [street1, street2, city, state, zip].compact.join(",")
@@ -73,11 +65,11 @@ class Merchant < ActiveRecord::Base
         #        return [self.address.lat, self.address.lng]
         return [self.lat, self.lng]
     end
-#
-#    def self.get_lat_lng_events(merchants)
-#        merchants.collect{|e|e.get_lat_lng}
-#    end
-#
+    #
+    #    def self.get_lat_lng_events(merchants)
+    #        merchants.collect{|e|e.get_lat_lng}
+    #    end
+    #
     private
 
     def geocode_address

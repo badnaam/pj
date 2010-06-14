@@ -1,0 +1,29 @@
+<h1>Listing offers</h1>
+
+<table>
+  <tr>
+    <th>Offer</th>
+    <th>Description</th>
+    <th>Points needed</th>
+    <th>Notify Members?</th>
+  </tr>
+
+  <% @offers.each do |offer| %>
+    <tr>
+      <td><%=h offer.header %></td>
+      <td><%=h offer.description %></td>
+      <td><%=h offer.points_needed %></td>
+      <td><%=h offer.notify_members %></td>
+      <% if @offerable_name.downcase == "merchant" %>
+        <td><%= link_to 'Show', merchant_offer_path(@offerable, offer) %></td>
+        <td><%= link_to 'Edit', edit_merchant_offer_path(@offerable, offer) %></td>
+        <td><%= link_to 'Delete', merchant_offer_path(@offerable, offer), :confirm => 'Are you sure?', :method => :delete %></td>
+      <% end  %>
+
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to 'New offer', new_merchant_offer_path(@offerable) %>

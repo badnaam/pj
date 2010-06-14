@@ -1,6 +1,7 @@
 class SearchesController < ApplicationController
     layout "users"
-
+    before_filter :configure_geo
+    
     def search_set
         if request.xhr? && params[:filter_search] == "true"
             @filter_search = true
@@ -18,7 +19,6 @@ class SearchesController < ApplicationController
         
         search_options = Search.process_params(params, @filter_search)
         @search = Search.new(search_options)
-        #        session[:esearch] = search_options
         @results = Search.execute(search_options)
         @searches = @results.for
         set_search_status
@@ -37,6 +37,16 @@ class SearchesController < ApplicationController
 
     private
 
+    def configure_geo
+        if params[:search]
+            if !params[:search][:geo].nil?
+                cookies[:geo_loc] = params[:search][:geo]
+            end
+        else
+            cookies[:geo_loc] = Search::DEFAULT_LOCATION
+        end
+    end
+    
     def build_index_map
         @map = GMap.new('map_div_id')
         @map.control_init(:small_map => true, :map_type => false)

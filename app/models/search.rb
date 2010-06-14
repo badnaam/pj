@@ -5,15 +5,14 @@ class Search < ActiveRecord::Base
     SEARCH_TYPE = {"all" => 1, "Merchant" => 2, "Event" => 3, "Article" => 4}
     METERS_PER_MILE = 1609.344
     DEFAULT_LOCATION = "94131"
-    DEFAULT_WITHIN = "10"
+    DEFAULT_WITHIN = "40"
     DEFAULT_PER_PAGE = "5"
     
     def self.execute(var)
         if var[:geo].nil?
             return nil
         else
-            #            @geo = Address.geocode_rad(var[:geo])
-            @geo = [0.658336879619334, -2.13225004421321]
+            @geo = Address.geocode_rad(var[:geo])
         end
         
         if @geo.nil?

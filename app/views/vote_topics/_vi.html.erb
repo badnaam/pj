@@ -1,0 +1,7 @@
+<div class="vote_item">
+<% f.semantic_fields_for :vote_items, vote_item, :child_index =>
+         (vote_item.new_record? ? "index_to_replace_with_js" : nil) do |f| %>
+    <%= f.input :option %>
+    <%= link_to_function "remove", "$(this).up('.vote_item').remove()" %>
+<% end %>
+</div>

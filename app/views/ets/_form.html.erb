@@ -44,7 +44,7 @@
       <%= label_tag "Customer's username" %>
       <%= text_field_tag :username, params[:username] %>
     </li>
-    <%= f.input :merchant, :as => :select, :label => "Select Business", :label_method => "name"%>
+    <%= f.input :merchant, :as => :select, :label => "Select Business", :label_method => "name", :collection => Merchant.find_all_by_owner_id(@et.merchant_id)%>
     <%= observe_field :et_merchant_id, :url => {:controller => :loyalty_benefits, :action => "index"}, :method => :get, :frequency => 0.5,
       :with => "'merchant_id=' + encodeURIComponent(value)", :complete => "prepAcc();" %>
     <% if @et.merchant_id && benefits_rendered == false %>

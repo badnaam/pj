@@ -24,6 +24,7 @@ class Gcertificate < ActiveRecord::Base
     def archive_gcertificate
         existing_record = Gcertificate.find(self.id)
         new_rec = Gcertificate.new(existing_record.attributes)
+        new_rec.cert_valid = false
         new_rec.save
     end
 

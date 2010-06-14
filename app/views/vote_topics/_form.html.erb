@@ -1,0 +1,18 @@
+<% semantic_form_for @vote_topic do |form| %>
+  <%= form.semantic_errors %>
+  <% form.inputs do %>
+  <%= form.input :merchant_id, :as => :hidden %>
+    <%= form.input :header %>
+    <%= form.input :topic%>
+    <div id ="vote_items">
+      <% form.semantic_fields_for :vote_items do |f| %>
+        <div class="vote_item">
+          <%= f.input :option %>
+          <%= remove_link_unless_new_record(f) %>
+        </div>
+      <% end  %>
+    </div>
+    <%= add_object_link "Add a vote option", form, VoteItem.new, "vi", "#vote_items" %>
+  <% end  %>
+  <%= form.commit_button %>
+<% end  %>

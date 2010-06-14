@@ -57,7 +57,8 @@ class GcertificatesController < ApplicationController
     def edit
         @merchant = Merchant.find(params[:merchant_id])
         #get the latest gcertificate
-        @gcertificate = @merchant.gcertificates(:order => ":created_at DESC", :include => :gcertifications).first
+#        @gcertificate = @merchant.gcertificates(:order => ":created_at DESC", :include => :gcertifications).first
+        @gcertificate = @merchant.gcertificates.find_by_cert_valid(true, :include => :gcertifications)
         @gcertifications = @gcertificate.gcertifications.group_by {|gc| gc.gcertstep.category_name}
     end
 
@@ -72,7 +73,7 @@ class GcertificatesController < ApplicationController
         params[:gcertificate][:total_score] = @score
         @gcertificate = Gcertificate.new(params[:gcertificate])
         @merchant = Merchant.find(params[:gcertificate][:merchant_id])
-
+        @gcertificate.cert_valid = true
         respond_to do |format|
             if @gcertificate.save
                 flash[:notice] = 'Gcertificate was successfully created.'
@@ -97,7 +98,7 @@ class GcertificatesController < ApplicationController
         params[:gcertificate][:grade] = @grade
         params[:gcertificate][:total_score] = @score
         @merchant = Merchant.find(params[:gcertificate][:merchant_id])
-
+        params[:gcertificate][:cert_valid] = true
         respond_to do |format|
             if @gcertificate.update_attributes(params[:gcertificate])
                 flash[:notice] = 'Gcertificate was successfully updated.'

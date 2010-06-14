@@ -14,3 +14,4 @@ class MerchantMembership < ActiveRecord::Base
         level = @membership.level
     end
 end
+

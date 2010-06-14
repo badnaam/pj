@@ -15,13 +15,5 @@
     <%= form.input :state, :as => :select, :collection => Address::STATES%>
     <%= form.input :zip , :input_html => {:style => "width:10%"}%>
   <% end %>
-  <%# form.inputs :for => :address, :name => "Address"  do |af|  %>
-  <%#= af.input :street1, :input_html => {:style => "width:50%"}%>
-  <%#= af.input :street2 , :input_html => {:style => "width:50%"}%>
-  <%#= af.input :city , :input_html => {:style => "width:30%"}%>
-  <%#= af.input :state, :as => :select, :collection => Address::STATES%>
-  <%#= af.input :zip , :input_html => {:style => "width:10%"}%>
-  <%# end  %>
-
   <%= form.buttons%>
 <% end  %>

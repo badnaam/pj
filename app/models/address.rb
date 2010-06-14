@@ -102,6 +102,7 @@ class Address < ActiveRecord::Base
     end
 
     def self.geocode_rad(str)
+#        return [0.658336879619334, -2.13225004421321]
         geo = Geokit::Geocoders::MultiGeocoder.geocode(str)
         if geo.success
             return get_radian(geo.lat, geo.lng)

@@ -1,0 +1,18 @@
+<p>
+  <b>Topic:</b>
+  <%=h @vote_topic.topic %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%=h @vote_topic.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%=h @vote_topic.end_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_vote_topic_path(@vote_topic) %> |
+<%= link_to 'Back', vote_topics_path %>

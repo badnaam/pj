@@ -9,6 +9,10 @@
     $j('#hist_graph_link').colorbox({innerWidth:"650px", innerHeight:"350px", iframe:true});
     $j('#link_green_dlg').colorbox({width: "50%", inline: true, height:"50%",href: '#green_dlg'});
     $j('#benefit_accordion').accordion({collapsible : true, active : false});
+    $j('#vote_link').bind('click', function() {
+      $j('#vote_dialog').dialog({modal:true});
+      return false;
+    });
   });
 
   function checkShow() {
@@ -18,8 +22,6 @@
       return true;
     }
   }
-
-  
 </script>
 <div class ="merchant" id="merchant_"<%= @merchant.id %> class="span-19 last">
   <%  if permitted_to? :edit, :merchants%>
@@ -29,7 +31,16 @@
     <%= link_to 'Delete', @merchant, :confirm => 'Are you sure?', :method => :delete,  :class => "action_link" %>
   <% end  %>
   <span class="listing_title blk"> <%= @merchant.name %> </span>
-
+  <% if current_user && current_role != "business" %>
+    <span class="clearfix">Ratings (Click to rate)</span>
+    <span>Eco Performance</span>
+    <%= ratings_for @merchant, :dimension => :eco, :small => true %>
+    <span>Eco Rewards</span>
+    <%= ratings_for @merchant, :dimension => :rewards, :small => true %>
+    <span>Product/Service Quality</span>
+    <%= ratings_for @merchant, :dimension => :quality,  :small => true %>
+  <% end  %>
+  <%= render :partial => "merchant_vote", :locals => {:merchant => @merchant} %>
   <span class="blk">Category: <%= @merchant.merchant_category.category_name %></span>
   <p class="address">
     <%= @merchant.street1.camelize %>

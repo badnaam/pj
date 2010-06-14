@@ -1,0 +1,19 @@
+:output:
+  Merchant:
+    :options:
+      :fields:
+        - id
+        - name
+        - rating_average_eco
+        - rating_average_rewards
+        - active
+        - merchant_memberships_count
+        - street1
+        - city
+        - zip
+        - merchant_category_id
+        - owner_id
+        - created_at
+        - merchant_memberships_count
+
+

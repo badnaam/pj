@@ -1,0 +1,40 @@
+<% vote_topic = merchant.vote_topics.find_by_active(true, :include => :vote_items) 
+vote_items = vote_topic.vote_items if !vote_topic.nil? 
+if !vote_items.nil? 
+  if current_user && current_role != "business"
+    vote_incomplete = false
+    vote_items.each do |v|
+      if !v.voted_by?(current_user)
+        vote_incomplete = true
+        break
+      end
+    end  %>
+    <% if vote_incomplete == true %>
+      <a href="#" id="vote_link"><%= "Vote on #{vote_topic.topic}" %></a>
+      <div style="display:none" id="vote_dialog">
+        <% form_remote_tag :url => {:action => :process_votes, :method => :post, :id => merchant.id} do |f| %>
+          <% vote_items.each do |v| %>
+            <span class="clearfix">
+              <%= label_tag v.option %>
+              <%= radio_button_tag v.id, "yes" %>
+              <%= radio_button_tag v.id, "no" %>
+            </span>
+          <% end  %>
+          <span class="clearfix">
+            <%= submit_tag "Vote!" %>
+          </span>
+        </div>
+      <% end %>
+    <% else %>
+      <a href="#" id="vote_link"><%= "View results of #{vote_topic.topic}" %></a>
+      <div style="display:none" id="vote_dialog">
+        <%= render :partial => "vote_tally", :locals => {:vote_items => vote_items} %>
+      </div>
+    <% end %>
+  <% else %>
+    <a href="#" id="vote_link"><%= "View results of #{vote_topic.topic}" %></a>
+    <div style="display:none" id="vote_dialog">
+      <%= render :partial => "vote_tally", :locals => {:vote_items => vote_items}%>
+    </div>
+  <% end %>
+<% end  %>

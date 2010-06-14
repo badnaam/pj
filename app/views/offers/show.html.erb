@@ -1,0 +1,16 @@
+<div class="span-16 last">
+  <h3 class="page_title xlrg">  <%=h @offer.header %></h3>
+  <div class="span-8 img_div">
+    <%=image_tag @offer.image.url(:large) %>
+  </div>
+  <div class="span-7 last  left_pad">
+    <span class="clearfix lrg">  <%=h @offer.description %></span>
+    <span class="clearfix"> Points Required : <%=h @offer.points_needed %></span>
+  </div>
+  <div class="span-16 last">
+    <% if @offerable_name == "merchant" %>
+      <%= link_to 'Edit', edit_merchant_offer_path(@offerable, @offer) %> |
+      <%= link_to 'Offers from this merchant', merchant_offers_path(@offerable) %>
+    <% end  %>
+  </div>
+</div>

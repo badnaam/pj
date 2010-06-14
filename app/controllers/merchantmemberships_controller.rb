@@ -40,7 +40,6 @@ class MerchantmembershipsController < ApplicationController
     # POST /merchantmemberships
     # POST /merchantmemberships.xml
     def create
-        #    @merchantmembership = Merchantmembership.new(params[:merchantmembership])
         @u = current_user
         @m = Merchant.find(params[:merchant_id])
         if (@u.id != @m.owner_id)
@@ -55,7 +54,7 @@ class MerchantmembershipsController < ApplicationController
         respond_to do |format|
             if @merchantmembership != nil
                 if @merchantmembership.save
-                    flash[:notice] = 'You are now a member of ' + @m.name + ' Eco-Rewards program!'
+                    flash[:notice] = 'You are now a member of ' + @m.name + ' Eco-Points program!'
                     format.html { redirect_to(@merchantmembership) }
                     format.xml  { render :xml => @merchantmembership, :status => :created, :location => @merchantmembership }
                     format.js

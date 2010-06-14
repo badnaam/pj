@@ -1,0 +1,19 @@
+<div id="vote_tally">
+  <% vote_items.each do |v| %>
+    <span class="clearfix">
+      <% total = v.votes_count
+      yes = v.votes_for
+      yes_per = ((yes.to_f/total.to_f) * 100).round if yes > 0
+      no = v.votes_against
+      no_per = ((no.to_f/total.to_f) * 100).round if no > 0
+    %>
+      <%= "Total Votes for #{v.option} - #{total}" %>
+    </span>
+    <span class="clearfix">
+      <%= "Yes - #{yes} - #{yes_per}%" %>
+    </span>
+    <span class="clearfix">
+      <%= "No - #{v.votes_against} - #{no_per}%" %>
+    </span>
+  <% end  %>
+</div>

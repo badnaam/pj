@@ -1,0 +1,18 @@
+<% semantic_form_for @offer, :html => {:multipart => true} do |form| %>
+  <% form.inputs do  %>
+    <%= form.input :offerable_type, :as => :hidden %>
+    <%= form.input :offerable_id, :as => :hidden%>
+    <%= form.input :header, :label => "Offer Title", :style => {:width => "50%"} %>
+    <%= form.input :description, :as => :text, :label => "Offer Description" %>
+    <% if form.object.new_record? %>
+      <%= form.input :image, :hint => "Select an image less than 1 MB in size", :label => "Add Image" %>
+    <% else %>
+      <%=image_tag form.object.image.url(:very_small) %>
+      <%= form.input :image, :hint => "Select an image less than 1 MB in size", :label => "Replace Image" %>
+    <% end  %>
+    <%= form.input :points_needed, :label => "Points needed to redeem this offer", :input_html => {:style => "width:10%"} %>
+    <%= form.input :notify_members, :label => "Notify members?", :hint => "<br/>An email with the offer details will be sent to all the registed members of your business.
+    If they have chosen to receive alerts about offer, they will be notified immediately via this email." %>
+  <% end  %>
+  <%= form.submit %>
+<% end  %>

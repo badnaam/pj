@@ -9,9 +9,17 @@
   <%= link_to "Add Images", polymorphic_path([@merchant, :images])%> |
   <%= link_to "Manage Loyalty Benefits", merchant_loyalty_benefits_path(@merchant) %>
 <% end  %>
+<%= link_to "Manage Offers", polymorphic_path([@merchant, :offers])  %>
 <% if @merchant.gcertificates.blank? %>
-<%= link_to "Set up your Green Grade", new_merchant_gcertificate_path(@merchant) %>
+  <%= link_to "Set up your Green Grade", new_merchant_gcertificate_path(@merchant) %>
 <% else %>
   <% @gcertificate = @merchant.gcertificates(:order => ":created_at DESC").first %>
   <%= link_to "Manage your Green Grade", edit_merchant_gcertificate_path(@merchant, @gcertificate) %>
+<% end  %>
+<% vote_topic = VoteTopic.find_by_active_and_merchant_id(true, @merchant.id) %>
+<% if vote_topic.blank? %>
+  <%= link_to "Create a vote", new_merchant_vote_topic_path(@merchant) %>
+<% else %>
+  <%= link_to "Edit Current Vote", edit_merchant_vote_topic_path(@merchant, vote_topic) %>
+  <%= link_to "Create a vote", new_merchant_vote_topic_path(@merchant) %>
 <% end  %>

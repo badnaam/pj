@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100609084433) do
+ActiveRecord::Schema.define(:version => 20100614193619) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street1",                                          :null => false
@@ -124,12 +124,6 @@ ActiveRecord::Schema.define(:version => 20100609084433) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
-  create_table "dudes", :force => true do |t|
-    t.string   "dude_name",  :limit => 10, :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "ets", :force => true do |t|
     t.integer  "ets_type",    :limit => 2, :null => false
     t.string   "comment"
@@ -203,6 +197,14 @@ ActiveRecord::Schema.define(:version => 20100609084433) do
     t.datetime "updated_at"
   end
 
+  create_table "geocode_caches", :force => true do |t|
+    t.string   "address"
+    t.float    "lat"
+    t.float    "lng"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "images", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -263,10 +265,10 @@ ActiveRecord::Schema.define(:version => 20100609084433) do
   end
 
   create_table "merchant_memberships", :force => true do |t|
-    t.integer  "level",        :limit => 1, :null => false
-    t.integer  "total_points",              :null => false
-    t.integer  "merchant_id"
-    t.integer  "user_id"
+    t.integer  "level",        :limit => 1, :default => 1
+    t.integer  "total_points",              :default => 0
+    t.integer  "merchant_id",                              :null => false
+    t.integer  "user_id",                                  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -288,23 +290,28 @@ ActiveRecord::Schema.define(:version => 20100609084433) do
 
   create_table "merchants", :force => true do |t|
     t.string   "name"
-    t.string   "main_contact_name",    :limit => 100,                    :null => false
-    t.string   "main_contact_number",  :limit => 15,                     :null => false
-    t.boolean  "active",                              :default => false, :null => false
-    t.integer  "green_grade",          :limit => 1,   :default => 0,     :null => false
-    t.string   "description",          :limit => 500,                    :null => false
-    t.string   "website",              :limit => 150,                    :null => false
-    t.string   "phone",                :limit => 15,                     :null => false
-    t.string   "street1",              :limit => 50,                     :null => false
-    t.string   "street2",              :limit => 20
-    t.string   "city",                 :limit => 15,                     :null => false
-    t.string   "state",                :limit => 5,                      :null => false
-    t.string   "zip",                  :limit => 8,                      :null => false
-    t.string   "country",              :limit => 10,  :default => "USA", :null => false
+    t.string   "main_contact_name",          :limit => 100,                                                  :null => false
+    t.string   "main_contact_number",        :limit => 15,                                                   :null => false
+    t.decimal  "rating_average",                            :precision => 6, :scale => 2, :default => 0.0,   :null => false
+    t.decimal  "rating_average_eco",                        :precision => 6, :scale => 2, :default => 0.0
+    t.decimal  "rating_average_rewards",                    :precision => 6, :scale => 2, :default => 0.0
+    t.decimal  "rating_average_quality",                    :precision => 6, :scale => 2, :default => 0.0
+    t.boolean  "active",                                                                  :default => false, :null => false
+    t.integer  "green_grade",                :limit => 1,                                 :default => 0,     :null => false
+    t.integer  "merchant_memberships_count",                                              :default => 0,     :null => false
+    t.string   "description",                :limit => 500,                                                  :null => false
+    t.string   "website",                    :limit => 150,                                                  :null => false
+    t.string   "phone",                      :limit => 15,                                                   :null => false
+    t.string   "street1",                    :limit => 50,                                                   :null => false
+    t.string   "street2",                    :limit => 20
+    t.string   "city",                       :limit => 15,                                                   :null => false
+    t.string   "state",                      :limit => 5,                                                    :null => false
+    t.string   "zip",                        :limit => 8,                                                    :null => false
+    t.string   "country",                    :limit => 10,                                :default => "USA", :null => false
     t.float    "lat"
     t.float    "lng"
-    t.string   "fax",                  :limit => 15
-    t.integer  "merchant_category_id",                                   :null => false
+    t.string   "fax",                        :limit => 15
+    t.integer  "merchant_category_id",                                                                       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "owner_id"
@@ -314,24 +321,35 @@ ActiveRecord::Schema.define(:version => 20100609084433) do
   add_index "merchants", ["name"], :name => "name"
   add_index "merchants", ["owner_id"], :name => "index_merchants_on_owner_id"
 
-  create_table "nationalities", :force => true do |t|
+  create_table "offers", :force => true do |t|
+    t.string   "header",             :null => false
+    t.string   "description"
+    t.integer  "points_needed",      :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "nation_id"
-    t.integer  "dude_id"
+    t.integer  "offerable_id"
+    t.string   "offerable_type"
+    t.boolean  "notify_members"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
-  create_table "nations", :force => true do |t|
-    t.string   "n_name"
+  add_index "offers", ["header", "description", "offerable_id", "offerable_type"], :name => "header"
+
+  create_table "rates", :force => true do |t|
+    t.integer  "rater_id"
+    t.integer  "rateable_id"
+    t.string   "rateable_type"
+    t.integer  "stars",         :null => false
+    t.string   "dimension"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "plants", :force => true do |t|
-    t.string   "plant_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "rates", ["rateable_id", "rateable_type"], :name => "index_rates_on_rateable_id_and_rateable_type"
+  add_index "rates", ["rater_id"], :name => "index_rates_on_rater_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name",       :limit => 40
@@ -398,17 +416,42 @@ ActiveRecord::Schema.define(:version => 20100609084433) do
   add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
   add_index "users", ["role_id"], :name => "index_users_on_role_id"
 
-  create_table "variations", :force => true do |t|
-    t.integer  "variety_id"
-    t.integer  "plant_id",   :null => false
+  create_table "vote_items", :force => true do |t|
+    t.string   "option",        :null => false
+    t.string   "info"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "vote_topic_id"
+  end
+
+  add_index "vote_items", ["option", "vote_topic_id"], :name => "desc"
+
+  create_table "vote_topics", :force => true do |t|
+    t.string   "topic",                      :null => false
+    t.integer  "points"
+    t.string   "header",      :limit => 250, :null => false
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "merchant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "active"
+  end
+
+  add_index "vote_topics", ["merchant_id"], :name => "merchant_id"
+  add_index "vote_topics", ["topic"], :name => "topic"
+
+  create_table "votes", :force => true do |t|
+    t.boolean  "vote",          :default => false
+    t.integer  "voteable_id",                      :null => false
+    t.string   "voteable_type",                    :null => false
+    t.integer  "voter_id"
+    t.string   "voter_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "varieties", :force => true do |t|
-    t.string   "var_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "votes", ["voteable_id", "voteable_type"], :name => "fk_voteables"
+  add_index "votes", ["voter_id", "voter_type"], :name => "fk_voters"
 
 end

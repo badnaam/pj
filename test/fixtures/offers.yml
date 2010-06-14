@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  header: MyString
+  description: MyString
+  start_date: 2010-06-13
+  end_date: 2010-06-13
+  points_needed: 1
+
+two:
+  header: MyString
+  description: MyString
+  start_date: 2010-06-13
+  end_date: 2010-06-13
+  points_needed: 1

@@ -52,6 +52,10 @@ body {
     font-family: 'Droid Sans', Inconsolata,"Helvetica Neue",Arial,Helvetica,sans-serif !important;
     /*font-size:12px;*/
 }
+.push {
+    height:20em;
+    clear:both;
+}
 body a.action_link {
     color:#22D1E6;
     font-weight:bold;
@@ -187,6 +191,7 @@ body a:hover {
     background-color:white;
     /*border-right:1px solid;*/
     margin-right:0;
+    padding-left: 1em;
 }
 .clearfix:after {
     clear:both;
@@ -253,6 +258,18 @@ body a:hover {
     font-size:1em;
 }
 
+.left_pad {
+    margin-left: 1em;
+}
+.img_div {
+    overflow:hidden;
+}
+.xlrg {
+    font-size:3em;
+}
+.lrg {
+    font-size:2em;
+}
 
 /**Button specific **/
 .fg-button { outline: 0; margin:0 4px 0 0; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }

@@ -1,44 +1,5 @@
 <%= javascript_include_tag "markerGroup.js" %>
-<%= javascript_include_tag "jquery.colorbox-min.js" %>
-<%= javascript_include_tag "jquery.colorbox.js" %>
 
-<script type ="text/javascript">
-  $j(document).ready(function(){
-    $j('#category_link').colorbox({width:"20%", height:"50%", inline:true, href:"#categories", onClosed:function() {
-        submitForm();
-      }});
-    $j('#map_div_id').css("overflow", "hidden");
-  });
-
-  function enableWithinSelect() {
-    alert($j('#txtOrigin').val());
-    if ($j('#txtOrigin').val() == "") {
-      alert("bk");
-      $j('#sltDistance').val("");
-      $j('#sltDistance').attr('disabled', 'disabled');
-    } else {
-      $j("$sltDistance").removeAttr('disabled');
-    }
-  }
-
-  function checkOrigin(elem) {
-    if ($j('#txtOrigin').val() == "") {
-      alert("Please enter an address or zip");
-    } else {
-      elem.form.onsubmit();
-    }
-  }
-  function submitForm() {
-    $("search_form").onsubmit();
-  }
-  function resetForm() {
-    $j(':input','#search_form')
-    .not(':button, :submit, :reset, :hidden')
-    .val('')
-    .removeAttr('checked')
-    .removeAttr('selected');
-  }
-</script>
 <% content_for :page_headers  do%>
 <% end  %>
 <% @search = Search.new() %>
@@ -46,83 +7,32 @@
   <%= render :partial => "/searches/form", :object => @search, :locals => {:stype => Search::SEARCH_TYPE["Merchant"], :show_refine => false}  %>
 <% end  %>
 
-<div class="span-19 last search_div">
-  <% form_remote_tag :url=> merchants_path, :method => :get, :html => {:id => "search_form", :href => merchants_path, :method => :get} do %>
-    <div class="span-9  query_div">
-      <ul class="search_list_v">
-        <li>
-          <p class="inline-hints">(Search affiliated merchants)</p>
-        </li>
-        <li>
-          <%= text_field_tag :name_like, "", :size => 25, :class => "inputArea" %>
-        </li>
-        <li>
-          <p class="inline-hints">Near a City/Zip or Address</p>
-        </li>
-        <li>
-          <%= text_field_tag :txtOrigin, @origin, :size => 25, :class => "inputArea", :value => session[:origin] %>
-        </li>
-        <li>
-          <p class="inline-hints">Within.</p>
-        </li>
-        <li>
-          <%= select_options_tag("sltDistance", (1..15).collect {|x| [(x * 5).to_s  + " miles", (x* 5).to_s]} << ["--", ""], :value => session[:distance], :onchange => "checkOrigin(this);", :class => "inputArea")  %>
-        </li>
-      </ul>
-    </div>
-    <div class ="span-9 last filter_div">
-      <ul class="search_list_v">
-        <li>
-          <p class="inline-hints">Sort By.</p>
-        </li>
-        <li>
-          <%= select_options_tag :slt_sort_by,  {"Recently added" => "event_date DESC", "Nearest" => "distance ASC", "Green Grade" => "green_grade DESC"}, :value => session[:sort_by],
-            :onchange => "this.form.onsubmit();", :class => "inputArea"%>
-        </li>
-        <li>
-          <a href ="#" id="category_link" style ="margin-top:.5em" class="action_link">Refine by Categories</a>
-        </li>
-        <li>
-          <%= submit_tag "Search", :id => "btnSearch", :class => "btn_search"%>
-          <span style="margin: 0 .2em 0 .2em; font-weight: bold"> or </span>
-          <%= link_to_remote "View All", {:url => merchants_path(:all => "true"), :method => :get, :complete => "resetForm();"},  :id => "all_link", :href => merchants_path, :method => :get, :class => "action_link" %>
-        </li>
-      </ul>
-    </div>
-
-    <div class="span-19 last" style ="display:none">
-      <div id="categories" class="scroll_div">
-        <ul >
-          <%MerchantCategory.get_merchant_category_hash.each do |k, v| %>
-            <li>
-              <%= check_box_tag "merchant_category_ids[]", k, session[:merchant_category_ids].nil? ? false:session[:merchant_category_ids].include?(k.to_s)  %>
-              <%= label_tag  v%>
-            </li>
-          <% end  %>
-        </ul>
-      </div>
-    </div>
-
-    <div class ="span-7 last prepend-12">
-      <ul class ="search_list">
-        <li>
-          <span class="inline-hints" id="label_count"><%= "Showing #{@merchants.total_entries} merchants." %>  </span>
-          <span>Results per page</span>
-        </li>
-        <li>
-          <%= select_options_tag "slt_per_page", ((1..10).collect {|x| [(x * 5).to_s, (x * 5).to_s]}), :value => session[:per_page]  %>
-        </li>
-      </ul>
-    </div>
-  <% end  %>
+<div class="span-16 last">
+  <span class="loud clearfix">Near you</span>
+  <div class="span-8">
+    <%= render :partial => "top_list", :locals => {:header => "New Green Merchants", :collection => @latest, :class_id => :id} %>
+  </div>
+  <div class="span-8 last">
+    <%= render :partial => "top_list", :locals => {:header => "Merchants High on Eco Meter", :collection => @highest,  :class_id => :merchant_id} %>
+  </div>
 </div>
 
-<%= render "merchants_index" %>
-
-
-<% content_for :right_nav do%>
-  <div class="span-4">`
-    <%= @map.to_html unless @map.blank?%>
-    <%= @map.div(:width => 180, :height => 300)  unless @map.blank?%>
+<div class="span-16 last">
+  <div class="span-8 ">
+    <%= render :partial => "top_list", :locals => {:header => "Merchants with most members", :collection => @most_members,  :class_id => :id} %>
   </div>
+  <div class="span-8 last">
+    <%= render :partial => "top_list", :locals => {:header => "Highly rated for products/services", :collection => @highest_prod_srvc, :class_id => :id } %>
+  </div>
+</div>
+<div class="span-16 last">
+  <div class="span-8 ">
+    <%= render :partial => "top_list", :locals => {:header => "Hot Votes", :collection => @active_votes,  :class_id => :merchant_id } %>
+  </div>
+  <div class="span-8 last ">
+    <%= render :partial => "top_list", :locals => {:header => "Hot Offers", :collection => @top_offers,  :class_id => :id } %>
+  </div>
+</div>
+<% content_for :right_nav do%>
+
 <% end  %>
